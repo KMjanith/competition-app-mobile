@@ -1,3 +1,5 @@
+import 'package:competition_app/components/buttons/CancelButton.dart';
+import 'package:competition_app/components/buttons/SubmitButton.dart';
 import 'package:competition_app/components/inputs/DatePickerInput.dart';
 import 'package:flutter/material.dart';
 import '../../components/inputs/DropDownInput.dart';
@@ -71,20 +73,46 @@ class _AddStudentState extends State<AddStudent> {
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                
                 //first name and last name input fields
-                InputField(labelText: "First Name"),
-                InputField(labelText: "Last Name"),
+                Expanded(child: InputField(labelText: "First Name")),
+                Expanded(child: InputField(labelText: "Last Name")),
               ],
             ),
+            const InputField(labelText: "Name with Initials"),
+            const InputField(labelText: "Index no:"),
+            //grade selector
+            DropDownInput(itemList: grade),
+
+            const SizedBox(height: 10),
+            const Text(
+              "fill by the parent or guardian",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
 
             //birthday picker
             DatePickerInput(
-                sectDate: _selectDate, dateController: _dateController),
+                selectedDate: _selectDate, dateController: _dateController),
+            const InputField(
+                labelText:
+                    "name of the  guardian"), //year that student entered the school
+            const InputField(
+                labelText:
+                    "Entered Year"), //year that student entered the school
+            const InputField(
+                labelText: "Home Address"), //Home address of the student
+            const InputField(
+                labelText:
+                    "mobile or Tel number"), //year that student entered the school
             const SizedBox(height: 10),
-            
-            //grade selector
-            DropDownInput(itemList: grade),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SubmitButton(),
+                SizedBox(width: 10),
+                CancelButton(),
+              ],
+            )
           ],
         ),
       ),

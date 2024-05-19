@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DatePickerInput extends StatelessWidget {
-  final Function sectDate;
+  final Function selectedDate;
   final TextEditingController dateController;
-  const DatePickerInput({super.key, required this.sectDate, required this.dateController});
+  const DatePickerInput({super.key, required this.selectedDate, required this.dateController});
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +12,7 @@ class DatePickerInput extends StatelessWidget {
       child: TextField(
         controller: dateController, // Use controller to display selected date
         decoration: const InputDecoration(
+          filled: true,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
@@ -21,7 +22,7 @@ class DatePickerInput extends StatelessWidget {
         ),
         readOnly: true,
         onTap: () {
-          sectDate();
+          selectedDate();
         },
       ),
     );
