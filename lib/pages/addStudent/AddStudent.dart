@@ -4,6 +4,7 @@ import 'package:competition_app/components/inputs/DatePickerInput.dart';
 import 'package:flutter/material.dart';
 import '../../components/inputs/DropDownInput.dart';
 import '../../components/inputs/Inputs.dart';
+import 'package:http/http.dart' as http;
 
 class AddStudent extends StatefulWidget {
   const AddStudent({Key? key}) : super(key: key);
@@ -25,6 +26,16 @@ class _AddStudentState extends State<AddStudent> {
   void dispose() {
     _dateController.dispose();
     super.dispose();
+  }
+
+  postData() async {
+    try {
+      var response = await http.post(Uri.parse("http://localhost:8080/create"),
+          body: {"id": '2', "name": 'ravindu', "age": '25'});  //all fields in a http request should be in string
+      print(response.body);
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> _selectDate() async {
@@ -105,12 +116,12 @@ class _AddStudentState extends State<AddStudent> {
                 labelText:
                     "mobile or Tel number"), //year that student entered the school
             const SizedBox(height: 10),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SubmitButton(),
-                SizedBox(width: 10),
-                CancelButton(),
+                SubmitButton(onPressed: postData),
+                const SizedBox(width: 10),
+                const CancelButton(),
               ],
             )
           ],
