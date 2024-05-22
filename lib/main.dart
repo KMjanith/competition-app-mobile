@@ -1,5 +1,5 @@
+import 'package:competition_app/components/common/HomeCard.dart';
 import 'package:flutter/material.dart';
-
 import 'pages/addStudent/AddStudent.dart';
 
 void main() {
@@ -33,78 +33,26 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Student Management System"),
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           children: [
-            const SizedBox(height: 50),
+            SizedBox(height: 50),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextButton(
-                    child: const Text("Add new Student"),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const AddStudent()));
-                    },
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextButton(
-                    child: const Text("View Students"),
-                    onPressed: () {
-                      print("View Students");
-                    },
-                  ),
-                ),
+                HomeCard(buttonText:"Add new Student", targetPage: AddStudent()),   //add student card
+                HomeCard(buttonText:"View Students", targetPage: AddStudent()),     //view student card
               ],
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextButton(
-                    child: const Text("new Grading"),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const AddStudent()));
-                    },
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextButton(
-                    child: const Text("new Competition"),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const AddStudent()));
-                    },
-                  ),
-                )
+                HomeCard(buttonText:"new Grading", targetPage: AddStudent()),    //grading card
+                HomeCard(buttonText:"new Competition", targetPage: AddStudent()),   //competition card
+                
               ],
             )
           ],
