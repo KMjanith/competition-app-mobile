@@ -1,8 +1,15 @@
 import 'package:competition_app/components/common/HomeCard.dart';
 import 'package:flutter/material.dart';
 import 'pages/addStudent/AddStudent.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
   runApp(const MyApp());
 }
 
