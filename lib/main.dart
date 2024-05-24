@@ -37,32 +37,39 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Student Management System"),
+        title: IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.menu),
+        ),
+        actions: [
+          TextButton(onPressed: (){}, child: Text("Sign up", style: TextStyle(color: Color.fromARGB(255, 20, 7, 66), fontSize: 20))),
+          TextButton(onPressed: (){}, child: Text("Log in", style: TextStyle(color: Color.fromARGB(255, 20, 7, 66), fontSize: 20)))
+        ],
       ),
       body: const Center(
-        child: Column(
-          children: [
-            SizedBox(height: 50),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                HomeCard(buttonText:"Add new Student", targetPage: AddStudent()),   //add student card
-                HomeCard(buttonText:"View Students", targetPage: AddStudent()),     //view student card
-              ],
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                HomeCard(buttonText:"new Grading", targetPage: AddStudent()),    //grading card
-                HomeCard(buttonText:"new Competition", targetPage: AddStudent()),   //competition card
-                
-              ],
-            )
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  HomeCard(buttonText:"Add new Student", targetPage: AddStudent()),   //add student card
+                  HomeCard(buttonText:"View Students", targetPage: AddStudent()),     //view student card
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  HomeCard(buttonText:"new Grading", targetPage: AddStudent()),    //grading card
+                  HomeCard(buttonText:"new Competition", targetPage: AddStudent()),   //competition card
+                  
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

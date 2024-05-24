@@ -1,10 +1,9 @@
-import 'package:competition_app/components/buttons/CancelButton.dart';
-import 'package:competition_app/components/buttons/SubmitButton.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:competition_app/components/dataRepo/AppConstants.dart';
 import 'package:competition_app/components/inputs/DatePickerInput.dart';
 import 'package:flutter/material.dart';
 import '../../components/inputs/DropDownInput.dart';
 import '../../components/inputs/Inputs.dart';
-import 'package:http/http.dart' as http;
 
 class AddStudent extends StatefulWidget {
   const AddStudent({Key? key}) : super(key: key);
@@ -15,27 +14,45 @@ class AddStudent extends StatefulWidget {
 
 class _AddStudentState extends State<AddStudent> {
   late TextEditingController _dateController;
+  late TextEditingController firstName;
+  late TextEditingController lastName;
+  late TextEditingController nameWithInitials;
+  late TextEditingController indexNo;
+  late TextEditingController birthDay;
+  late TextEditingController guardianName;
+  late TextEditingController enteredYear;
+  late TextEditingController homeAddress;
+  late TextEditingController mobileNumber;
+  String? selectedGrade;
 
   @override
   void initState() {
     super.initState();
     _dateController = TextEditingController();
+    firstName = TextEditingController();
+    lastName = TextEditingController();
+    nameWithInitials = TextEditingController();
+    indexNo = TextEditingController();
+    birthDay = TextEditingController();
+    guardianName = TextEditingController();
+    enteredYear = TextEditingController();
+    homeAddress = TextEditingController();
+    mobileNumber = TextEditingController();
   }
 
   @override
   void dispose() {
     _dateController.dispose();
+    firstName.dispose();
+    lastName.dispose();
+    nameWithInitials.dispose();
+    indexNo.dispose();
+    birthDay.dispose();
+    guardianName.dispose();
+    enteredYear.dispose();
+    homeAddress.dispose();
+    mobileNumber.dispose();
     super.dispose();
-  }
-
-  postData() async {
-    try {
-      var response = await http.post(Uri.parse("http://localhost:8080/create"),
-          body: {"id": '2', "name": 'ravindu', "age": '25'});  //all fields in a http request should be in string
-      print(response.body);
-    } catch (e) {
-      print(e);
-    }
   }
 
   Future<void> _selectDate() async {
@@ -48,29 +65,119 @@ class _AddStudentState extends State<AddStudent> {
 
     if (picked != null && picked != DateTime.now()) {
       setState(() {
-        _dateController.text = picked
-            .toString()
-            .split(' ')[0]; // Update controller with selected date
+        _dateController.text = picked.toString().split(' ')[0];
       });
     }
   }
 
-  final List<DropdownMenuItem<String>> grade = [
-    const DropdownMenuItem(value: "grade 1", child: Text("grade 1")),
-    const DropdownMenuItem(value: "grade 2", child: Text("grade 2")),
-    const DropdownMenuItem(value: "grade 3", child: Text("grade 3")),
-    const DropdownMenuItem(value: "grade 4", child: Text("grade 4")),
-    const DropdownMenuItem(value: "grade 5", child: Text("grade 5")),
-    const DropdownMenuItem(value: "grade 6", child: Text("grade 6")),
-  ];
-  String? selectedItem;
+  bool validator() {
+    if (firstName.text.isEmpty ||
+        lastName.text.isEmpty ||
+        nameWithInitials.text.isEmpty ||
+        indexNo.text.isEmpty && indexNo.text.length <= 5||
+        selectedGrade == null ||
+        _dateController.text.isEmpty ||
+        guardianName.text.isEmpty ||
+        enteredYear.text.isEmpty ||
+        homeAddress.text.isEmpty ||
+        mobileNumber.text.isEmpty) {
+      return true;
+    }
+    return false;
+  }
+
+  void addStudent() {
+    var db = FirebaseFirestore.instance;
+    if (validator()) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Error"),
+            content: const Text("all field should be filled"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    final student = <String, dynamic>{
+      "firstName": firstName.text,
+      "lastName": lastName.text,
+      "nameWithInitials": nameWithInitials.text,
+      "indexNo": indexNo.text,
+      "shoolGrade": selectedGrade,
+      "birthDay": _dateController.text,
+      "guardianName": guardianName.text,
+      "enteredYear": enteredYear.text,
+      "homeAddress": homeAddress.text,
+      "mobileNumber": mobileNumber.text,
+    };
+
+    db.collection("students").add(student).then((DocumentReference doc) {
+      print("Document snapshot added with ID: ${doc.id}");
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Success"),
+            content: const Text("Student added successfully"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+
+      firstName.clear();
+      lastName.clear();
+      nameWithInitials.clear();
+      indexNo.clear();
+      birthDay.clear();
+      guardianName.clear();
+      enteredYear.clear();
+      homeAddress.clear();
+      mobileNumber.clear();
+      selectedGrade = '';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Add Student"),
+        automaticallyImplyLeading: false, // Removes the back arrow
+        title: IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.menu),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {},
+            child: const Text("Sign up",
+                style: TextStyle(
+                    color: Color.fromARGB(255, 20, 7, 66), fontSize: 20)),
+          ),
+          TextButton(
+            onPressed: () {},
+            child: const Text("Log in",
+                style: TextStyle(
+                    color: Color.fromARGB(255, 20, 7, 66), fontSize: 20)),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -81,49 +188,82 @@ class _AddStudentState extends State<AddStudent> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                //first name and last name input fields
-                Expanded(child: InputField(labelText: "First Name")),
-                Expanded(child: InputField(labelText: "Last Name")),
+                Expanded(
+                    child: InputField(
+                        labelText: "First Name", controller: firstName, keyboardType: TextInputType.text)),
+                Expanded(
+                    child: InputField(
+                        labelText: "Last Name", controller: lastName, keyboardType: TextInputType.text)),
               ],
             ),
-            const InputField(labelText: "Name with Initials"),
-            const InputField(labelText: "Index no:"),
-            //grade selector
-            DropDownInput(itemList: grade),
-
+            InputField(
+                labelText: "Name with Initials", controller: nameWithInitials, keyboardType: TextInputType.text),
+            InputField(labelText: "Index no:", controller: indexNo, keyboardType: TextInputType.number),
+            DropDownInput(
+              itemList: AppConstants.grade,
+              onChanged: (value) {
+                setState(() {
+                  selectedGrade = value;
+                });
+              },
+            ),
             const SizedBox(height: 10),
             const Text(
               "fill by the parent or guardian",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-
-            //birthday picker
             DatePickerInput(
                 selectedDate: _selectDate, dateController: _dateController),
-            const InputField(
-                labelText:
-                    "name of the  guardian"), //year that student entered the school
-            const InputField(
-                labelText:
-                    "Entered Year"), //year that student entered the school
-            const InputField(
-                labelText: "Home Address"), //Home address of the student
-            const InputField(
-                labelText:
-                    "mobile or Tel number"), //year that student entered the school
-            const SizedBox(height: 10),
+            InputField(
+                labelText: "name of the guardian", controller: guardianName, keyboardType: TextInputType.text),
+            InputField(labelText: "Entered Year", controller: enteredYear, keyboardType: TextInputType.number),
+            InputField(labelText: "Home Address", controller: homeAddress, keyboardType: TextInputType.text),
+            InputField(
+                labelText: "mobile or Tel number", controller: mobileNumber, keyboardType: TextInputType.phone),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SubmitButton(onPressed: postData),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 8, 94, 12),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextButton(
+                      onPressed: addStudent,
+                      child: const Text(
+                        "submit",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
                 const SizedBox(width: 10),
-                const CancelButton(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 94, 25, 8),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        "Cancel",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),
