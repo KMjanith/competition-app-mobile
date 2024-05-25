@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:competition_app/components/dataRepo/AppConstants.dart';
 import 'package:competition_app/components/inputs/DatePickerInput.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import '../../components/inputs/DropDownInput.dart';
-import '../../components/inputs/Inputs.dart';
+import 'package:flutter/widgets.dart';
+import '../components/inputs/DropDownInput.dart';
+import '../components/inputs/Inputs.dart';
 
 class AddStudent extends StatefulWidget {
   const AddStudent({Key? key}) : super(key: key);
@@ -24,6 +29,8 @@ class _AddStudentState extends State<AddStudent> {
   late TextEditingController homeAddress;
   late TextEditingController mobileNumber;
   String? selectedGrade;
+
+  UploadTask? uploadTask;
 
   @override
   void initState() {
@@ -63,7 +70,7 @@ class _AddStudentState extends State<AddStudent> {
       lastDate: DateTime(2100),
     );
 
-    if (picked != null && picked != DateTime.now()) {
+    if (picked != null) {
       setState(() {
         _dateController.text = picked.toString().split(' ')[0];
       });
@@ -71,19 +78,17 @@ class _AddStudentState extends State<AddStudent> {
   }
 
   bool validator() {
-    if (firstName.text.isEmpty ||
+    return firstName.text.isEmpty ||
         lastName.text.isEmpty ||
         nameWithInitials.text.isEmpty ||
-        indexNo.text.isEmpty && indexNo.text.length <= 5||
+        indexNo.text.isEmpty ||
+        indexNo.text.length <= 5 ||
         selectedGrade == null ||
         _dateController.text.isEmpty ||
         guardianName.text.isEmpty ||
         enteredYear.text.isEmpty ||
         homeAddress.text.isEmpty ||
-        mobileNumber.text.isEmpty) {
-      return true;
-    }
-    return false;
+        mobileNumber.text.isEmpty;
   }
 
   void addStudent() {
@@ -94,7 +99,7 @@ class _AddStudentState extends State<AddStudent> {
         builder: (context) {
           return AlertDialog(
             title: const Text("Error"),
-            content: const Text("all field should be filled"),
+            content: const Text("All fields should be filled"),
             actions: [
               TextButton(
                 onPressed: () {
@@ -142,6 +147,8 @@ class _AddStudentState extends State<AddStudent> {
         },
       );
 
+      uploadFile();
+
       firstName.clear();
       lastName.clear();
       nameWithInitials.clear();
@@ -151,7 +158,42 @@ class _AddStudentState extends State<AddStudent> {
       enteredYear.clear();
       homeAddress.clear();
       mobileNumber.clear();
-      selectedGrade = '';
+      setState(() {
+        selectedGrade = null;
+      });
+    });
+  }
+
+  PlatformFile? pickFile;
+
+  Future<void> selectFile() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null) {
+      return;
+    }
+    setState(() {
+      pickFile = result.files.first;
+    });
+  }
+
+  Future<void> uploadFile() async {
+    if (pickFile == null) return;
+
+    final path = 'files/${pickFile!.name}';
+    final file = File(pickFile!.path!);
+
+    final ref = FirebaseStorage.instance.ref().child(path);
+
+    setState(() {
+      uploadTask = ref.putFile(file);
+    });
+
+    final snapshot = await uploadTask?.whenComplete(() {});
+
+    final urlDownload = await snapshot?.ref.getDownloadURL();
+    print('Download-Link: $urlDownload');
+    setState(() {
+      uploadTask = null;
     });
   }
 
@@ -159,7 +201,7 @@ class _AddStudentState extends State<AddStudent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false, // Removes the back arrow
+        automaticallyImplyLeading: false,
         title: IconButton(
           onPressed: () {},
           icon: const Icon(Icons.menu),
@@ -193,15 +235,24 @@ class _AddStudentState extends State<AddStudent> {
               children: [
                 Expanded(
                     child: InputField(
-                        labelText: "First Name", controller: firstName, keyboardType: TextInputType.text)),
+                        labelText: "First Name",
+                        controller: firstName,
+                        keyboardType: TextInputType.text)),
                 Expanded(
                     child: InputField(
-                        labelText: "Last Name", controller: lastName, keyboardType: TextInputType.text)),
+                        labelText: "Last Name",
+                        controller: lastName,
+                        keyboardType: TextInputType.text)),
               ],
             ),
             InputField(
-                labelText: "Name with Initials", controller: nameWithInitials, keyboardType: TextInputType.text),
-            InputField(labelText: "Index no:", controller: indexNo, keyboardType: TextInputType.number),
+                labelText: "Name with Initials",
+                controller: nameWithInitials,
+                keyboardType: TextInputType.text),
+            InputField(
+                labelText: "Index no:",
+                controller: indexNo,
+                keyboardType: TextInputType.number),
             DropDownInput(
               itemList: AppConstants.grade,
               onChanged: (value) {
@@ -212,18 +263,68 @@ class _AddStudentState extends State<AddStudent> {
             ),
             const SizedBox(height: 10),
             const Text(
-              "fill by the parent or guardian",
+              "Fill by the parent or guardian",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             DatePickerInput(
                 selectedDate: _selectDate, dateController: _dateController),
             InputField(
-                labelText: "name of the guardian", controller: guardianName, keyboardType: TextInputType.text),
-            InputField(labelText: "Entered Year", controller: enteredYear, keyboardType: TextInputType.number),
-            InputField(labelText: "Home Address", controller: homeAddress, keyboardType: TextInputType.text),
+                labelText: "Name of the guardian",
+                controller: guardianName,
+                keyboardType: TextInputType.text),
             InputField(
-                labelText: "mobile or Tel number", controller: mobileNumber, keyboardType: TextInputType.phone),
+                labelText: "Entered Year",
+                controller: enteredYear,
+                keyboardType: TextInputType.number),
+            InputField(
+                labelText: "Home Address",
+                controller: homeAddress,
+                keyboardType: TextInputType.text),
+            InputField(
+                labelText: "Mobile or Tel number",
+                controller: mobileNumber,
+                keyboardType: TextInputType.phone),
+
+            //to display the selected image
+            Column(children: [
+              if (pickFile != null)
+                Container(
+                  color: Colors.blue,
+                  child: Image.file(
+                    File(pickFile!.path!),
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                )
+            ]),
+
+            //add photo button
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: double.infinity,
+                height: 50,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Color.fromARGB(129, 0, 17, 31),
+                      width: 2,
+                    )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.photo),
+                    TextButton(
+                        onPressed: selectFile,
+                        child: const Text("choose a photo")),
+                  ],
+                ),
+              ),
+            ),
+
+            // ElevatedButton(
+            //     onPressed: uploadFile, child: const Text("Upload file")),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -237,7 +338,7 @@ class _AddStudentState extends State<AddStudent> {
                     child: TextButton(
                       onPressed: addStudent,
                       child: const Text(
-                        "submit",
+                        "Submit",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -264,9 +365,42 @@ class _AddStudentState extends State<AddStudent> {
                 ),
               ],
             ),
+            buildProgress(),
           ],
         ),
       ),
     );
   }
+
+  Widget buildProgress() => StreamBuilder<TaskSnapshot>(
+        stream: uploadTask?.snapshotEvents,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final data = snapshot.data!;
+            double progress = data.bytesTransferred / data.totalBytes;
+            return SizedBox(
+              height: 50,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  LinearProgressIndicator(
+                    value: progress,
+                    backgroundColor: Colors.green,
+                  ),
+                  Center(
+                    child: Text(
+                      '${(progress * 100).toStringAsFixed(2)} %',
+                      style: const TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
+            );
+          } else {
+            return const SizedBox(
+              height: 50,
+            );
+          }
+        },
+      );
 }

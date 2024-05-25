@@ -15,7 +15,6 @@ class InputField extends StatelessWidget {
         keyboardType: keyboardType,
         decoration: InputDecoration(
           hoverColor: Colors.red,
-          filled: true,
           border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10))),
           labelText: labelText,
