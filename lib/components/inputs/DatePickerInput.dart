@@ -12,7 +12,6 @@ class DatePickerInput extends StatelessWidget {
       child: TextField(
         controller: dateController, // Use controller to display selected date
         decoration: const InputDecoration(
-          filled: true,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
