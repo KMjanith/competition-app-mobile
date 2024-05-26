@@ -1,73 +1,161 @@
+import 'package:competition_app/components/dataRepo/styleConstants.dart';
+import 'package:competition_app/pages/auth/SignUp.dart';
+import 'package:competition_app/services/AuthService.dart';
 import 'package:flutter/material.dart';
-
+import '../components/common/HedingAnimation.dart';
 import '../components/common/HomeCard.dart';
 import 'AddStudent.dart';
+import 'auth/Login.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final _auth = Authservice();
+  bool _isLoggedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkUserLoggedInStatus();
+  }
+
+  void _checkUserLoggedInStatus() {
+    setState(() {
+      _isLoggedIn = _auth.isUserLoggedIn();
+    });
+  }
+
+  void _checkUserAuthenticationAndNavigate(Widget targetPage) {
+    if (!_auth.isUserLoggedIn()) {
+      _showAuthDialog();
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => targetPage),
+      );
+    }
+  }
+
+  void _showAuthDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Authentication Required'),
+          content: const Text('You need to sign up or log in to use this app.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Sign Up'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SignUp()),
+                );
+              },
+            ),
+            TextButton(
+              child: const Text('Log In'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Login()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _signOut() async {
+    await _auth.logOut();
+    setState(() {
+      _isLoggedIn = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.menu),
-        ),
-        actions: [
-          TextButton(
-              onPressed: () {},
-              child: const Text("Sign up",
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 20, 7, 66), fontSize: 20))),
-          TextButton(
-              onPressed: () {},
-              child: const Text("Log in",
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 20, 7, 66), fontSize: 20)))
-        ],
-      ),
-      body: const Stack(children: [
-        Center(
-      
-            child: Icon(Icons.sports_mma_rounded,
-                size: 400, color: Color.fromARGB(220, 235, 185, 151)),
-          ),
-        
-        Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+      body: Container(
+        decoration: StyleConstants.pageBackground,
+        child: Stack(
+          children: [
+            Center(
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
-                    HomeCard(
-                        buttonText: "Add new Student",
-                        targetPage: AddStudent()), //add student card
-                    HomeCard(
-                        buttonText: "View Students",
-                        targetPage: AddStudent()), //view student card
+                    const SizedBox(height: 50),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30, right: 20, bottom: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.menu, color: Colors.white),
+                          ),
+                          if (_isLoggedIn)
+                            TextButton(
+                              onPressed: _signOut,
+                              child: const Text(
+                                'Sign Out',
+                                style: TextStyle(color: Colors.white, fontSize: 18),
+                              ),
+                            )
+                          else
+                            const SizedBox.shrink(),
+                        ],
+                      ),
+                    ),
+                    const HeadingAnimation(heading: "Welcome to the Competition App"),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        HomeCard(
+                          buttonText: "Add new Student",
+                          color: const Color.fromARGB(255, 122, 191, 248),
+                          onPressed: () => _checkUserAuthenticationAndNavigate(const AddStudent()),
+                        ),
+                        HomeCard(
+                          buttonText: "View Students",
+                          color: const Color.fromARGB(255, 253, 246, 181),
+                          onPressed: () => _checkUserAuthenticationAndNavigate(const AddStudent()), // Replace with the actual target page for viewing students
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        HomeCard(
+                          buttonText: "New Grading",
+                          color: const Color.fromARGB(255, 164, 241, 134),
+                          onPressed: () => _checkUserAuthenticationAndNavigate(const AddStudent()), // Replace with the actual target page for grading
+                        ),
+                        HomeCard(
+                          buttonText: "New Competition",
+                          color: const Color.fromARGB(255, 255, 103, 153),
+                          onPressed: () => _checkUserAuthenticationAndNavigate(const AddStudent()), // Replace with the actual target page for competition
+                        ),
+                      ],
+                    ),
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    HomeCard(
-                        buttonText: "new Grading",
-                        targetPage: AddStudent()), //grading card
-                    HomeCard(
-                        buttonText: "new Competition",
-                        targetPage: AddStudent()), //competition card
-                  ],
-                )
-              ],
+              ),
             ),
-          ),
+          ],
         ),
-      ]),
+      ),
     );
   }
 }
