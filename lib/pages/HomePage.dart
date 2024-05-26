@@ -1,9 +1,9 @@
-import 'package:competition_app/components/dataRepo/styleConstants.dart';
 import 'package:competition_app/pages/auth/SignUp.dart';
 import 'package:competition_app/services/AuthService.dart';
 import 'package:flutter/material.dart';
 import '../components/common/HedingAnimation.dart';
 import '../components/common/HomeCard.dart';
+import '../dataRepo/StyleConstants.dart';
 import 'AddStudent.dart';
 import 'auth/Login.dart';
 

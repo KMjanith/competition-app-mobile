@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "348572071409",
+    "project_id": "competition-app-e4626",
+    "storage_bucket": "competition-app-e4626.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348572071409:android:89356c8947c25b5c53c050",
+        "android_client_info": {
+          "package_name": "com.example.competition_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348572071409-v2d1kr6f6a2rlrbj0lqcmojhor336gi8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.competition_app",
+            "certificate_hash": "c9e953fe1dc03ad81e89e8b1c9f19df278471ff7"
+          }
+        },
+        {
+          "client_id": "348572071409-g3vhov3gqk637s4g6lmse10e9itbsfjs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtD-CAC89G8okvLlIkGgDi8pMGtGIZ2Xg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348572071409-g3vhov3gqk637s4g6lmse10e9itbsfjs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "348572071409-6k4j1apvplcs6bg5pv3bs6ng6qab56ha.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.competitionApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

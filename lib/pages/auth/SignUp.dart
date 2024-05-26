@@ -2,8 +2,9 @@ import 'package:competition_app/pages/HomePage.dart';
 import 'package:competition_app/pages/auth/Login.dart';
 import 'package:competition_app/services/AuthService.dart';
 import 'package:flutter/material.dart';
+import '../../components/buttons/GoogleAuth.dart';
 import '../../components/common/HedingAnimation.dart';
-import '../../components/dataRepo/StyleConstants.dart';
+import '../../dataRepo/StyleConstants.dart';
 import '../../components/inputs/Inputs.dart';
 
 class SignUp extends StatefulWidget {
@@ -40,24 +41,20 @@ class _SignUpState extends State<SignUp> {
                 ),
 
                 //email
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: InputField(
-                    labelText: "Email",
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
+
+                InputField(
+                  labelText: "Email",
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
                 ),
 
                 //password
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: InputField(
-                    labelText: "Password",
-                    controller: passwordController,
-                    keyboardType: TextInputType.visiblePassword,
-                  ),
+                InputField(
+                  labelText: "Password",
+                  controller: passwordController,
+                  keyboardType: TextInputType.visiblePassword,
                 ),
+
                 const SizedBox(height: 10),
                 Padding(
                   padding:
@@ -86,7 +83,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  padding: const EdgeInsets.only(left: 28, right: 28),
                   child: Container(
                     width: double.infinity,
                     height: 50,
@@ -120,6 +117,12 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+
+                //google sign up
+                GoogleAuth(auth: _auth,context: context),
               ],
             ),
           ),

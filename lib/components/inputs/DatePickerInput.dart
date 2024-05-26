@@ -8,7 +8,7 @@ class DatePickerInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(top:8.0,bottom: BorderSide.strokeAlignCenter, left: 28, right: 28),
       child: TextField(
         controller: dateController, // Use controller to display selected date
         decoration: const InputDecoration(
