@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:competition_app/dataRepo/AppConstants.dart';
 import 'package:competition_app/components/inputs/DatePickerInput.dart';
+import 'package:competition_app/model/AddStudentModel.dart';
+import 'package:competition_app/services/Validator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -77,29 +79,28 @@ class _AddStudentState extends State<AddStudent> {
     }
   }
 
-  bool validator() {
-    return firstName.text.isEmpty ||
-        lastName.text.isEmpty ||
-        nameWithInitials.text.isEmpty ||
-        indexNo.text.isEmpty ||
-        indexNo.text.length <= 5 ||
-        selectedGrade == null ||
-        _dateController.text.isEmpty ||
-        guardianName.text.isEmpty ||
-        enteredYear.text.isEmpty ||
-        homeAddress.text.isEmpty ||
-        mobileNumber.text.isEmpty;
-  }
+  void addStudent() async {
+    final Addstudentmodel studentValidator = Addstudentmodel(
+      firstName: firstName.text,
+      lastName: lastName.text,
+      nameWithInitials: nameWithInitials.text,
+      indexNo: indexNo.text,
+      shoolGrade: selectedGrade ?? "",
+      birthDay: _dateController.text,
+      guardianName: guardianName.text,
+      enteredYear: enteredYear.text,
+      homeAddress: homeAddress.text,
+      mobileNumber: mobileNumber.text,
+    );
 
-  void addStudent() {
-    var db = FirebaseFirestore.instance;
-    if (validator()) {
+    final allset = Validator.StudentValidator(studentValidator);
+    if (allset != true) {
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: const Text("Error"),
-            content: const Text("All fields should be filled"),
+            content: Text(allset),
             actions: [
               TextButton(
                 onPressed: () {
@@ -114,54 +115,7 @@ class _AddStudentState extends State<AddStudent> {
       return;
     }
 
-    final student = <String, dynamic>{
-      "firstName": firstName.text,
-      "lastName": lastName.text,
-      "nameWithInitials": nameWithInitials.text,
-      "indexNo": indexNo.text,
-      "shoolGrade": selectedGrade,
-      "birthDay": _dateController.text,
-      "guardianName": guardianName.text,
-      "enteredYear": enteredYear.text,
-      "homeAddress": homeAddress.text,
-      "mobileNumber": mobileNumber.text,
-    };
-
-    db.collection("students").add(student).then((DocumentReference doc) {
-      print("Document snapshot added with ID: ${doc.id}");
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Success"),
-            content: const Text("Student added successfully"),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text("OK"),
-              ),
-            ],
-          );
-        },
-      );
-
-      uploadFile();
-
-      firstName.clear();
-      lastName.clear();
-      nameWithInitials.clear();
-      indexNo.clear();
-      birthDay.clear();
-      guardianName.clear();
-      enteredYear.clear();
-      homeAddress.clear();
-      mobileNumber.clear();
-      setState(() {
-        selectedGrade = null;
-      });
-    });
+    uploadFile();
   }
 
   PlatformFile? pickFile;
@@ -177,6 +131,8 @@ class _AddStudentState extends State<AddStudent> {
   }
 
   Future<void> uploadFile() async {
+    var db = FirebaseFirestore.instance;
+
     if (pickFile == null) return;
 
     final path = 'files/${pickFile!.name}';
@@ -191,7 +147,55 @@ class _AddStudentState extends State<AddStudent> {
     final snapshot = await uploadTask?.whenComplete(() {});
 
     final urlDownload = await snapshot?.ref.getDownloadURL();
-    print('Download-Link: $urlDownload');
+
+    final student = <String, dynamic>{
+      "firstName": firstName.text,
+      "lastName": lastName.text,
+      "nameWithInitials": nameWithInitials.text,
+      "indexNo": indexNo.text,
+      "shoolGrade": selectedGrade,
+      "birthDay": _dateController.text,
+      "guardianName": guardianName.text,
+      "enteredYear": enteredYear.text,
+      "homeAddress": homeAddress.text,
+      "mobileNumber": mobileNumber.text,
+      "photoUrl": urlDownload,
+    };
+
+    db.collection("students").add(student).then((DocumentReference doc) {
+      print("Document snapshot added with ID: ${doc.id}");
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Success"),
+            content: const Text("Student added successfully"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+
+      firstName.clear();
+      lastName.clear();
+      nameWithInitials.clear();
+      indexNo.clear();
+      birthDay.clear();
+      guardianName.clear();
+      enteredYear.clear();
+      homeAddress.clear();
+      mobileNumber.clear();
+      setState(() {
+        selectedGrade = null;
+      });
+    });
     setState(() {
       uploadTask = null;
     });
@@ -233,14 +237,18 @@ class _AddStudentState extends State<AddStudent> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-         decoration: StyleConstants.pageBackground,
+        decoration: StyleConstants.pageBackground,
         child: SingleChildScrollView(
           child: Column(
             children: [
               const SizedBox(height: 70),
               const Text(
                 "Application Form",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 0, 154, 192),),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 0, 154, 192),
+                ),
               ),
               const SizedBox(height: 10),
               Row(
@@ -277,7 +285,11 @@ class _AddStudentState extends State<AddStudent> {
               const SizedBox(height: 10),
               const Text(
                 "Fill by the parent or guardian",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Color.fromARGB(255, 0, 154, 192),),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 0, 154, 192),
+                ),
               ),
               const SizedBox(height: 10),
               DatePickerInput(
@@ -298,7 +310,7 @@ class _AddStudentState extends State<AddStudent> {
                   labelText: "Mobile or Tel number",
                   controller: mobileNumber,
                   keyboardType: TextInputType.phone),
-        
+
               //to display the selected image
               Column(children: [
                 if (pickFile != null)
@@ -311,26 +323,30 @@ class _AddStudentState extends State<AddStudent> {
                     ),
                   )
               ]),
-        
+
               //add photo button
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(left: 28.0, right: 28, top: 10),
                 child: Container(
                   width: double.infinity,
                   height: 55,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: Color.fromARGB(255, 99, 99, 99),
+                        color: const Color.fromARGB(255, 99, 99, 99),
                         width: 2,
                       )),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.photo, color: Color.fromARGB(255, 155, 136, 136)),
+                      const Icon(Icons.photo,
+                          color: Color.fromARGB(255, 155, 136, 136)),
                       TextButton(
                           onPressed: selectFile,
-                          child: const Text("choose a photo", style: TextStyle(color: Colors.white,fontSize: 18),)),
+                          child: const Text(
+                            "choose a photo",
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          )),
                     ],
                   ),
                 ),
@@ -343,7 +359,7 @@ class _AddStudentState extends State<AddStudent> {
                     child: Container(
                       width: 150,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 8, 94, 12),
+                        color: const Color.fromARGB(255, 8, 94, 12),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: TextButton(
