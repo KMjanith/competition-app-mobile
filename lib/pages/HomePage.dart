@@ -1,3 +1,4 @@
+import 'package:competition_app/pages/ViewData.dart';
 import 'package:competition_app/pages/auth/SignUp.dart';
 import 'package:competition_app/services/AuthService.dart';
 import 'package:flutter/material.dart';
@@ -128,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                         HomeCard(
                           buttonText: "View Students",
                           color: const Color.fromARGB(255, 253, 246, 181),
-                          onPressed: () => _checkUserAuthenticationAndNavigate(const AddStudent()), // Replace with the actual target page for viewing students
+                          onPressed: () => _checkUserAuthenticationAndNavigate(Viewdata()), // Replace with the actual target page for viewing students
                         ),
                       ],
                     ),

@@ -25,7 +25,7 @@ class HomeCard extends StatelessWidget {
           boxShadow: [
             // Top left shadow
             const BoxShadow(
-              color: Color.fromARGB(255, 228, 214, 255),
+              color: Color.fromARGB(255, 128, 69, 247),
               offset: Offset(-2, -1),
               blurRadius: 5,
               spreadRadius: 1,
@@ -33,7 +33,7 @@ class HomeCard extends StatelessWidget {
             // Bottom right shadow
             BoxShadow(
               color: Colors.black.withOpacity(0.15),
-              offset: Offset(6, 6),
+              offset: Offset(3, 3),
               blurRadius: 5,
               spreadRadius: 1,
             ),
