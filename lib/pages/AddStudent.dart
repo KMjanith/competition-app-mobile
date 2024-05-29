@@ -8,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../components/inputs/DropDownInput.dart';
 import '../components/inputs/Inputs.dart';
 import '../dataRepo/StyleConstants.dart';
@@ -283,12 +284,12 @@ class _AddStudentState extends State<AddStudent> {
                 },
               ),
               const SizedBox(height: 10),
-              const Text(
+              Text(
                 "Fill by the parent or guardian",
-                style: TextStyle(
+                style: GoogleFonts.adventPro(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 0, 154, 192),
+                  color: Color.fromARGB(255, 245, 252, 152),
                 ),
               ),
               const SizedBox(height: 10),

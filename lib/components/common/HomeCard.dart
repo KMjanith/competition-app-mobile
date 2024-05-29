@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeCard extends StatelessWidget {
   final String buttonText;
@@ -93,7 +94,7 @@ class HomeCard extends StatelessWidget {
               onPressed: onPressed,
               child: Text(
                 buttonText,
-                style: TextStyle(color: color, fontSize: 20),
+                style: GoogleFonts.aDLaMDisplay(color: color, fontSize: 20),
                 textAlign: TextAlign.center,
               ),
             ),
