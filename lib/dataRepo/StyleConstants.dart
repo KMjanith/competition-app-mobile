@@ -14,13 +14,9 @@ class StyleConstants {
   );
 
   static LinearGradient cardBackGround = const LinearGradient(
+    colors: [Color(0xff83c2e7), Color(0xff6168e5), Color(0xffd348d5)],
+    stops: [0.1, 0.5, 1],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [
-      Color.fromARGB(255, 123, 213, 255),
-      Color.fromARGB(255, 86, 0, 121),
-      Color.fromARGB(255, 145, 0, 73), // Darker color
-    ],
-    stops: [0.2, 0.5, 0.9],
   );
 }

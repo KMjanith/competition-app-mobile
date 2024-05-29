@@ -1,5 +1,6 @@
 import "package:animated_text_kit/animated_text_kit.dart";
 import "package:flutter/material.dart";
+import "package:google_fonts/google_fonts.dart";
 
 class HeadingAnimation extends StatefulWidget {
   final String heading;
@@ -17,8 +18,8 @@ class _HeadingAnimationState extends State<HeadingAnimation> {
       child: AnimatedTextKit(
         animatedTexts: [
           TypewriterAnimatedText(
-            widget.heading,
-            textStyle: const TextStyle(
+            "${widget.heading}...",
+            textStyle: GoogleFonts.cairo(
               fontSize: 30,
               color: Color.fromARGB(255, 0, 154, 192),
             ),
