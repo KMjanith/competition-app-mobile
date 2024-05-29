@@ -108,8 +108,7 @@ class _LoginState extends State<Login> {
                 ),
 
                 //google log in
-                GoogleAuth(auth: _auth,context: context),
-                
+                GoogleAuth(auth: _auth, context: context),
               ],
             ),
           ),
