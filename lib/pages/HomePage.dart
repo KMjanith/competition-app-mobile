@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.only(left: 30, right: 20, bottom: 20),
                       child: Row(
@@ -101,14 +101,14 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                             onPressed: () {},
-                            icon: const Icon(Icons.menu, color: Colors.white),
+                            icon: const Icon(Icons.menu, color: Color.fromARGB(255, 0, 0, 0)),
                           ),
                           if (_isLoggedIn)
                             TextButton(
                               onPressed: _signOut,
                               child: const Text(
                                 'Sign Out',
-                                style: TextStyle(color: Colors.white, fontSize: 18),
+                                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 18),
                               ),
                             )
                           else

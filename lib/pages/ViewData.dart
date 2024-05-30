@@ -145,7 +145,7 @@ class _ViewdataState extends State<Viewdata> {
               children: [
                 IconButton(
                   onPressed: _onMenuPressed,
-                  icon: const Icon(Icons.menu, color: Colors.white),
+                  icon: const Icon(Icons.menu, color: Color.fromARGB(255, 0, 0, 0)),
                 ),
               ],
             ),

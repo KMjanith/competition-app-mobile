@@ -21,7 +21,7 @@ class _HeadingAnimationState extends State<HeadingAnimation> {
             "${widget.heading}...",
             textStyle: GoogleFonts.cairo(
               fontSize: 30,
-              color: Color.fromARGB(255, 0, 154, 192),
+              color: Color.fromARGB(255, 0, 69, 87),
             ),
             speed: const Duration(milliseconds: 100),
           ),
