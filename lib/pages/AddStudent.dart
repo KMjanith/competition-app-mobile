@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:competition_app/components/buttons/CancelButton.dart';
+import 'package:competition_app/components/buttons/SubmitButton.dart';
 import 'package:competition_app/dataRepo/AppConstants.dart';
 import 'package:competition_app/components/inputs/DatePickerInput.dart';
 import 'package:competition_app/model/AddStudentModel.dart';
@@ -8,6 +10,7 @@ import 'package:competition_app/services/Validator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import '../components/buttons/AddPhotoButton.dart';
 import '../components/inputs/DropDownInput.dart';
 import '../components/inputs/Inputs.dart';
 import '../dataRepo/StyleConstants.dart';
@@ -93,22 +96,29 @@ class _AddStudentState extends State<AddStudent> {
       mobileNumber: mobileNumber.text,
     );
 
+    //form validator
     final allset = Validator.StudentValidator(studentValidator);
+
     if (allset != true) {
       showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: const Text("Error"),
-            content: Text(allset),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text("OK"),
-              ),
-            ],
+          return GestureDetector(
+            onTap: (){
+              Navigator.of(context).pop();
+            },
+            child: AlertDialog(
+              title: const Text("Error"),
+              content: Text(allset),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("OK"),
+                ),
+              ],
+            ),
           );
         },
       );
@@ -333,77 +343,17 @@ class _AddStudentState extends State<AddStudent> {
               ]),
 
               //add photo button
-              Padding(
-                padding: const EdgeInsets.only(left: 28.0, right: 28, top: 10),
-                child: Container(
-                  width: double.infinity,
-                  height: 55,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: Color.fromARGB(167, 99, 99, 99),
-                        width: 1,
-                      )),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.photo,
-                          color: Color.fromARGB(255, 155, 136, 136)),
-                      TextButton(
-                          onPressed: selectFile,
-                          child: const Text(
-                            "choose a photo",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 0, 0, 0),
-                                fontSize: 18),
-                          )),
-                    ],
-                  ),
-                ),
-              ),
+              AddPhotoButton(selectFile: selectFile),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 15.0, bottom: 4.0, left: 35),
-                    child: Container(
-                      width: 150,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 6, 177, 35),
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: TextButton(
-                        onPressed: addStudent,
-                        child: const Text(
-                          "Submit",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontSize: 20),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 15.0, bottom: 4.0, right: 35),
-                    child: Container(
-                      width: 150,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 184, 37, 0),
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text(
-                          "Cancel",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ),
-                    ),
-                  ),
+
+                  //submit button
+                  SubmitButton(addStudent: addStudent),
+
+                  //Cancel Button
+                  const CancelButton()
                 ],
               ),
               buildProgress(),
