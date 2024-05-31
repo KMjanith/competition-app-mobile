@@ -24,12 +24,12 @@ class InputField extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           labelText: labelText,
-          labelStyle: const TextStyle(color: Colors.white),
+          labelStyle: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
           hintText: "Enter $labelText",
-          hintStyle: const TextStyle(color: Colors.white70), // Hint text style
+          hintStyle: const TextStyle(color: Color.fromARGB(179, 0, 0, 0)), // Hint text style
         ),
         controller: controller,
-        style: const TextStyle(color: Colors.white), // Text input style
+        style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)), // Text input style
       ),
     );
   }

@@ -17,7 +17,7 @@ class DatePickerInput extends StatelessWidget {
           ),
           prefixIcon: Icon(Icons.calendar_today, color: Color.fromARGB(255, 150, 150, 150)),
           labelText: "Date of Birth",
-          labelStyle: TextStyle(color: Colors.white),
+          labelStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
           hintText: "Select Date",
         ),
         readOnly: true,

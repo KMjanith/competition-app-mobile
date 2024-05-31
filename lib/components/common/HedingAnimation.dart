@@ -20,6 +20,7 @@ class _HeadingAnimationState extends State<HeadingAnimation> {
           TypewriterAnimatedText(
             "${widget.heading}...",
             textStyle: GoogleFonts.cairo(
+              fontWeight: FontWeight.bold,
               fontSize: 30,
               color: Color.fromARGB(255, 0, 69, 87),
             ),

@@ -85,6 +85,7 @@ class _LoginState extends State<Login> {
                           passwordController.text,
                         );
                         if (user != null) {
+                          
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -109,6 +110,7 @@ class _LoginState extends State<Login> {
 
                 //google log in
                 GoogleAuth(auth: _auth, context: context),
+                
               ],
             ),
           ),

@@ -6,10 +6,10 @@ class StyleConstants {
 
   static BoxDecoration pageBackground = const BoxDecoration(
     gradient: LinearGradient(colors: [
-      Color.fromARGB(255, 202, 210, 255),
-      Color.fromARGB(255, 118, 189, 255),
-      Color.fromARGB(255, 245, 130, 255),
-      Color.fromARGB(255, 255, 81, 162)
+      Color.fromARGB(255, 211, 217, 252),
+      Color.fromARGB(255, 142, 200, 255),
+      Color.fromARGB(255, 130, 138, 255),
+      Color.fromARGB(255, 255, 143, 195)
     ], begin: Alignment.topLeft, end: Alignment.bottomCenter),
   );
 

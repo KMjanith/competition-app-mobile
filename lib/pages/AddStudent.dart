@@ -3,12 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:competition_app/dataRepo/AppConstants.dart';
 import 'package:competition_app/components/inputs/DatePickerInput.dart';
 import 'package:competition_app/model/AddStudentModel.dart';
+import 'package:competition_app/services/AuthService.dart';
 import 'package:competition_app/services/Validator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../components/inputs/DropDownInput.dart';
 import '../components/inputs/Inputs.dart';
 import '../dataRepo/StyleConstants.dart';
@@ -131,6 +130,7 @@ class _AddStudentState extends State<AddStudent> {
     });
   }
 
+  //function to upload the file to the firebase storage
   Future<void> uploadFile() async {
     var db = FirebaseFirestore.instance;
 
@@ -147,9 +147,16 @@ class _AddStudentState extends State<AddStudent> {
 
     final snapshot = await uploadTask?.whenComplete(() {});
 
-    final urlDownload = await snapshot?.ref.getDownloadURL();
+    final urlDownload = await snapshot?.ref
+        .getDownloadURL(); //taking the download url to store in the firestore
 
+    // Get the current user's UID
+    final _auth = Authservice();
+    final uid = _auth.getCurrentUserId();
+
+    //this map will store in the firestore document
     final student = <String, dynamic>{
+      "user": uid,
       "firstName": firstName.text,
       "lastName": lastName.text,
       "nameWithInitials": nameWithInitials.text,
@@ -248,7 +255,7 @@ class _AddStudentState extends State<AddStudent> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 0, 154, 192),
+                  color: Color.fromARGB(255, 0, 57, 71),
                 ),
               ),
               const SizedBox(height: 10),
@@ -284,12 +291,12 @@ class _AddStudentState extends State<AddStudent> {
                 },
               ),
               const SizedBox(height: 10),
-              Text(
+              const Text(
                 "Fill by the parent or guardian",
-                style: GoogleFonts.adventPro(
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 245, 252, 152),
+                  color: Color.fromARGB(255, 0, 57, 71),
                 ),
               ),
               const SizedBox(height: 10),
@@ -334,8 +341,8 @@ class _AddStudentState extends State<AddStudent> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: const Color.fromARGB(255, 99, 99, 99),
-                        width: 2,
+                        color: Color.fromARGB(167, 99, 99, 99),
+                        width: 1,
                       )),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -346,40 +353,45 @@ class _AddStudentState extends State<AddStudent> {
                           onPressed: selectFile,
                           child: const Text(
                             "choose a photo",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 18),
                           )),
                     ],
                   ),
                 ),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding:
+                        const EdgeInsets.only(top: 15.0, bottom: 4.0, left: 35),
                     child: Container(
                       width: 150,
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 8, 94, 12),
-                        borderRadius: BorderRadius.circular(10),
+                        color: Color.fromARGB(255, 6, 177, 35),
+                        borderRadius: BorderRadius.circular(50),
                       ),
                       child: TextButton(
                         onPressed: addStudent,
                         child: const Text(
                           "Submit",
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 0, 0, 0),
+                              fontSize: 20),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 10),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(
+                        top: 15.0, bottom: 4.0, right: 35),
                     child: Container(
                       width: 150,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 94, 25, 8),
-                        borderRadius: BorderRadius.circular(10),
+                        color: const Color.fromARGB(255, 184, 37, 0),
+                        borderRadius: BorderRadius.circular(50),
                       ),
                       child: TextButton(
                         onPressed: () {
@@ -387,7 +399,7 @@ class _AddStudentState extends State<AddStudent> {
                         },
                         child: const Text(
                           "Cancel",
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
                     ),

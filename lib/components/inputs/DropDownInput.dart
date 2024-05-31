@@ -22,7 +22,7 @@ class _DropDownInputState extends State<DropDownInput> {
           ),
         ),
         value: selectedItem,
-        hint: const Text("Select Grade",style: TextStyle(color: Colors.white),),
+        hint: const Text("Select Grade",style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),),
         items: widget.itemList,
         onChanged: (String? newValue) {
           setState(() {

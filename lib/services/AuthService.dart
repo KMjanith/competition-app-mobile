@@ -39,9 +39,16 @@ class Authservice {
     }
   }
 
+  //to check if user is logged in
   bool isUserLoggedIn() {
     final User? currentUser = userInstance.currentUser;
     return currentUser != null;
+  }
+
+  //get the current user id
+  String? getCurrentUserId() {
+    final User? currentUser = userInstance.currentUser;
+    return currentUser?.uid;
   }
 
   Future<UserCredential?> signInWithGoogle() async {
