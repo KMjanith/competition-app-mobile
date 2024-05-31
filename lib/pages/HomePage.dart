@@ -47,29 +47,34 @@ class _HomePageState extends State<HomePage> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Authentication Required'),
-          content: const Text('You need to sign up or log in to use this app.'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Sign Up'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SignUp()),
-                );
-              },
-            ),
-            TextButton(
-              child: const Text('Log In'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Login()),
-                );
-              },
-            ),
-          ],
+        return GestureDetector(
+          onTap: (){
+            Navigator.of(context).pop();
+          },
+          child: AlertDialog(
+            title: const Text('Authentication Required'),
+            content: const Text('You need to sign up or log in to use this app.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Sign Up'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignUp()),
+                  );
+                },
+              ),
+              TextButton(
+                child: const Text('Log In'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Login()),
+                  );
+                },
+              ),
+            ],
+          ),
         );
       },
     );
