@@ -6,6 +6,8 @@ import '../components/common/HedingAnimation.dart';
 import '../components/common/HomeCard.dart';
 import '../dataRepo/StyleConstants.dart';
 import 'AddStudent.dart';
+import 'MakeCompetitons.dart';
+import 'NewGrading.dart';
 import 'auth/Login.dart';
 
 class HomePage extends StatefulWidget {
@@ -146,12 +148,12 @@ class _HomePageState extends State<HomePage> {
                         HomeCard(
                           buttonText: "New Grading",
                           color: const Color.fromARGB(255, 164, 241, 134),
-                          onPressed: () => _checkUserAuthenticationAndNavigate(const AddStudent()), // Replace with the actual target page for grading
+                          onPressed: () => _checkUserAuthenticationAndNavigate(const NewGrading()), // Replace with the actual target page for grading
                         ),
                         HomeCard(
                           buttonText: "New Competition",
                           color: const Color.fromARGB(255, 255, 103, 153),
-                          onPressed: () => _checkUserAuthenticationAndNavigate(const AddStudent()), // Replace with the actual target page for competition
+                          onPressed: () => _checkUserAuthenticationAndNavigate(const MakeCompetition()), // Replace with the actual target page for competition
                         ),
                       ],
                     ),
