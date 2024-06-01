@@ -1,28 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'AuthService.dart';
 
-class Viewstudent{
-
+class Viewstudent with ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-   final _auth = Authservice();
+  final _auth = Authservice();
+  final List<Map<String, dynamic>> _students = [];
 
-  Future<List<Map<String, dynamic>>> getCollection() async {
+  List<Map<String, dynamic>> get students => _students;
+
+  Viewstudent() {
+    getCollection();
+  }
+
+  Future<void> getCollection() async {
     QuerySnapshot querySnapshot = await _firestore
         .collection('students')
         .where('user', isEqualTo: _auth.getCurrentUserId())
         .get();
-    List<Map<String, dynamic>> students = [];
+    _students.clear(); // Clear previous data
     for (var doc in querySnapshot.docs) {
-      students.add(doc.data() as Map<String, dynamic>);
+      _students.add(doc.data() as Map<String, dynamic>);
     }
-    return students;
+    notifyListeners(); // Notify listeners about the data change
   }
 
-
-void showStudentDialog(Map<String, dynamic> student,BuildContext context) {
+  void showStudentDialog(Map<String, dynamic> student, BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
@@ -102,7 +106,7 @@ void showStudentDialog(Map<String, dynamic> student,BuildContext context) {
     );
   }
 
-   Widget _buildInfoText(String label, String value) {
+  Widget _buildInfoText(String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Text.rich(
@@ -127,8 +131,4 @@ void showStudentDialog(Map<String, dynamic> student,BuildContext context) {
       ),
     );
   }
-
-
-
-
 }
