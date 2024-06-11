@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../blocs/viewData/view_data_bloc.dart';
 import '../components/common/CustomDrawer.dart';
 import '../components/common/ErrorAlert.dart';
 import '../components/common/HedingAnimation.dart';
@@ -18,12 +20,11 @@ class _ViewdataState extends State<Viewdata> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<Viewstudent>(context, listen: false).getCollection();
+      context.read<ViewDataBloc>().add(viewIntialData());
     });
   }
 
   CustomDrawer _returnDrawer(BuildContext context) {
-    
     final indexInputController = TextEditingController();
     return CustomDrawer(
       drawerItems: [
@@ -48,10 +49,9 @@ class _ViewdataState extends State<Viewdata> {
                         final indexNo = indexInputController.text;
                         final student = viewStudent.students.firstWhere(
                           (student) => student['indexNo'] == indexNo,
-                          orElse: () => Map<String, dynamic>(),
+                          orElse: () => {},
                         );
 
-                        // ignore: unnecessary_null_comparison
                         if (student.isNotEmpty) {
                           viewStudent.showStudentDialog(student, context);
                         } else {
@@ -80,8 +80,6 @@ class _ViewdataState extends State<Viewdata> {
     );
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,21 +103,21 @@ class _ViewdataState extends State<Viewdata> {
             ),
             const HeadingAnimation(heading: "Students data"),
             Expanded(
-              child: Consumer<Viewstudent>(
-                builder: (context, viewStudent, child) {
-                  if (viewStudent.students.isEmpty) {
+              child: BlocBuilder<ViewDataBloc, ViewDataState>(
+                builder: (context, state) {
+                  if (state is ViewDataLoading) {
                     return const Center(child: CircularProgressIndicator());
-                  } else {
-                    List<Map<String, dynamic>> students = viewStudent.students;
+                  } else if (state is ViewDataLoaded) {
                     return ListView.builder(
-                      itemCount: students.length,
+                      itemCount: state.students.length,
                       itemBuilder: (context, index) {
-                        var student = students[index];
+                        var student = state.students[index];
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: GestureDetector(
-                            onTap: () =>
-                                viewStudent.showStudentDialog(student, context),
+                            onTap: () => context
+                                .read<Viewstudent>()
+                                .showStudentDialog(student, context),
                             child: Container(
                               decoration: BoxDecoration(
                                 gradient: StyleConstants.cardBackGround,
@@ -177,6 +175,12 @@ class _ViewdataState extends State<Viewdata> {
                         );
                       },
                     );
+                  } else if (state is ViewDataError) {
+                    return const Center(
+                      child: Text("something"),
+                    );
+                  } else {
+                    return const SizedBox.shrink();
                   }
                 },
               ),

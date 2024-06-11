@@ -174,6 +174,8 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     const SizedBox(height: 10),
+
+                    //bloc
                     BlocBuilder(
                       bloc: counterBloc,
                       builder: (context, state) {
@@ -196,7 +198,8 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.all(8.0),
                           child: FloatingActionButton(
                               onPressed: () {
-                               counterBloc.add(IncrementEvent(value: _counter));
+                                counterBloc
+                                    .add(IncrementEvent(value: _counter));
                               },
                               child: const Icon(Icons.add)),
                         ),
@@ -207,12 +210,13 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.all(8.0),
                           child: FloatingActionButton(
                               onPressed: () {
-                                counterBloc.add(DecrementEvent(value: _counter));
+                                counterBloc
+                                    .add(DecrementEvent(value: _counter));
                               },
                               child: const Icon(Icons.minimize)),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),

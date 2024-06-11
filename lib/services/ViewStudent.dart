@@ -14,6 +14,7 @@ class Viewstudent with ChangeNotifier {
     getCollection();
   }
 
+  //function for get the all data from the firestore collection
   Future<void> getCollection() async {
     QuerySnapshot querySnapshot = await _firestore
         .collection('students')
