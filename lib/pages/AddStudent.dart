@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:competition_app/components/buttons/CancelButton.dart';
 import 'package:competition_app/components/buttons/SubmitButton.dart';
-import 'package:competition_app/dataRepo/AppConstants.dart';
+import 'package:competition_app/Constants/AppConstants.dart';
 import 'package:competition_app/components/inputs/DatePickerInput.dart';
 import 'package:competition_app/model/AddStudentModel.dart';
 import 'package:competition_app/services/AuthService.dart';
@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import '../components/buttons/AddPhotoButton.dart';
 import '../components/inputs/DropDownInput.dart';
 import '../components/inputs/Inputs.dart';
-import '../dataRepo/StyleConstants.dart';
+import '../Constants/StyleConstants.dart';
 
 class AddStudent extends StatefulWidget {
   const AddStudent({Key? key}) : super(key: key);

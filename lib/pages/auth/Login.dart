@@ -2,7 +2,7 @@ import 'package:competition_app/services/AuthService.dart';
 import 'package:flutter/material.dart';
 import '../../components/buttons/GoogleAuth.dart';
 import '../../components/common/HedingAnimation.dart';
-import '../../dataRepo/StyleConstants.dart';
+import '../../Constants/StyleConstants.dart';
 import '../../components/inputs/Inputs.dart';
 import '../HomePage.dart';
 

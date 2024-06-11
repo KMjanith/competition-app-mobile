@@ -5,7 +5,7 @@ import '../components/common/CustomDrawer.dart';
 import '../components/common/ErrorAlert.dart';
 import '../components/common/HedingAnimation.dart';
 import '../components/inputs/Inputs.dart';
-import '../dataRepo/StyleConstants.dart';
+import '../Constants/StyleConstants.dart';
 import '../services/ViewStudent.dart';
 
 class Viewdata extends StatefulWidget {

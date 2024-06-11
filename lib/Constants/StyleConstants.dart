@@ -8,8 +8,8 @@ class StyleConstants {
     gradient: LinearGradient(colors: [
       Color.fromARGB(255, 211, 217, 252),
       Color.fromARGB(255, 142, 200, 255),
-      Color.fromARGB(255, 130, 138, 255),
-      Color.fromARGB(255, 255, 143, 195)
+      Color.fromARGB(255, 149, 156, 255),
+      Color.fromARGB(255, 255, 179, 214)
     ], begin: Alignment.topLeft, end: Alignment.bottomCenter),
   );
 
