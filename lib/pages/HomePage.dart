@@ -2,8 +2,6 @@ import 'package:competition_app/pages/ViewData.dart';
 import 'package:competition_app/pages/auth/SignUp.dart';
 import 'package:competition_app/services/AuthService.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/counter/counter_bloc.dart';
 import '../components/common/HedingAnimation.dart';
 import '../components/common/HomeCard.dart';
 import '../Constants/StyleConstants.dart';
@@ -92,10 +90,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  int _counter = 0;
-  //MyBlock myBlock = MyBlock();
-  CounterBloc counterBloc = CounterBloc();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,13 +136,13 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         HomeCard(
                           buttonText: "Add new Student",
-                          color: const Color.fromARGB(255, 122, 191, 248),
+                          color: Color.fromARGB(255, 33, 0, 65),
                           onPressed: () => _checkUserAuthenticationAndNavigate(
                               const AddStudent()),
                         ),
                         HomeCard(
                           buttonText: "View Students",
-                          color: const Color.fromARGB(255, 253, 246, 181),
+                          color: Color.fromARGB(255, 33, 0, 65),
                           onPressed: () => _checkUserAuthenticationAndNavigate(
                               Viewdata()), // Replace with the actual target page for viewing students
                         ),
@@ -161,13 +155,13 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         HomeCard(
                           buttonText: "New Grading",
-                          color: const Color.fromARGB(255, 164, 241, 134),
+                          color: Color.fromARGB(255, 33, 0, 65),
                           onPressed: () => _checkUserAuthenticationAndNavigate(
-                              const NewGrading()), // Replace with the actual target page for grading
+                              NewGrading()), // Replace with the actual target page for grading
                         ),
                         HomeCard(
                           buttonText: "New Competition",
-                          color: const Color.fromARGB(255, 255, 103, 153),
+                          color: Color.fromARGB(255, 0, 0, 0),
                           onPressed: () => _checkUserAuthenticationAndNavigate(
                               const MakeCompetition()), // Replace with the actual target page for competition
                         ),
@@ -175,48 +169,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(height: 10),
 
-                    //bloc
-                    BlocBuilder(
-                      bloc: counterBloc,
-                      builder: (context, state) {
-                        if (state is IncrementState) {
-                          _counter = state.value;
-                          return Text('IncrementState: ${state.value}',
-                              style: const TextStyle(fontSize: 30));
-                        } else if (state is DecrementState) {
-                          _counter = state.value;
-                          return Text('DecrementState: ${state.value}',
-                              style: const TextStyle(fontSize: 30));
-                        }
-                        return const SizedBox.shrink();
-                      },
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: FloatingActionButton(
-                              onPressed: () {
-                                counterBloc
-                                    .add(IncrementEvent(value: _counter));
-                              },
-                              child: const Icon(Icons.add)),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: FloatingActionButton(
-                              onPressed: () {
-                                counterBloc
-                                    .add(DecrementEvent(value: _counter));
-                              },
-                              child: const Icon(Icons.minimize)),
-                        ),
-                      ],
-                    ),
+                   
                   ],
                 ),
               ),

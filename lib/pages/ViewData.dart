@@ -109,6 +109,7 @@ class _ViewdataState extends State<Viewdata> {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is ViewDataLoaded) {
                     return ListView.builder(
+                      padding: EdgeInsets.zero,
                       itemCount: state.students.length,
                       itemBuilder: (context, index) {
                         var student = state.students[index];

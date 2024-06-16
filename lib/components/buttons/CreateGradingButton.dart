@@ -1,0 +1,39 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class CreateGradingButon extends StatelessWidget {
+  final VoidCallback createGrading;
+  final String buttonTitle;
+  const CreateGradingButon({super.key, required this.createGrading, required this.buttonTitle});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Color.fromARGB(255, 154, 221, 247),
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromARGB(55, 0, 0, 0),
+                offset: Offset(1, 2),
+                blurRadius: 5,
+                spreadRadius: 1,
+              ),
+            ],
+          ),
+          width: 200,
+          height: 70,
+          child: Center(
+            child: TextButton(
+              child: Text(
+                "CREATE GRADING",
+                style: GoogleFonts.cairo(fontSize: 20, color: Colors.black),
+              ),
+              onPressed: createGrading,
+            ),
+          ),
+        ));
+  }
+}
