@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:competition_app/components/buttons/CancelButton.dart';
 import 'package:competition_app/components/buttons/SubmitButton.dart';
-import 'package:competition_app/dataRepo/AppConstants.dart';
+import 'package:competition_app/Constants/AppConstants.dart';
 import 'package:competition_app/components/inputs/DatePickerInput.dart';
 import 'package:competition_app/model/AddStudentModel.dart';
 import 'package:competition_app/services/AuthService.dart';
@@ -10,10 +10,12 @@ import 'package:competition_app/services/Validator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/cubit/db_cubit.dart';
 import '../components/buttons/AddPhotoButton.dart';
 import '../components/inputs/DropDownInput.dart';
 import '../components/inputs/Inputs.dart';
-import '../dataRepo/StyleConstants.dart';
+import '../Constants/StyleConstants.dart';
 
 class AddStudent extends StatefulWidget {
   const AddStudent({Key? key}) : super(key: key);
@@ -104,7 +106,7 @@ class _AddStudentState extends State<AddStudent> {
         context: context,
         builder: (context) {
           return GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.of(context).pop();
             },
             child: AlertDialog(
@@ -142,7 +144,7 @@ class _AddStudentState extends State<AddStudent> {
 
   //function to upload the file to the firebase storage
   Future<void> uploadFile() async {
-    var db = FirebaseFirestore.instance;
+    var db = BlocProvider.of<DbCubit>(context).firestore;
 
     if (pickFile == null) return;
 
@@ -311,7 +313,10 @@ class _AddStudentState extends State<AddStudent> {
               ),
               const SizedBox(height: 10),
               DatePickerInput(
-                  selectedDate: _selectDate, dateController: _dateController),
+                selectedDate: _selectDate,
+                dateController: _dateController,
+                lableName: "Date OF Birth",
+              ),
               InputField(
                   labelText: "Name of the guardian",
                   controller: guardianName,
@@ -348,7 +353,6 @@ class _AddStudentState extends State<AddStudent> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-
                   //submit button
                   SubmitButton(addStudent: addStudent),
 

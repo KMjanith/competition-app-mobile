@@ -14,7 +14,7 @@ class _DropDownInputState extends State<DropDownInput> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 28.0, left: 28.0, bottom: 8.0,top: 8.0),
+      padding: const EdgeInsets.only(right: 20.0, left: 20.0, bottom: 8.0,top: 8.0),
       child: DropdownButtonFormField<String>(
         decoration: const InputDecoration(
           border: OutlineInputBorder(
