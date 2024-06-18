@@ -7,6 +7,7 @@ import '../blocs/cubit/db_cubit.dart';
 import '../blocs/cubit/recentgradings_cubit.dart';
 import '../components/inputs/DatePickerInput.dart';
 import '../components/inputs/Inputs.dart';
+import '../model/GradingStudentDetals.dart';
 
 class Gradingservice {
   void createNewGradingPopUp(BuildContext context) {
@@ -105,13 +106,22 @@ class Gradingservice {
   //create a new document in grading collection
   void createNewGrading(String date, String place, BuildContext context) {
     final db = BlocProvider.of<DbCubit>(context).firestore;
+    final stating = BlocProvider.of<RecentgradingsCubit>(context).state;
     final newGrading = <String, dynamic>{
+      'id': (stating.length + 1),
       'date': date,
       'place': place,
+      'students': <Gradingstudentdetails>[], //this is to store the student in the grading
     };
-    final _newGrading = Grading(gradingTime: date, gradingPlace: place);
+
+    final _newGrading = Grading(
+        id: (stating.length + 1).toString(),
+        gradingTime: date,
+        gradingPlace: place,
+        gradingStudentDetails: [],
+        );
     BlocProvider.of<RecentgradingsCubit>(context)
-        .addGrading(_newGrading,context); //this is to update the UI
+        .addGrading(_newGrading, context); //this is to update the UI
 
     //database updation
     db.collection('Gradings').add(newGrading).then((DocumentReference doc) {

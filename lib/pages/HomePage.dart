@@ -2,12 +2,14 @@ import 'package:competition_app/pages/ViewData.dart';
 import 'package:competition_app/pages/auth/SignUp.dart';
 import 'package:competition_app/services/AuthService.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/cubit/recentgradings_cubit.dart';
 import '../components/common/HedingAnimation.dart';
 import '../components/common/HomeCard.dart';
 import '../Constants/StyleConstants.dart';
 import 'AddStudent.dart';
 import 'MakeCompetitons.dart';
-import 'NewGrading.dart';
+import 'grading/NewGrading.dart';
 import 'auth/Login.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,6 +39,7 @@ class _HomePageState extends State<HomePage> {
     if (!_auth.isUserLoggedIn()) {
       _showAuthDialog();
     } else {
+      BlocProvider.of<RecentgradingsCubit>(context).loadData(context);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => targetPage),
@@ -130,6 +133,14 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const HeadingAnimation(
                         heading: "Welcome to the Competition App"),
+                    //const Image(image: AssetImage('assets/images/homepageImage.png'), height: 350, width: 350,),
+                    const Image(
+                      image:
+                          AssetImage('assets/images/HomePageKarateImage.png'),
+                      height: 370,
+                      width: 370,
+                    ),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -168,8 +179,6 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     const SizedBox(height: 10),
-
-                   
                   ],
                 ),
               ),

@@ -6,16 +6,28 @@ class StyleConstants {
 
   static BoxDecoration pageBackground = const BoxDecoration(
     gradient: LinearGradient(colors: [
-      Color.fromARGB(255, 211, 217, 252),
-      Color.fromARGB(255, 142, 200, 255),
-      Color.fromARGB(255, 149, 156, 255),
-      Color.fromARGB(255, 255, 179, 214)
+      Color.fromARGB(255, 255, 255, 255),
+      Color.fromARGB(255, 164, 249, 255),
+      Color.fromARGB(255, 132, 210, 255),
+      Color.fromARGB(255, 117, 102, 255)
     ], begin: Alignment.topLeft, end: Alignment.bottomCenter),
   );
 
   static LinearGradient cardBackGround = const LinearGradient(
-    colors: [Color.fromARGB(255, 51, 172, 241), Color.fromARGB(255, 55, 66, 231), Color.fromARGB(255, 251, 39, 255)],
+    colors: [Color.fromARGB(255, 51, 172, 241), Color.fromARGB(255, 5, 19, 209), Color.fromARGB(255, 251, 39, 255)],
     stops: [0.1, 0.5, 1],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static LinearGradient cancelButtonColor = const LinearGradient(
+    colors: [Colors.red, Colors.blue],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static LinearGradient submitButtonColor = const LinearGradient(
+    colors: [Color.fromARGB(255, 185, 216, 12), Color.fromARGB(255, 1, 95, 4)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );

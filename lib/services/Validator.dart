@@ -1,7 +1,7 @@
 import 'package:competition_app/model/AddStudentModel.dart';
+import 'package:competition_app/model/GradingStudentDetals.dart';
 
-class Validator{
-
+class Validator {
   static dynamic StudentValidator(Addstudentmodel student) {
     if (student.firstName.isEmpty) {
       return "First Name is empty";
@@ -23,6 +23,18 @@ class Validator{
       return "Home Address is empty";
     } else if (student.mobileNumber.isEmpty) {
       return "Mobile Number is empty";
+    } else {
+      return true;
+    }
+  }
+
+  static dynamic gradingStudentValidator(Gradingstudentdetails student) {
+    if (student.sNo.isEmpty) {
+      return "Please enter S.No";
+    } else if (student.currentKyu.isEmpty) {
+      return "Please enter Current kyu";
+    } else if (student.FullName.isEmpty) {
+      return "Please Enter Full Name";
     } else {
       return true;
     }

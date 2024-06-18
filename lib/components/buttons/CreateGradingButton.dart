@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 class CreateGradingButon extends StatelessWidget {
   final VoidCallback createGrading;
   final String buttonTitle;
-  const CreateGradingButon({super.key, required this.createGrading, required this.buttonTitle});
+  const CreateGradingButon(
+      {super.key, required this.createGrading, required this.buttonTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +24,15 @@ class CreateGradingButon extends StatelessWidget {
               ),
             ],
           ),
-          width: 200,
+          width: 160,
           height: 70,
           child: Center(
             child: TextButton(
-              child: Text(
-                "CREATE GRADING",
-                style: GoogleFonts.cairo(fontSize: 20, color: Colors.black),
-              ),
               onPressed: createGrading,
+              child: Text(
+                buttonTitle,
+                style: GoogleFonts.cairo(fontSize: 18, color: Colors.black),
+              ),
             ),
           ),
         ));
