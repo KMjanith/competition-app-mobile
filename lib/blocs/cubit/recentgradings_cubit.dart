@@ -13,18 +13,25 @@ class RecentgradingsCubit extends Cubit<List<Grading>> {
   RecentgradingsCubit() : super([]);
 
   void loadData(BuildContext context) async {
-  var db = BlocProvider.of<DbCubit>(context).firestore;
+    var db = BlocProvider.of<DbCubit>(context).firestore;
 
-  QuerySnapshot querySnapshot = await db.collection('Gradings').get();
-  print("data ${querySnapshot.docs[0]['date']}");
-  for (var doc in querySnapshot.docs) {
-    var grading = Grading(
-      gradingPlace: doc['place'],
-      gradingTime:(doc['date']), // Parse the String to DateTime
-    );
-    emit([...state, grading]);
+    QuerySnapshot querySnapshot = await db.collection('Gradings').get();
+    print("data ${querySnapshot.docs[0]['date']}");
+    if (state.isNotEmpty) {
+      emit([...state]);
+    } else {
+      for (var doc in querySnapshot.docs) {
+        var grading = Grading(
+          id: doc.id,
+          gradingPlace: doc['place'],
+          gradingTime: (doc['date']),
+          gradingStudentDetails: [], // Parse the String to DateTime
+        );
+
+        emit([...state, grading]);
+      }
+    }
   }
-}
 
   void addGrading(Grading grading, BuildContext context) {
     emit([...state, grading]);

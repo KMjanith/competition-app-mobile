@@ -81,7 +81,7 @@ class HomeCard extends StatelessWidget {
               onPressed: onPressed,
               child: Text(
                 buttonText,
-                style: GoogleFonts.aDLaMDisplay(color: color, fontSize: 20),
+                style: GoogleFonts.roboto(color: color, fontSize: 20),
                 textAlign: TextAlign.center,
               ),
             ),

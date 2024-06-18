@@ -101,7 +101,7 @@ class _ViewdataState extends State<Viewdata> {
                 ),
               ],
             ),
-            const HeadingAnimation(heading: "Students data"),
+            const HeadingAnimation(heading: "Student data"),
             Expanded(
               child: BlocBuilder<ViewDataBloc, ViewDataState>(
                 builder: (context, state) {
