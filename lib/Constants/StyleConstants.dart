@@ -9,7 +9,7 @@ class StyleConstants {
       Color.fromARGB(255, 255, 255, 255),
       Color.fromARGB(255, 164, 249, 255),
       Color.fromARGB(255, 132, 210, 255),
-      Color.fromARGB(255, 117, 102, 255)
+      Color.fromARGB(255, 142, 211, 252)
     ], begin: Alignment.topLeft, end: Alignment.bottomCenter),
   );
 

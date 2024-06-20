@@ -28,6 +28,8 @@ class _NewGradingState extends State<NewGrading> {
     });
   }
 
+ 
+
   @override
   Widget build(BuildContext context) {
     final gradingService = Gradingservice();
@@ -91,6 +93,8 @@ class _NewGradingState extends State<NewGrading> {
                             var gradingDate =
                                 DateTime.parse(state[index].gradingTime);
                             if (gradingDate.isAfter(today)) {
+                              //loading exiting student list to the BlocProvider
+                              BlocProvider.of<UpdateGradingStudentsCubit>( context).addInitialStudent(state[index].gradingStudentDetails);
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
@@ -100,11 +104,6 @@ class _NewGradingState extends State<NewGrading> {
                                   height: 75,
                                   child: ListTile(
                                     onTap: () {
-                                      print(state);
-
-                                      //loading exiting student list to the BlocProvider
-                                      BlocProvider.of<UpdateGradingStudentsCubit>(context).addInitialStudent(state[index].gradingStudentDetails);
-
                                       //navigate to the grading details page
                                       Navigator.of(context).push(
                                           MaterialPageRoute(

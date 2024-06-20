@@ -12,7 +12,7 @@ class UpdateGradingStudentsCubit extends Cubit<List<Gradingstudentdetails>> {
     emit(student);
   }
 
-  void addStudents(Gradingstudentdetails grading, BuildContext context) {
-    emit([...state, grading]);
+  void addStudents(Gradingstudentdetails studentDetails, BuildContext context) {
+    emit([...state, studentDetails]);
   }
 }
