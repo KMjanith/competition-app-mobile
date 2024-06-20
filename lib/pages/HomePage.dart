@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                     //const Image(image: AssetImage('assets/images/homepageImage.png'), height: 350, width: 350,),
                     const Image(
                       image:
-                          AssetImage('assets/images/HomePageKarateImage.png'),
+                          AssetImage('assets/images/HomePageKarate.png'),
                       height: 370,
                       width: 370,
                     ),

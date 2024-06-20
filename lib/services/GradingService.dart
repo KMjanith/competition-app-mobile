@@ -2,12 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:competition_app/model/Grading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../blocs/cubit/db_cubit.dart';
 import '../blocs/cubit/recentgradings_cubit.dart';
+import '../blocs/cubit/update_grading_students_cubit.dart';
 import '../components/inputs/DatePickerInput.dart';
 import '../components/inputs/Inputs.dart';
 import '../model/GradingStudentDetals.dart';
+import 'Validator.dart';
 
 class Gradingservice {
   void createNewGradingPopUp(BuildContext context) {
@@ -111,15 +114,16 @@ class Gradingservice {
       'id': (stating.length + 1),
       'date': date,
       'place': place,
-      'students': <Gradingstudentdetails>[], //this is to store the student in the grading
+      'students':
+          <Gradingstudentdetails>[], //this is to store the student in the grading
     };
 
     final _newGrading = Grading(
-        id: (stating.length + 1).toString(),
-        gradingTime: date,
-        gradingPlace: place,
-        gradingStudentDetails: [],
-        );
+      id: (stating.length + 1).toString(),
+      gradingTime: date,
+      gradingPlace: place,
+      gradingStudentDetails: [],
+    );
     BlocProvider.of<RecentgradingsCubit>(context)
         .addGrading(_newGrading, context); //this is to update the UI
 
@@ -164,5 +168,66 @@ class Gradingservice {
         },
       );
     });
+  }
+
+  void addStudent(
+      BuildContext context,
+      String sNoController,
+      String studentNameController,
+      String currentKyuCOntroller,
+      Grading grading) {
+    final student = Gradingstudentdetails(
+        sNo: sNoController,
+        FullName: studentNameController,
+        currentKyu: currentKyuCOntroller);
+
+    //form validator
+    final allset = Validator.gradingStudentValidator(student);
+
+    if (allset == true) {
+      //updating the ui
+      BlocProvider.of<UpdateGradingStudentsCubit>(context)
+          .addStudents(student, context);
+      addStudentsToGradings(grading.id, ['$sNoController, $studentNameController, $currentKyuCOntroller'], context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: const Color.fromARGB(255, 165, 5, 2),
+          content: Text(
+            allset,
+            style: GoogleFonts.alegreya(fontSize: 20),
+          ),
+        ),
+      );
+    }
+  }
+
+  //add students to students array in perticular doc
+  Future<void> addStudentsToGradings(String docId,
+      List<String> newStudent, BuildContext context) async {
+    // Reference to the specific document in the "gradins" collection
+    DocumentReference gradinsDocRef =
+        FirebaseFirestore.instance.collection('Gradings').doc(docId);
+
+    try {
+      // Update the document by adding new students to the array field
+      await gradinsDocRef
+          .update({'students': FieldValue.arrayUnion(newStudent)});
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Color.fromARGB(255, 8, 95, 0),
+        content: Text(
+          "Students added successfully!",
+          style: GoogleFonts.alegreya(fontSize: 20),
+        ),
+      ));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Color.fromARGB(255, 189, 2, 2),
+        content: Text(
+          "Error adding students: $e",
+          style: GoogleFonts.alegreya(fontSize: 20),
+        ),
+      ));
+    }
   }
 }
