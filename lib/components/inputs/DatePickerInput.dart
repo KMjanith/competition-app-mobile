@@ -5,18 +5,34 @@ class DatePickerInput extends StatelessWidget {
   final TextEditingController dateController;
   final String lableName;
   const DatePickerInput(
-      {super.key, required this.selectedDate, required this.dateController, required this.lableName});
+      {super.key,
+      required this.selectedDate,
+      required this.dateController,
+      required this.lableName});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-          top: 8.0, bottom: BorderSide.strokeAlignCenter, left: 20, right: 20),
+      padding:
+          const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 20, right: 20),
       child: TextField(
         controller: dateController, // Use controller to display selected date
-        decoration:  InputDecoration(
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+        decoration: InputDecoration(
+          fillColor: Colors.white,
+          filled: true,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide.none, // No border side color
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide:
+                const BorderSide(color: Colors.transparent), // Transparent border
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide:
+                const BorderSide(color: Colors.transparent), // Transparent border
           ),
           prefixIcon: const Icon(Icons.calendar_today,
               color: Color.fromARGB(255, 150, 150, 150)),

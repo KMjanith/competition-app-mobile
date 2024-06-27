@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:competition_app/Constants/PaymentStatus.dart';
 import 'package:competition_app/model/Grading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -178,8 +179,12 @@ class Gradingservice {
       Grading grading) {
     final student = Gradingstudentdetails(
         sNo: sNoController,
-        FullName: studentNameController,
-        currentKyu: currentKyuCOntroller);
+        fullName: studentNameController,
+        currentKyu: currentKyuCOntroller,
+        paymentStatus: PaymentStatus.pending,
+        gradingFees: '',
+        paidDate: '',
+        paymentDescription: '');
 
     //form validator
     final allset = Validator.gradingStudentValidator(student);
@@ -188,7 +193,16 @@ class Gradingservice {
       //updating the ui
       BlocProvider.of<UpdateGradingStudentsCubit>(context)
           .addStudents(student, context);
-      addStudentsToGradings(grading.id, ['$sNoController, $studentNameController, $currentKyuCOntroller'], context);
+      BlocProvider.of<RecentgradingsCubit>(context).addStudentsToExistingGrading(
+          '$sNoController, $studentNameController, $currentKyuCOntroller, ${student.paymentStatus}',
+          context,
+          grading);
+      addStudentsToGradings(
+          grading.id,
+          [
+            '$sNoController, $studentNameController, $currentKyuCOntroller, ${student.paymentStatus}'
+          ],
+          context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -203,8 +217,8 @@ class Gradingservice {
   }
 
   //add students to students array in perticular doc
-  Future<void> addStudentsToGradings(String docId,
-      List<String> newStudent, BuildContext context) async {
+  Future<void> addStudentsToGradings(
+      String docId, List<String> newStudent, BuildContext context) async {
     // Reference to the specific document in the "gradins" collection
     DocumentReference gradinsDocRef =
         FirebaseFirestore.instance.collection('Gradings').doc(docId);
@@ -229,5 +243,42 @@ class Gradingservice {
         ),
       ));
     }
+  }
+
+  Future<void> updatePaymentStatus(String gradingId,
+      List<Gradingstudentdetails> newDetails, BuildContext context) async {
+    final List<String> studentDetails = getStudentDetails(newDetails);
+
+    final db = BlocProvider.of<DbCubit>(context).firestore;
+    DocumentReference gradingDocRef = db.collection('Gradings').doc(gradingId);
+
+    try {
+      await gradingDocRef.update({'students': studentDetails});
+      
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Color.fromARGB(255, 0, 124, 0),
+        content: Text(
+          "Successfully updated payment status:",
+          style: GoogleFonts.alegreya(fontSize: 20),
+        ),
+      ));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Color.fromARGB(255, 189, 2, 2),
+        content: Text(
+          "Error updating payment status: $e",
+          style: GoogleFonts.alegreya(fontSize: 20),
+        ),
+      ));
+    }
+  }
+
+  List<String> getStudentDetails(List<Gradingstudentdetails> students) {
+    final List<String> studentDetails = [];
+    for (var student in students) {
+      studentDetails.add(
+          '${student.sNo}, ${student.fullName}, ${student.currentKyu}, ${student.paymentStatus}, ${student.gradingFees}, ${student.paidDate}');
+    }
+    return studentDetails;
   }
 }
