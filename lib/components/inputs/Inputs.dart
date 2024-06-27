@@ -15,21 +15,36 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top:8.0,bottom: 0.8, left: 20, right: 20),
+      padding:
+          const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 20, right: 20),
       child: TextFormField(
         keyboardType: keyboardType,
         decoration: InputDecoration(
-          hoverColor: Colors.red,
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide.none, // No border side color
           ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide:
+                BorderSide(color: Colors.transparent), // Transparent border
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide:
+                BorderSide(color: Colors.transparent), // Transparent border
+          ),
+          filled: true,
+          fillColor: Colors.white,
           labelText: labelText,
           labelStyle: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
           hintText: "Enter $labelText",
-          hintStyle: const TextStyle(color: Color.fromARGB(179, 0, 0, 0)), // Hint text style
+          hintStyle: const TextStyle(
+              color: Color.fromARGB(179, 0, 0, 0)), // Hint text style
         ),
         controller: controller,
-        style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)), // Text input style
+        style: const TextStyle(
+            color: Color.fromARGB(255, 0, 0, 0)), // Text input style
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:competition_app/pages/ViewData.dart';
 import 'package:competition_app/pages/auth/SignUp.dart';
 import 'package:competition_app/services/AuthService.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/cubit/recentgradings_cubit.dart';
 import '../components/common/HedingAnimation.dart';
@@ -96,95 +97,98 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: StyleConstants.pageBackground,
-        child: Stack(
-          children: [
-            Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 30, right: 20, bottom: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.menu,
-                                color: Color.fromARGB(255, 0, 0, 0)),
-                          ),
-                          if (_isLoggedIn)
-                            TextButton(
-                              onPressed: _signOut,
-                              child: const Text(
-                                'Sign Out',
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontSize: 18),
-                              ),
-                            )
-                          else
-                            const SizedBox.shrink(),
-                        ],
+      body: Stack(
+        children: [
+          StyleConstants.upperBackgroundContainer,
+          StyleConstants.lowerBackgroundContainer,
+          Center(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 50),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 30, right: 20, bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.menu,
+                              color: Color.fromARGB(255, 255, 255, 255)),
+                        ),
+                        if (_isLoggedIn)
+                          TextButton(
+                            onPressed: _signOut,
+                            child: const Text(
+                              'Sign Out',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  fontSize: 18),
+                            ),
+                          )
+                        else
+                          const SizedBox.shrink(),
+                      ],
+                    ),
+                  ),
+                  const HeadingAnimation(
+                      heading: "Welcome to your Sport Manager"),
+                  const Image(
+                    image: AssetImage('assets/images/homepageImage.png'),
+                    height: 350,
+                    width: 350,
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      HomeCard(
+                        buttonText: "Add new Student",
+                        color: Color.fromARGB(255, 33, 0, 65),
+                        onPressed: () => _checkUserAuthenticationAndNavigate(
+                            const AddStudent()),
+                        description: "Add a new student to the database",
                       ),
-                    ),
-                    const HeadingAnimation(
-                        heading: "Welcome to the Competition App"),
-                    //const Image(image: AssetImage('assets/images/homepageImage.png'), height: 350, width: 350,),
-                    const Image(
-                      image:
-                          AssetImage('assets/images/HomePageKarate.png'),
-                      height: 370,
-                      width: 370,
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        HomeCard(
-                          buttonText: "Add new Student",
-                          color: Color.fromARGB(255, 33, 0, 65),
-                          onPressed: () => _checkUserAuthenticationAndNavigate(
-                              const AddStudent()),
-                        ),
-                        HomeCard(
-                          buttonText: "View Students",
-                          color: Color.fromARGB(255, 33, 0, 65),
-                          onPressed: () => _checkUserAuthenticationAndNavigate(
-                              Viewdata()), // Replace with the actual target page for viewing students
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        HomeCard(
-                          buttonText: "New Grading",
-                          color: Color.fromARGB(255, 33, 0, 65),
-                          onPressed: () => _checkUserAuthenticationAndNavigate(
-                              NewGrading()), // Replace with the actual target page for grading
-                        ),
-                        HomeCard(
-                          buttonText: "New Competition",
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          onPressed: () => _checkUserAuthenticationAndNavigate(
-                              const MakeCompetition()), // Replace with the actual target page for competition
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
+                      HomeCard(
+                        buttonText: "View Students",
+                        color: Color.fromARGB(255, 33, 0, 65),
+                        onPressed: () => _checkUserAuthenticationAndNavigate(
+                            Viewdata()), // Replace with the actual target page for viewing students
+                        description: "View all students in the database",
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      HomeCard(
+                        buttonText: "New Grading",
+                        color: Color.fromARGB(255, 33, 0, 65),
+                        onPressed: () => _checkUserAuthenticationAndNavigate(
+                            NewGrading()), // Replace with the actual target page for grading
+                        description:
+                            "Create a new grading and add new students to it",
+                      ),
+                      HomeCard(
+                        buttonText: "New Competition",
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        onPressed: () => _checkUserAuthenticationAndNavigate(
+                            const MakeCompetition()), // Replace with the actual target page for competition
+                        description:
+                            "Create a new competition, drawings and lot more",
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

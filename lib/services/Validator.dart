@@ -1,3 +1,4 @@
+import 'package:competition_app/Constants/PaymentStatus.dart';
 import 'package:competition_app/model/AddStudentModel.dart';
 import 'package:competition_app/model/GradingStudentDetals.dart';
 
@@ -33,8 +34,24 @@ class Validator {
       return "Please enter S.No";
     } else if (student.currentKyu.isEmpty) {
       return "Please enter Current kyu";
-    } else if (student.FullName.isEmpty) {
+    } else if (student.fullName.isEmpty) {
       return "Please Enter Full Name";
+    } else {
+      return true;
+    }
+  }
+
+  static dynamic gradingStudentPaymentDetailsValidator(
+      Gradingstudentdetails student) {
+    if (student.paymentStatus == PaymentStatus.pending && student.gradingFees.isEmpty && student.paidDate.isEmpty) {
+      return true;
+    }
+    else if (student.gradingFees.isEmpty) {
+      return "Please enter Grading Fees";
+    } else if (student.paidDate.isEmpty) {
+      return "Please enter Paid Date";
+    } else if (student.paymentStatus.isEmpty) {
+      return "Please enter Payment Description";
     } else {
       return true;
     }

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:competition_app/components/buttons/CancelButton.dart';
 import 'package:competition_app/components/buttons/SubmitButton.dart';
 import 'package:competition_app/Constants/AppConstants.dart';
+import 'package:competition_app/components/common/HedingAnimation.dart';
 import 'package:competition_app/components/inputs/DatePickerInput.dart';
 import 'package:competition_app/model/AddStudentModel.dart';
 import 'package:competition_app/services/AuthService.dart';
@@ -256,114 +257,132 @@ class _AddStudentState extends State<AddStudent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: StyleConstants.pageBackground,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 70),
-              const Text(
-                "Application Form",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 0, 57, 71),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                      child: InputField(
-                          labelText: "First Name",
-                          controller: firstName,
-                          keyboardType: TextInputType.text)),
-                  Expanded(
-                      child: InputField(
-                          labelText: "Last Name",
-                          controller: lastName,
-                          keyboardType: TextInputType.text)),
-                ],
-              ),
-              InputField(
-                  labelText: "Name with Initials",
-                  controller: nameWithInitials,
-                  keyboardType: TextInputType.text),
-              InputField(
-                  labelText: "Index no:",
-                  controller: indexNo,
-                  keyboardType: TextInputType.number),
-              DropDownInput(
-                itemList: AppConstants.grade,
-                onChanged: (value) {
-                  setState(() {
-                    selectedGrade = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                "Fill by the parent or guardian",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 0, 57, 71),
-                ),
-              ),
-              const SizedBox(height: 10),
-              DatePickerInput(
-                selectedDate: _selectDate,
-                dateController: _dateController,
-                lableName: "Date OF Birth",
-              ),
-              InputField(
-                  labelText: "Name of the guardian",
-                  controller: guardianName,
-                  keyboardType: TextInputType.text),
-              InputField(
-                  labelText: "Entered Year",
-                  controller: enteredYear,
-                  keyboardType: TextInputType.number),
-              InputField(
-                  labelText: "Home Address",
-                  controller: homeAddress,
-                  keyboardType: TextInputType.text),
-              InputField(
-                  labelText: "Mobile or Tel number",
-                  controller: mobileNumber,
-                  keyboardType: TextInputType.phone),
-
-              //to display the selected image
-              Column(children: [
-                if (pickFile != null)
-                  Container(
-                    color: Colors.blue,
-                    child: Image.file(
-                      File(pickFile!.path!),
-                      width: double.infinity,
-                      fit: BoxFit.cover,
+      body: Stack(
+        children: [
+          StyleConstants.upperBackgroundContainer,
+          StyleConstants.lowerBackgroundContainer,
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 70),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Builder(
+                      builder: (context) => IconButton(
+                        onPressed: () => Scaffold.of(context).openDrawer(),
+                        icon: const Icon(Icons.menu,
+                            color: Color.fromARGB(255, 0, 0, 0)),
+                      ),
                     ),
-                  )
-              ]),
+                  ],
+                ),
+                const HeadingAnimation(heading: "Add New Student"),
+                const Text(
+                  "Application Form",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 187, 227, 236),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                        child: InputField(
+                            labelText: "First Name",
+                            controller: firstName,
+                            keyboardType: TextInputType.text)),
+                    Expanded(
+                        child: InputField(
+                            labelText: "Last Name",
+                            controller: lastName,
+                            keyboardType: TextInputType.text)),
+                  ],
+                ),
+                InputField(
+                    labelText: "Name with Initials",
+                    controller: nameWithInitials,
+                    keyboardType: TextInputType.text),
+                InputField(
+                    labelText: "Index no:",
+                    controller: indexNo,
+                    keyboardType: TextInputType.number),
+                DropDownInput(
+                  itemList: AppConstants.grade,
+                  title: "Grade",
+                  onChanged: (value) {
+                    setState(() {
+                      selectedGrade = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  "Fill by the parent or guardian",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 3, 54, 68),
+                  ),
+                ),
 
-              //add photo button
-              AddPhotoButton(selectFile: selectFile),
+                const SizedBox(height: 10),
+                DatePickerInput(
+                  selectedDate: _selectDate,
+                  dateController: _dateController,
+                  lableName: "Date OF Birth",
+                ),
+                InputField(
+                    labelText: "Name of the guardian",
+                    controller: guardianName,
+                    keyboardType: TextInputType.text),
+                InputField(
+                    labelText: "Entered Year",
+                    controller: enteredYear,
+                    keyboardType: TextInputType.number),
+                InputField(
+                    labelText: "Home Address",
+                    controller: homeAddress,
+                    keyboardType: TextInputType.text),
+                InputField(
+                    labelText: "Mobile or Tel number",
+                    controller: mobileNumber,
+                    keyboardType: TextInputType.phone),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //submit button
-                  SubmitButton(addStudent: addStudent),
+                //to display the selected image
+                Column(children: [
+                  if (pickFile != null)
+                    Container(
+                      color: Colors.blue,
+                      child: Image.file(
+                        File(pickFile!.path!),
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                ]),
 
-                  //Cancel Button
-                  const CancelButton()
-                ],
-              ),
-              buildProgress(),
-            ],
+                //add photo button
+                AddPhotoButton(selectFile: selectFile),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    //submit button
+                    SubmitButton(addStudent: addStudent),
+
+                    //Cancel Button
+                    const CancelButton()
+                  ],
+                ),
+                buildProgress(),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

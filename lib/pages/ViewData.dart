@@ -84,9 +84,10 @@ class _ViewdataState extends State<Viewdata> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: _returnDrawer(context),
-      body: Container(
-        decoration: StyleConstants.pageBackground,
-        child: Column(
+      body: Stack(children: [
+        StyleConstants.upperBackgroundContainer,
+        StyleConstants.lowerBackgroundContainer,
+        Column(
           children: [
             const SizedBox(height: 50),
             Row(
@@ -155,8 +156,8 @@ class _ViewdataState extends State<Viewdata> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: ClipOval(
                                       child: Container(
-                                        height: 100,
-                                        width: 100,
+                                        height: 75,
+                                        width: 75,
                                         color: Colors.black,
                                         child: student['photoUrl'] != null &&
                                                 student['photoUrl'].isNotEmpty
@@ -188,7 +189,7 @@ class _ViewdataState extends State<Viewdata> {
             ),
           ],
         ),
-      ),
+      ]),
     );
   }
 }

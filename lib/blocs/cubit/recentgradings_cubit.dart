@@ -18,22 +18,36 @@ class RecentgradingsCubit extends Cubit<List<Grading>> {
 
     QuerySnapshot querySnapshot = await db.collection('Gradings').get();
     if (state.isNotEmpty) {
-      print("non empty state");
       emit([...state]);
     } else {
-      print("empty state");
       for (var doc in querySnapshot.docs) {
         List<dynamic> stringStudent = doc['students'];
         List<Gradingstudentdetails> gradingStudentDetails = [];
         for (var i = 0; i < stringStudent.length; i++) {
           var studentString = stringStudent[i];
           var student = studentString.split(',');
-          var studentDetails = Gradingstudentdetails(
-            sNo: student[0],
-            FullName: student[1],
-            currentKyu: student[2],
-          );
+          if (student.length < 7) {
+            var studentDetails = Gradingstudentdetails(
+                sNo: student[0],
+                fullName: student[1],
+                currentKyu: student[2],
+                paymentStatus: student[3],
+                gradingFees: '',
+                paidDate: '',
+                paymentDescription: '');
+            gradingStudentDetails.add(studentDetails);
+          } else {
+            var studentDetails = Gradingstudentdetails(
+              sNo: student[0],
+              fullName: student[1],
+              currentKyu: student[2],
+              paymentStatus: student[3],
+              gradingFees: student[4],
+              paidDate: student[5],
+              paymentDescription: student[6]);
           gradingStudentDetails.add(studentDetails);
+          }
+          
         }
         var grading = Grading(
           id: doc.id,
@@ -59,9 +73,13 @@ class RecentgradingsCubit extends Cubit<List<Grading>> {
       String studentDetails, BuildContext context, Grading grading) {
     grading.gradingStudentDetails.add(Gradingstudentdetails(
       sNo: studentDetails.split(',')[0],
-      FullName: studentDetails.split(',')[1],
+      fullName: studentDetails.split(',')[1],
       currentKyu: studentDetails.split(',')[2],
+      paymentStatus: studentDetails.split(',')[3],
+      gradingFees: studentDetails.split(',')[4],
+      paidDate: studentDetails.split(',')[5],
+      paymentDescription: studentDetails.split(',')[6],
     ));
-    emit([grading]);
+    emit([...state]);
   }
 }
