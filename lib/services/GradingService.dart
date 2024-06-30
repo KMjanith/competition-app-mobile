@@ -1,17 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:competition_app/Constants/PaymentStatus.dart';
 import 'package:competition_app/model/Grading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../blocs/cubit/db_cubit.dart';
 import '../blocs/cubit/recentgradings_cubit.dart';
 import '../blocs/cubit/update_grading_students_cubit.dart';
 import '../components/inputs/DatePickerInput.dart';
 import '../components/inputs/Inputs.dart';
 import '../model/GradingStudentDetals.dart';
-import 'Validator.dart';
 
 class Gradingservice {
   void createNewGradingPopUp(BuildContext context) {
@@ -79,7 +76,7 @@ class Gradingservice {
               ],
             ),
           ],
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          backgroundColor: Color.fromARGB(232, 232, 233, 233),
           title: const Text("Create New Grading"),
           content: Container(
             width: double.infinity,
@@ -172,48 +169,20 @@ class Gradingservice {
   }
 
   void addStudent(
-      BuildContext context,
-      String sNoController,
-      String studentNameController,
-      String currentKyuCOntroller,
-      Grading grading) {
-    final student = Gradingstudentdetails(
-        sNo: sNoController,
-        fullName: studentNameController,
-        currentKyu: currentKyuCOntroller,
-        paymentStatus: PaymentStatus.pending,
-        gradingFees: '',
-        paidDate: '',
-        paymentDescription: '');
+      Gradingstudentdetails student, BuildContext context, Grading grading) {
+    String studentDetails =
+        '${student.sNo}, ${student.fullName}, ${student.currentKyu}, ${student.paymentStatus}, ${student.gradingFees}, ${student.paidDate}';
+    BlocProvider.of<UpdateGradingStudentsCubit>(context)
+        .addStudents(student, context);
+    BlocProvider.of<RecentgradingsCubit>(context)
+        .addStudentsToExistingGrading(studentDetails, context, grading);
 
-    //form validator
-    final allset = Validator.gradingStudentValidator(student);
-
-    if (allset == true) {
-      //updating the ui
-      BlocProvider.of<UpdateGradingStudentsCubit>(context)
-          .addStudents(student, context);
-      BlocProvider.of<RecentgradingsCubit>(context).addStudentsToExistingGrading(
-          '$sNoController, $studentNameController, $currentKyuCOntroller, ${student.paymentStatus}',
-          context,
-          grading);
-      addStudentsToGradings(
-          grading.id,
-          [
-            '$sNoController, $studentNameController, $currentKyuCOntroller, ${student.paymentStatus}'
-          ],
-          context);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: const Color.fromARGB(255, 165, 5, 2),
-          content: Text(
-            allset,
-            style: GoogleFonts.alegreya(fontSize: 20),
-          ),
-        ),
-      );
-    }
+    addStudentsToGradings(
+        grading.id,
+        [
+          studentDetails,
+        ],
+        context);
   }
 
   //add students to students array in perticular doc
@@ -254,7 +223,7 @@ class Gradingservice {
 
     try {
       await gradingDocRef.update({'students': studentDetails});
-      
+
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Color.fromARGB(255, 0, 124, 0),
         content: Text(

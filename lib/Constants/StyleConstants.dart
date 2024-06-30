@@ -39,10 +39,10 @@ class StyleConstants {
 
   static LinearGradient cardBackGround = const LinearGradient(
     colors: [
-      Color.fromARGB(255, 252, 248, 191),
-      Color.fromARGB(255, 245, 238, 139),
-      Color.fromARGB(255, 161, 151, 60),
-      Color.fromARGB(255, 197, 185, 12)
+      Color.fromARGB(255, 244, 232, 248),
+      Color.fromARGB(255, 231, 190, 250),
+      Color.fromARGB(255, 181, 222, 247),
+      Color.fromARGB(255, 113, 193, 243)
     ],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,

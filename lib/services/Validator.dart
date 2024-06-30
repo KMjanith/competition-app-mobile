@@ -43,10 +43,11 @@ class Validator {
 
   static dynamic gradingStudentPaymentDetailsValidator(
       Gradingstudentdetails student) {
-    if (student.paymentStatus == PaymentStatus.pending && student.gradingFees.isEmpty && student.paidDate.isEmpty) {
+    if (student.paymentStatus == PaymentStatus.pending &&
+        student.gradingFees.isEmpty &&
+        student.paidDate.isEmpty) {
       return true;
-    }
-    else if (student.gradingFees.isEmpty) {
+    } else if (student.gradingFees.isEmpty) {
       return "Please enter Grading Fees";
     } else if (student.paidDate.isEmpty) {
       return "Please enter Paid Date";

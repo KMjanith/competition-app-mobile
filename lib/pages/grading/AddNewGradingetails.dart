@@ -4,11 +4,14 @@ import 'package:competition_app/pages/grading/GradingPayments.dart';
 import 'package:competition_app/services/GradingService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../Constants/StyleConstants.dart';
 import '../../blocs/cubit/update_grading_students_cubit.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/inputs/Inputs.dart';
 import '../../model/Grading.dart';
+import '../../services/Validator.dart';
 
 class Addnewgradingetails extends StatefulWidget {
   final Grading grading;
@@ -31,6 +34,10 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
     studentNameController = TextEditingController();
     sNoController = TextEditingController();
     currentKyuController = TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<UpdateGradingStudentsCubit>(context)
+          .addInitialStudent(widget.grading.gradingStudentDetails);
+    });
   }
 
   @override
@@ -65,31 +72,14 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
                   ],
                 ),
                 const HeadingAnimation(heading: "Add Grading Details"),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  width: 350,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 10),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Place is:  ${widget.grading.gradingPlace}',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Text(
-                            'Date is:  ${widget.grading.gradingTime.toString()}')
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
+
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const Padding(
                       padding: EdgeInsets.only(left: 23),
                       child: Center(
@@ -136,20 +126,10 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
                                     const BorderRadius.all(Radius.circular(16)),
                               ),
                               width: 300,
-                              height: 60,
+                              height: 50,
                               child: TextButton(
                                 onPressed: () {
-                                  final gradingService = Gradingservice();
-                                  gradingService.addStudent(
-                                    context,
-                                    sNoController.text,
-                                    studentNameController.text,
-                                    currentKyuController.text,
-                                    widget.grading,
-                                  );
-                                  studentNameController.clear();
-                                  sNoController.clear();
-                                  currentKyuController.clear();
+                                  addTheNewStudent();
                                 },
                                 child: const Text(
                                   "Add Student",
@@ -170,7 +150,7 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
                                   const BorderRadius.all(Radius.circular(16)),
                             ),
                             width: 100,
-                            height: 60,
+                            height: 50,
                             child: TextButton(
                               onPressed: () {
                                 studentNameController.clear();
@@ -186,9 +166,18 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                   ],
                 ),
+                const SizedBox(
+                  height: 30,
+                ),
+                const Text("Current Registered Students",
+                    style: TextStyle(
+                        fontSize: 20, color: Color.fromARGB(255, 20, 20, 20))),
                 // UI part to display the students
                 SizedBox(
                   child: Padding(
@@ -208,7 +197,6 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
                               bool colorBool =
                                   state[index].paymentStatus.trim() ==
                                       PaymentStatus.pending;
-
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
@@ -227,37 +215,68 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
                                     ],
                                   ),
                                   height: 75,
-                                  child: ListTile(
-                                    onTap: () {
-                                      //addPaymentDetails();
+                                  child: Slidable(
+                                    // Specify a key if the Slidable is dismissible.
+                                    key: const ValueKey(0),
 
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => GradingPayments(
-                                            gradingstudentdetails: state,
-                                            index: index,
-                                            gradingId: widget.grading.id,
+                                    // The start action pane is the one at the left or the top side.
+                                    endActionPane: ActionPane(
+                                      // A motion is a widget used to control how the pane animates.
+                                      motion: const ScrollMotion(),
+
+                                      dismissible: DismissiblePane(
+                                          onDismissed: () {},
+                                          dismissThreshold:
+                                              0.5 // Adjust the threshold here
                                           ),
+
+                                      // All actions are defined in the children parameter.
+                                      children: [
+                                        // A SlidableAction can have an icon and/or a label.
+                                        SlidableAction(
+                                          onPressed: doNothing,
+                                          backgroundColor: Color(0xFFFE4A49),
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.delete,
+                                          label: 'Delete',
+                                          borderRadius:
+                                              BorderRadius.circular(12),
                                         ),
-                                      );
-                                    },
-                                    trailing: const Icon(
-                                      Icons.menu,
+                                      ],
                                     ),
-                                    leading: const Icon(
-                                      Icons.account_tree_rounded,
-                                      color: Color.fromARGB(255, 167, 125, 0),
-                                    ),
-                                    title: Text(
-                                      '${state[index].sNo} . ${state[index].fullName}',
-                                      style: const TextStyle(
-                                        fontSize: 20,
+                                    child: ListTile(
+                                      onTap: () {
+                                        //addPaymentDetails();
+
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                GradingPayments(
+                                              gradingstudentdetails: state,
+                                              index: index,
+                                              gradingId: widget.grading.id,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      trailing: const Icon(
+                                        Icons.menu,
                                       ),
-                                    ),
-                                    subtitle: Text(
-                                      'current - ${state[index].currentKyu}kyu',
-                                      style: const TextStyle(
-                                        fontSize: 16,
+                                      leading: const Icon(
+                                        Icons.account_tree_rounded,
+                                        color: Color.fromARGB(255, 167, 125, 0),
+                                      ),
+                                      title: Text(
+                                        '${state[index].sNo} . ${state[index].fullName}',
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      subtitle: Text(
+                                        'current - ${state[index].currentKyu}kyu',
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -276,5 +295,41 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
         ],
       ),
     );
+  }
+
+  void doNothing(BuildContext context) {
+    print("student details page");
+  }
+
+  void addTheNewStudent() {
+    final gradingService = Gradingservice();
+    final student = Gradingstudentdetails(
+      sNo: sNoController.text,
+      fullName: studentNameController.text,
+      currentKyu: currentKyuController.text,
+      paymentStatus: PaymentStatus.pending,
+      gradingFees: '',
+      paidDate: '',
+    );
+    //form validator
+    final allset = Validator.gradingStudentValidator(student);
+
+    if (allset == true) {
+      gradingService.addStudent(student, context, widget.grading);
+
+      studentNameController.clear();
+      sNoController.clear();
+      currentKyuController.clear();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: const Color.fromARGB(255, 165, 5, 2),
+          content: Text(
+            allset,
+            style: GoogleFonts.alegreya(fontSize: 20),
+          ),
+        ),
+      );
+    }
   }
 }

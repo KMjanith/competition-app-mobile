@@ -5,7 +5,7 @@ class Gradingstudentdetails {
   String _paymentStatus;
   String _gradingFees;
   String _paidDate;
-  String _paymentDescription;
+
 
   Gradingstudentdetails({
     required String sNo,
@@ -13,14 +13,14 @@ class Gradingstudentdetails {
     required String fullName,
     required String gradingFees,
     required String paidDate,
-    required String paymentDescription,
+
     required String paymentStatus,
   })  : _sNo = sNo,
         _currentKyu = currentKyu,
         _fullName = fullName,
         _gradingFees = gradingFees,
         _paidDate = paidDate,
-        _paymentDescription = paymentDescription,
+      
         _paymentStatus = paymentStatus;
 
   // Getters
@@ -30,7 +30,7 @@ class Gradingstudentdetails {
   String get paymentStatus => _paymentStatus;
   String get gradingFees => _gradingFees;
   String get paidDate => _paidDate;
-  String get paymentDescription => _paymentDescription;
+  
 
   // Setters
   set sNo(String value) => _sNo = value;
@@ -39,5 +39,5 @@ class Gradingstudentdetails {
   set paymentStatus(String value) => _paymentStatus = value;
   set gradingFees(String value) => _gradingFees = value;
   set paidDate(String value) => _paidDate = value;
-  set paymentDescription(String value) => _paymentDescription = value;
+ 
 }

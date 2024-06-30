@@ -4,6 +4,7 @@ import 'package:competition_app/pages/grading/PastGradings.dart';
 import 'package:competition_app/services/GradingService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../blocs/cubit/recentgradings_cubit.dart';
 import '../../blocs/cubit/update_grading_students_cubit.dart';
 import '../../components/buttons/CreateGradingButton.dart';
@@ -101,35 +102,67 @@ class _NewGradingState extends State<NewGrading> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
                                     decoration: BoxDecoration(
+                                        //color: Color.fromARGB(221, 255, 255, 255),
                                         gradient: StyleConstants.cardBackGround,
                                         borderRadius:
                                             BorderRadius.circular(16)),
                                     height: 75,
-                                    child: ListTile(
-                                      onTap: () {
-                                        //navigate to the grading details page
+                                    child: Slidable(
+                                      // Specify a key if the Slidable is dismissible.
+                                      key: const ValueKey(0),
 
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder:
-                                                    (context) =>
-                                                        Addnewgradingetails(
-                                                          grading: state[index],
-                                                          gradingstudentdetails:
-                                                              state[index]
-                                                                  .gradingStudentDetails,
-                                                        )));
-                                      },
-                                      trailing: const Icon(Icons.menu),
-                                      leading: const Icon(
-                                          Icons.account_tree_rounded),
-                                      tileColor: const Color.fromARGB(
-                                          255, 12, 110, 160),
-                                      title: Text(
-                                        state[index].gradingPlace,
-                                        style: const TextStyle(fontSize: 20),
+                                      // The start action pane is the one at the left or the top side.
+                                      endActionPane: ActionPane(
+                                        // A motion is a widget used to control how the pane animates.
+                                        motion: const ScrollMotion(),
+
+                                        // A pane can dismiss the Slidable.
+                                        dismissible:
+                                            DismissiblePane(onDismissed: () {
+                                          
+                                        }),
+
+                                        // All actions are defined in the children parameter.
+                                        children: [
+                                          // A SlidableAction can have an icon and/or a label.
+                                          SlidableAction(
+                                            onPressed: doNothing,
+                                            backgroundColor: Color(0xFFFE4A49),
+                                            foregroundColor: Colors.white,
+                                            icon: Icons.delete,
+                                            label: 'Delete',
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                        ],
                                       ),
-                                      subtitle: Text(state[index].gradingTime),
+
+                                      child: ListTile(
+                                        onTap: () {
+                                          //navigate to the grading details page
+
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Addnewgradingetails(
+                                                        grading: state[index],
+                                                        gradingstudentdetails:
+                                                            state[index]
+                                                                .gradingStudentDetails,
+                                                      )));
+                                        },
+                                        trailing: const Icon(Icons.menu),
+                                        leading: const Icon(
+                                            Icons.account_tree_rounded),
+                                        tileColor: const Color.fromARGB(
+                                            255, 12, 110, 160),
+                                        title: Text(
+                                          state[index].gradingPlace,
+                                          style: const TextStyle(fontSize: 20),
+                                        ),
+                                        subtitle:
+                                            Text(state[index].gradingTime),
+                                      ),
                                     ),
                                   ),
                                 );
@@ -148,5 +181,9 @@ class _NewGradingState extends State<NewGrading> {
         ],
       ),
     );
+  }
+
+  void doNothing(BuildContext context) {
+    print("something");
   }
 }
