@@ -17,6 +17,7 @@ class RecentgradingsCubit extends Cubit<List<Grading>> {
     var db = BlocProvider.of<DbCubit>(context).firestore;
 
     QuerySnapshot querySnapshot = await db.collection('Gradings').get();
+
     if (state.isNotEmpty) {
       emit([...state]);
     } else {
@@ -26,29 +27,18 @@ class RecentgradingsCubit extends Cubit<List<Grading>> {
         for (var i = 0; i < stringStudent.length; i++) {
           var studentString = stringStudent[i];
           var student = studentString.split(',');
-          if (student.length < 7) {
-            var studentDetails = Gradingstudentdetails(
-                sNo: student[0],
-                fullName: student[1],
-                currentKyu: student[2],
-                paymentStatus: student[3],
-                gradingFees: '',
-                paidDate: '',
-                paymentDescription: '');
-            gradingStudentDetails.add(studentDetails);
-          } else {
-            var studentDetails = Gradingstudentdetails(
-              sNo: student[0],
-              fullName: student[1],
-              currentKyu: student[2],
-              paymentStatus: student[3],
-              gradingFees: student[4],
-              paidDate: student[5],
-              paymentDescription: student[6]);
+          var studentDetails = Gradingstudentdetails(
+            sNo: student[0].trim(),
+            fullName: student[1].trim(),
+            currentKyu: student[2].trim(),
+            paymentStatus: student[3].trim(),
+            gradingFees: student[4].trim(),
+            paidDate: student[5].trim(),
+          );
+
           gradingStudentDetails.add(studentDetails);
-          }
-          
         }
+
         var grading = Grading(
           id: doc.id,
           gradingPlace: doc['place'],
@@ -71,6 +61,7 @@ class RecentgradingsCubit extends Cubit<List<Grading>> {
 
   void addStudentsToExistingGrading(
       String studentDetails, BuildContext context, Grading grading) {
+    print(studentDetails);
     grading.gradingStudentDetails.add(Gradingstudentdetails(
       sNo: studentDetails.split(',')[0],
       fullName: studentDetails.split(',')[1],
@@ -78,7 +69,6 @@ class RecentgradingsCubit extends Cubit<List<Grading>> {
       paymentStatus: studentDetails.split(',')[3],
       gradingFees: studentDetails.split(',')[4],
       paidDate: studentDetails.split(',')[5],
-      paymentDescription: studentDetails.split(',')[6],
     ));
     emit([...state]);
   }

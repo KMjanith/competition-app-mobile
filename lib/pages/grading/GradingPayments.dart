@@ -10,6 +10,7 @@ import '../../components/inputs/DatePickerInput.dart';
 import '../../components/inputs/DropDownInput.dart';
 import '../../components/inputs/Inputs.dart';
 import '../../model/GradingStudentDetals.dart';
+import '../../services/Validator.dart';
 
 class GradingPayments extends StatefulWidget {
   final String gradingId;
@@ -37,6 +38,43 @@ class _GradingstudentState extends State<GradingPayments> {
     dates = await showDatePicker(
         context: context, firstDate: DateTime(1999), lastDate: DateTime(2100));
     datePaid.text = dates.toString().split(" ")[0];
+  }
+
+  void _updateStudent(BuildContext context) {
+    Gradingstudentdetails student = widget.gradingstudentdetails[widget.index];
+    student.gradingFees = payAmount.text;
+    student.paidDate = datePaid.text;
+    student.paymentStatus =
+        selectedPaymentStatus ?? student.paymentStatus;
+
+    final allset = Validator.gradingStudentPaymentDetailsValidator(student);
+
+    if (allset == true) {
+      gradingservice.updatePaymentStatus(
+      widget.gradingId,
+      widget.gradingstudentdetails,
+      context,
+    );
+    //updating the ui
+    BlocProvider.of<UpdateGradingStudentsCubit>(context)
+        .updatedPaymentDetails(context, widget.gradingstudentdetails);
+
+    payAmount.clear();
+    datePaid.clear();
+    description.clear();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: const Color.fromARGB(255, 165, 5, 2),
+          content: Text(
+            allset,
+            style: GoogleFonts.alegreya(fontSize: 20),
+          ),
+        ),
+      );
+    }
+
+    
   }
 
   @override
@@ -145,30 +183,10 @@ class _GradingstudentState extends State<GradingPayments> {
                                     const BorderRadius.all(Radius.circular(16)),
                               ),
                               width: 300,
-                              height: 60,
+                              height: 50,
                               child: TextButton(
                                 onPressed: () {
-                                  widget.gradingstudentdetails[widget.index]
-                                      .gradingFees = payAmount.text;
-                                  widget.gradingstudentdetails[widget.index]
-                                      .paidDate = datePaid.text;
-                                  widget.gradingstudentdetails[widget.index]
-                                      .paymentStatus = selectedPaymentStatus!;
-
-                                  gradingservice.updatePaymentStatus(
-                                    widget.gradingId,
-                                    widget.gradingstudentdetails,
-                                    context,
-                                  );
-                                  //updating the ui
-                                  BlocProvider.of<UpdateGradingStudentsCubit>(
-                                          context)
-                                      .updatedPaymentDetails(context,
-                                          widget.gradingstudentdetails);
-
-                                  payAmount.clear();
-                                  datePaid.clear();
-                                  description.clear();
+                                  _updateStudent(context);
                                 },
                                 child: const Text(
                                   "Update",
@@ -189,7 +207,7 @@ class _GradingstudentState extends State<GradingPayments> {
                                   const BorderRadius.all(Radius.circular(16)),
                             ),
                             width: 100,
-                            height: 60,
+                            height: 50,
                             child: TextButton(
                               onPressed: () {},
                               child: const Text(
