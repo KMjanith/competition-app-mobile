@@ -100,12 +100,6 @@ class _NewGradingState extends State<NewGrading> {
                                 print(
                                     "today(new grading page) - ${today} gradigDate - ${gradingDate} index - ${index}");
                                 if (gradingDate.isAfter(today)) {
-                                  //loading exiting student list to the BlocProvider
-                                  BlocProvider.of<UpdateGradingStudentsCubit>(
-                                          context)
-                                      .addInitialStudent(state.grading[index]
-                                          .gradingStudentDetails);
-
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
@@ -154,6 +148,13 @@ class _NewGradingState extends State<NewGrading> {
                                         child: ListTile(
                                           onTap: () {
                                             //navigate to the grading details page
+                                            //loading exiting student list to the BlocProvider
+                                            BlocProvider.of<
+                                                        UpdateGradingStudentsCubit>(
+                                                    context)
+                                                .addInitialStudent(state
+                                                    .grading[index]
+                                                    .gradingStudentDetails);
 
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(
@@ -206,15 +207,14 @@ class _NewGradingState extends State<NewGrading> {
   void doNothing(BuildContext context, String gradingId, int index,
       List<Grading> list) async {
     final Gradingservice gradingservice = Gradingservice();
+    BlocProvider.of<RecentgradingsCubit>(context)
+        .deleteItem(index, list, gradingId, context);
     dynamic result = await gradingservice.deleteGrading(
         gradingId, context); // Await deletion
 
     if (!mounted) return; // Ensure the widget is still mounted
 
     if (result == "Success") {
-      BlocProvider.of<RecentgradingsCubit>(context)
-          .deleteItem(index, list, gradingId, context);
-
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: const Color.fromARGB(255, 18, 189, 2),
         content: Text(

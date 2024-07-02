@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../blocs/cubit/db_cubit.dart';
 import '../blocs/cubit/recentgradings_cubit.dart';
-import '../blocs/cubit/update_grading_students_cubit.dart';
 import '../components/inputs/DatePickerInput.dart';
 import '../components/inputs/Inputs.dart';
 import '../model/GradingStudentDetals.dart';
@@ -173,10 +172,6 @@ class Gradingservice extends GradingDatabaseService {
       Gradingstudentdetails student, BuildContext context, Grading grading) {
     String studentDetails =
         '${student.sNo}, ${student.fullName}, ${student.currentKyu}, ${student.paymentStatus}, ${student.gradingFees}, ${student.paidDate}';
-    BlocProvider.of<UpdateGradingStudentsCubit>(context)
-        .addStudents(student, context);
-    BlocProvider.of<RecentgradingsCubit>(context)
-        .addStudentsToExistingGrading(studentDetails, context, grading);
 
     addStudentsToGradings(
         grading.id,
@@ -267,12 +262,20 @@ class Gradingservice extends GradingDatabaseService {
 
   @override
   Future<String> deleteStudentFromGrading(
-       FirebaseFirestore db , Gradingstudentdetails newStudentList) async {
+      String gradingId,
+      FirebaseFirestore db,
+      List<Gradingstudentdetails> currentList,
+      Gradingstudentdetails deletedStudent,
+      BuildContext context) async {
     try {
+      currentList.remove(deletedStudent);
+
+      List<String> mewStudentList = getStudentDetails(currentList);
+
       await db
           .collection("Gradings")
-          .doc("gradingId")
-          .update({'students': newStudentList});
+          .doc(gradingId)
+          .update({'students': mewStudentList});
       return "Success";
     } catch (e) {
       return e.toString();

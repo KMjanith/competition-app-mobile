@@ -57,7 +57,7 @@ class _GradingstudentState extends State<GradingPayments> {
     );
     //updating the ui
     BlocProvider.of<UpdateGradingStudentsCubit>(context)
-        .updatedPaymentDetails(context, widget.gradingstudentdetails);
+        .updateStudents(widget.gradingstudentdetails );
 
     payAmount.clear();
     datePaid.clear();

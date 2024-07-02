@@ -1,4 +1,5 @@
 import 'package:competition_app/Constants/PaymentStatus.dart';
+import 'package:competition_app/blocs/cubit/recentgradings_cubit.dart';
 import 'package:competition_app/model/GradingStudentDetals.dart';
 import 'package:competition_app/pages/grading/GradingPayments.dart';
 import 'package:competition_app/services/GradingService.dart';
@@ -97,14 +98,14 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
                           child: InputField(
                             labelText: "S.No",
                             controller: sNoController,
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                           ),
                         ),
                         Expanded(
                           child: InputField(
                             labelText: "Current Kyu",
                             controller: currentKyuController,
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                           ),
                         ),
                       ],
@@ -235,7 +236,15 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
                                       children: [
                                         // A SlidableAction can have an icon and/or a label.
                                         SlidableAction(
-                                          onPressed: (context) => doNothing(state, index, widget.grading.id),
+                                          onPressed: (context) {
+                                            doNothing(state[index], state,
+                                                widget.grading.id, context);
+
+                                            BlocProvider.of<
+                                                        UpdateGradingStudentsCubit>(
+                                                    context)
+                                                .updateStudents(state);
+                                          },
                                           backgroundColor: Color(0xFFFE4A49),
                                           foregroundColor: Colors.white,
                                           icon: Icons.delete,
@@ -298,11 +307,41 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
     );
   }
 
-  void doNothing(Gradingstudentdetails itemToRemove , int index, String gradingId) {
+  void doNothing(
+      Gradingstudentdetails itemToRemove,
+      List<Gradingstudentdetails> currentList,
+      String gradingId,
+      BuildContext context) async {
     final gradingservice = Gradingservice();
     final db = BlocProvider.of<DbCubit>(context).firestore;
-    gradingservice.deleteStudentFromGrading(db, itemToRemove );
-    
+    widget.grading.gradingStudentDetails.remove(itemToRemove);
+    context
+        .read<RecentgradingsCubit>()
+        .updateGradingList(widget.grading, widget.grading.id);
+    final result = await gradingservice.deleteStudentFromGrading(
+        gradingId, db, currentList, itemToRemove, context);
+
+    //BlocProvider.of<RecentgradingsCubit>(context).loadData(context);
+
+    if (!mounted) return; // Ensure the widget is still mounted
+    if (result == 'Success') {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: const Color.fromARGB(255, 18, 189, 2),
+        content: Text(
+          "Successfully deleted the student : ${itemToRemove.fullName}",
+          style: const TextStyle(fontSize: 20),
+        ),
+      ));
+    } else {
+      // Handle errors appropriately
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: const Color.fromARGB(255, 189, 2, 2),
+        content: Text(
+          "Error deleting student: $result",
+          style: const TextStyle(fontSize: 20),
+        ),
+      ));
+    }
   }
 
   void addTheNewStudent() {
@@ -321,8 +360,12 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
     if (allset == true) {
       // Add the student to the grading
       gradingService.addStudent(student, context, widget.grading);
-      BlocProvider.of<UpdateGradingStudentsCubit>(context)
-        .addStudents(student, context);
+      context.read<UpdateGradingStudentsCubit>().addStudents(student, context);
+      widget.grading.gradingStudentDetails.add(student);
+      context
+          .read<RecentgradingsCubit>()
+          .updateGradingList(widget.grading, widget.grading.id);
+
       // Clear input fields after successful addition
       studentNameController.clear();
       sNoController.clear();
