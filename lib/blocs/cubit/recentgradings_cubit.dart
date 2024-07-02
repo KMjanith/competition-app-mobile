@@ -62,26 +62,19 @@ class RecentgradingsCubit extends Cubit<RecentgradingsCubitState> {
       emit(RecentgradingsLoaded([...currentState.grading, grading]));
     }
   }
-
-  void addStudentsToExistingGrading(
-      String studentDetails, BuildContext context, Grading grading) {
-        print('grading.gradingStudentDetails.toList() : ${grading.gradingStudentDetails.toList()}');
-    grading.gradingStudentDetails.add(Gradingstudentdetails(
-      sNo: studentDetails.split(',')[0],
-      fullName: studentDetails.split(',')[1],
-      currentKyu: studentDetails.split(',')[2],
-      paymentStatus: studentDetails.split(',')[3],
-      gradingFees: studentDetails.split(',')[4],
-      paidDate: studentDetails.split(',')[5],
-    ));
-    if (state is RecentgradingsLoaded) {
-      emit(RecentgradingsLoaded((state as RecentgradingsLoaded).grading));
-    }
+  
+  void updateGradingList(Grading grading, String newListId) {
+    final updatedList = (state as RecentgradingsLoaded)
+        .grading
+        .map((e) => e.id == newListId ? grading : e)
+        .toList();
+    emit(RecentgradingsLoaded(updatedList));
   }
 
-  void deleteItem(int index, List<Grading> currentList, String gradingId, BuildContext context) {
+  void deleteItem(int index, List<Grading> currentList, String gradingId,
+      BuildContext context) {
     final updatedList = List<Grading>.from(currentList);
     updatedList.removeAt(index);
     emit(RecentgradingsLoaded(updatedList)); // Emit the updated state
-}
+  }
 }

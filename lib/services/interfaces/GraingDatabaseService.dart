@@ -15,5 +15,8 @@ abstract class GradingDatabaseService {
       List<Gradingstudentdetails> newDetails, BuildContext context);
   Future<void> deleteGrading(String gradingId, BuildContext context);
   Future<String> deleteStudentFromGrading(
-      FirebaseFirestore db, Gradingstudentdetails studentDetails);
+      String gradingId,
+      FirebaseFirestore db,
+      List<Gradingstudentdetails> currentList,
+      Gradingstudentdetails deletedStudent,BuildContext context);
 }

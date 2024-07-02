@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../blocs/viewData/view_data_bloc.dart';
 import '../components/common/CustomDrawer.dart';
-import '../components/common/ErrorAlert.dart';
+import '../blocs/viewData/ErrorAlert.dart';
 import '../components/common/HedingAnimation.dart';
 import '../components/inputs/Inputs.dart';
 import '../Constants/StyleConstants.dart';
