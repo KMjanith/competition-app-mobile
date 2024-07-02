@@ -19,4 +19,10 @@ class UpdateGradingStudentsCubit extends Cubit<List<Gradingstudentdetails>> {
       BuildContext context, List<Gradingstudentdetails> newStudentDetails) {
     emit([...newStudentDetails]);
   }
+
+  void deleteStudents(List<Gradingstudentdetails> currentList, int index){
+     final updatedList = List<Gradingstudentdetails>.from(currentList);
+    updatedList.removeAt(index);
+    emit(updatedList); // Emit the updated state
+  }
 }

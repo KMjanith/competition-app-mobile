@@ -83,94 +83,114 @@ class _NewGradingState extends State<NewGrading> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     height: 450,
-                    child: BlocBuilder<RecentgradingsCubit, List<Grading>>(
+                    child: BlocBuilder<RecentgradingsCubit,
+                        RecentgradingsCubitState>(
                       builder: (context, state) {
-                        return ListView.builder(
-                            padding: EdgeInsets.zero,
-                            itemCount: state.length,
-                            itemBuilder: (context, index) {
-                              var today = DateTime.now();
-                              var gradingDate =
-                                  DateTime.parse(state[index].gradingTime);
-                              if (gradingDate.isAfter(today)) {
-                                //loading exiting student list to the BlocProvider
-                                BlocProvider.of<UpdateGradingStudentsCubit>(
-                                        context)
-                                    .addInitialStudent(
-                                        state[index].gradingStudentDetails);
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        //color: Color.fromARGB(221, 255, 255, 255),
-                                        gradient: StyleConstants.cardBackGround,
-                                        borderRadius:
-                                            BorderRadius.circular(16)),
-                                    height: 75,
-                                    child: Slidable(
-                                      // Specify a key if the Slidable is dismissible.
-                                      key: const ValueKey(0),
+                        if (state is RecentgradingsLoading) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else if (state is RecentgradingsLoaded) {
+                          return ListView.builder(
+                              padding: EdgeInsets.zero,
+                              itemCount: state.grading.length,
+                              itemBuilder: (context, index) {
+                                var today = DateTime.now();
+                                var gradingDate = DateTime.parse(
+                                    state.grading[index].gradingTime);
+                                print(
+                                    "today(new grading page) - ${today} gradigDate - ${gradingDate} index - ${index}");
+                                if (gradingDate.isAfter(today)) {
+                                  //loading exiting student list to the BlocProvider
+                                  BlocProvider.of<UpdateGradingStudentsCubit>(
+                                          context)
+                                      .addInitialStudent(state.grading[index]
+                                          .gradingStudentDetails);
 
-                                      // The start action pane is the one at the left or the top side.
-                                      endActionPane: ActionPane(
-                                        // A motion is a widget used to control how the pane animates.
-                                        motion: const ScrollMotion(),
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          //color: Color.fromARGB(221, 255, 255, 255),
+                                          gradient:
+                                              StyleConstants.cardBackGround,
+                                          borderRadius:
+                                              BorderRadius.circular(16)),
+                                      height: 75,
+                                      child: Slidable(
+                                        // Specify a key if the Slidable is dismissible.
+                                        key: const ValueKey(0),
 
-                                        // A pane can dismiss the Slidable.
-                                        dismissible:
-                                            DismissiblePane(onDismissed: () {
-                                          
-                                        }),
+                                        // The start action pane is the one at the left or the top side.
+                                        endActionPane: ActionPane(
+                                          // A motion is a widget used to control how the pane animates.
+                                          motion: const ScrollMotion(),
 
-                                        // All actions are defined in the children parameter.
-                                        children: [
-                                          // A SlidableAction can have an icon and/or a label.
-                                          SlidableAction(
-                                            onPressed: doNothing,
-                                            backgroundColor: Color(0xFFFE4A49),
-                                            foregroundColor: Colors.white,
-                                            icon: Icons.delete,
-                                            label: 'Delete',
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                        ],
-                                      ),
+                                          // A pane can dismiss the Slidable.
+                                          dismissible: DismissiblePane(
+                                              onDismissed: () {}),
 
-                                      child: ListTile(
-                                        onTap: () {
-                                          //navigate to the grading details page
-
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Addnewgradingetails(
-                                                        grading: state[index],
-                                                        gradingstudentdetails:
-                                                            state[index]
-                                                                .gradingStudentDetails,
-                                                      )));
-                                        },
-                                        trailing: const Icon(Icons.menu),
-                                        leading: const Icon(
-                                            Icons.account_tree_rounded),
-                                        tileColor: const Color.fromARGB(
-                                            255, 12, 110, 160),
-                                        title: Text(
-                                          state[index].gradingPlace,
-                                          style: const TextStyle(fontSize: 20),
+                                          // All actions are defined in the children parameter.
+                                          children: [
+                                            // A SlidableAction can have an icon and/or a label.
+                                            SlidableAction(
+                                              onPressed: (context) => {
+                                                doNothing(
+                                                    context,
+                                                    state.grading[index].id,
+                                                    index,
+                                                    state.grading)
+                                              },
+                                              backgroundColor:
+                                                  const Color(0xFFFE4A49),
+                                              foregroundColor: Colors.white,
+                                              icon: Icons.delete,
+                                              label: 'Delete',
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                          ],
                                         ),
-                                        subtitle:
-                                            Text(state[index].gradingTime),
+
+                                        child: ListTile(
+                                          onTap: () {
+                                            //navigate to the grading details page
+
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Addnewgradingetails(
+                                                          grading: state
+                                                              .grading[index],
+                                                          gradingstudentdetails:
+                                                              state
+                                                                  .grading[
+                                                                      index]
+                                                                  .gradingStudentDetails,
+                                                        )));
+                                          },
+                                          trailing: const Icon(Icons.menu),
+                                          leading: const Icon(
+                                              Icons.account_tree_rounded),
+                                          tileColor: const Color.fromARGB(
+                                              255, 12, 110, 160),
+                                          title: Text(
+                                            state.grading[index].gradingPlace,
+                                            style:
+                                                const TextStyle(fontSize: 20),
+                                          ),
+                                          subtitle: Text(
+                                              state.grading[index].gradingTime),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              } else {
-                                return const SizedBox
-                                    .shrink(); // Return an empty container to avoid null
-                              }
-                            });
+                                  );
+                                } else {
+                                  return const SizedBox
+                                      .shrink(); // Return an empty container to avoid null
+                                }
+                              });
+                        }
+                        return const SizedBox.shrink();
                       },
                     ),
                   ),
@@ -183,7 +203,34 @@ class _NewGradingState extends State<NewGrading> {
     );
   }
 
-  void doNothing(BuildContext context) {
-    print("something");
+  void doNothing(BuildContext context, String gradingId, int index,
+      List<Grading> list) async {
+    final Gradingservice gradingservice = Gradingservice();
+    dynamic result = await gradingservice.deleteGrading(
+        gradingId, context); // Await deletion
+
+    if (!mounted) return; // Ensure the widget is still mounted
+
+    if (result == "Success") {
+      BlocProvider.of<RecentgradingsCubit>(context)
+          .deleteItem(index, list, gradingId, context);
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: const Color.fromARGB(255, 18, 189, 2),
+        content: Text(
+          "Successfully deleted the grading with ID: $gradingId",
+          style: const TextStyle(fontSize: 20),
+        ),
+      ));
+    } else {
+      // Handle errors appropriately
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: const Color.fromARGB(255, 189, 2, 2),
+        content: Text(
+          "Error deleting grading: ${result.toString()}",
+          style: const TextStyle(fontSize: 20),
+        ),
+      ));
+    }
   }
 }

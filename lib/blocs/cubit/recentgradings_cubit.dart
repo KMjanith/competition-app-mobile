@@ -2,25 +2,23 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
-
 import '../../model/Grading.dart';
 import '../../model/GradingStudentDetals.dart';
 import 'db_cubit.dart';
 
 part 'recentgradings_state.dart';
 
-class RecentgradingsCubit extends Cubit<List<Grading>> {
-  RecentgradingsCubit() : super([]);
+class RecentgradingsCubit extends Cubit<RecentgradingsCubitState> {
+  RecentgradingsCubit() : super(RecentgradingsInitial());
 
   void loadData(BuildContext context) async {
+    emit(RecentgradingsLoading());
     var db = BlocProvider.of<DbCubit>(context).firestore;
 
-    QuerySnapshot querySnapshot = await db.collection('Gradings').get();
+    try {
+      QuerySnapshot querySnapshot = await db.collection('Gradings').get();
+      List<Grading> gradings = [];
 
-    if (state.isNotEmpty) {
-      emit([...state]);
-    } else {
       for (var doc in querySnapshot.docs) {
         List<dynamic> stringStudent = doc['students'];
         List<Gradingstudentdetails> gradingStudentDetails = [];
@@ -42,26 +40,32 @@ class RecentgradingsCubit extends Cubit<List<Grading>> {
         var grading = Grading(
           id: doc.id,
           gradingPlace: doc['place'],
-          gradingTime: (doc['date']),
-          gradingStudentDetails:
-              gradingStudentDetails, // Parse the String to DateTime
+          gradingTime: doc['date'],
+          gradingStudentDetails: gradingStudentDetails,
         );
-        emit([...state, grading]);
+        gradings.add(grading);
       }
+
+      emit(RecentgradingsLoaded(gradings));
+    } catch (e) {
+      emit(RecentgradingsError(e.toString()));
     }
   }
 
   void resetStudents() {
-    emit([]);
+    emit(RecentgradingsInitial());
   }
 
   void addGrading(Grading grading, BuildContext context) {
-    emit([...state, grading]);
+    if (state is RecentgradingsLoaded) {
+      final currentState = state as RecentgradingsLoaded;
+      emit(RecentgradingsLoaded([...currentState.grading, grading]));
+    }
   }
 
   void addStudentsToExistingGrading(
       String studentDetails, BuildContext context, Grading grading) {
-    print(studentDetails);
+        print('grading.gradingStudentDetails.toList() : ${grading.gradingStudentDetails.toList()}');
     grading.gradingStudentDetails.add(Gradingstudentdetails(
       sNo: studentDetails.split(',')[0],
       fullName: studentDetails.split(',')[1],
@@ -70,6 +74,14 @@ class RecentgradingsCubit extends Cubit<List<Grading>> {
       gradingFees: studentDetails.split(',')[4],
       paidDate: studentDetails.split(',')[5],
     ));
-    emit([...state]);
+    if (state is RecentgradingsLoaded) {
+      emit(RecentgradingsLoaded((state as RecentgradingsLoaded).grading));
+    }
   }
+
+  void deleteItem(int index, List<Grading> currentList, String gradingId, BuildContext context) {
+    final updatedList = List<Grading>.from(currentList);
+    updatedList.removeAt(index);
+    emit(RecentgradingsLoaded(updatedList)); // Emit the updated state
+}
 }

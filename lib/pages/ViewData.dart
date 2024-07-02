@@ -71,11 +71,7 @@ class _ViewdataState extends State<Viewdata> {
               },
             );
           },
-        ),
-        ListTile(
-          title: const Text('View Students'),
-          onTap: () {},
-        ),
+        )
       ],
     );
   }
@@ -97,7 +93,7 @@ class _ViewdataState extends State<Viewdata> {
                   builder: (context) => IconButton(
                     onPressed: () => Scaffold.of(context).openDrawer(),
                     icon: const Icon(Icons.menu,
-                        color: Color.fromARGB(255, 0, 0, 0)),
+                        color: Color.fromARGB(255, 255, 255, 255)),
                   ),
                 ),
               ],
