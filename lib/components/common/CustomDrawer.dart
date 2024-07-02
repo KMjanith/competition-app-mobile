@@ -16,11 +16,16 @@ class CustomDrawer extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: StyleConstants.cardBackGround,
             ),
-            child: const Column(
+            child: const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Icon(
+                  Icons.filter_list,
+                  color: Colors.white,
+                  size: 24,
+                ),
                 Text(
-                  'Menu',
+                  'Filters',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 24,

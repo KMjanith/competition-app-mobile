@@ -9,8 +9,10 @@ import '../blocs/cubit/update_grading_students_cubit.dart';
 import '../components/inputs/DatePickerInput.dart';
 import '../components/inputs/Inputs.dart';
 import '../model/GradingStudentDetals.dart';
+import 'interfaces/GraingDatabaseService.dart';
 
-class Gradingservice {
+class Gradingservice extends GradingDatabaseService {
+  @override
   void createNewGradingPopUp(BuildContext context) {
     final TextEditingController gradingTimeController = TextEditingController();
     final TextEditingController gradingPlaceController =
@@ -105,29 +107,27 @@ class Gradingservice {
   }
 
   //create a new document in grading collection
+  @override
   void createNewGrading(String date, String place, BuildContext context) {
     final db = BlocProvider.of<DbCubit>(context).firestore;
-    final stating = BlocProvider.of<RecentgradingsCubit>(context).state;
     final newGrading = <String, dynamic>{
-      'id': (stating.length + 1),
       'date': date,
       'place': place,
       'students':
           <Gradingstudentdetails>[], //this is to store the student in the grading
     };
 
-    final _newGrading = Grading(
-      id: (stating.length + 1).toString(),
-      gradingTime: date,
-      gradingPlace: place,
-      gradingStudentDetails: [],
-    );
-    BlocProvider.of<RecentgradingsCubit>(context)
-        .addGrading(_newGrading, context); //this is to update the UI
-
     //database updation
     db.collection('Gradings').add(newGrading).then((DocumentReference doc) {
       print("new Grading snapshot added with ID: ${doc.id}");
+      final _newGrading = Grading(
+        id: doc.id,
+        gradingTime: date,
+        gradingPlace: place,
+        gradingStudentDetails: [],
+      );
+      BlocProvider.of<RecentgradingsCubit>(context)
+          .addGrading(_newGrading, context); //this is to update the UI
       showDialog(
         context: context,
         builder: (context) {
@@ -168,6 +168,7 @@ class Gradingservice {
     });
   }
 
+  @override
   void addStudent(
       Gradingstudentdetails student, BuildContext context, Grading grading) {
     String studentDetails =
@@ -186,6 +187,7 @@ class Gradingservice {
   }
 
   //add students to students array in perticular doc
+  @override
   Future<void> addStudentsToGradings(
       String docId, List<String> newStudent, BuildContext context) async {
     // Reference to the specific document in the "gradins" collection
@@ -214,6 +216,7 @@ class Gradingservice {
     }
   }
 
+  @override
   Future<void> updatePaymentStatus(String gradingId,
       List<Gradingstudentdetails> newDetails, BuildContext context) async {
     final List<String> studentDetails = getStudentDetails(newDetails);
@@ -249,5 +252,30 @@ class Gradingservice {
           '${student.sNo}, ${student.fullName}, ${student.currentKyu}, ${student.paymentStatus}, ${student.gradingFees}, ${student.paidDate}');
     }
     return studentDetails;
+  }
+
+  @override
+  Future<String> deleteGrading(String gradingId, BuildContext context) async {
+    final db = BlocProvider.of<DbCubit>(context).firestore;
+    try {
+      await db.collection("Gradings").doc(gradingId).delete();
+      return "Success";
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  @override
+  Future<String> deleteStudentFromGrading(
+       FirebaseFirestore db , Gradingstudentdetails newStudentList) async {
+    try {
+      await db
+          .collection("Gradings")
+          .doc("gradingId")
+          .update({'students': newStudentList});
+      return "Success";
+    } catch (e) {
+      return e.toString();
+    }
   }
 }

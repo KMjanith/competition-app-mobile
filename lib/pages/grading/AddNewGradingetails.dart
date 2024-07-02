@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../Constants/StyleConstants.dart';
+import '../../blocs/cubit/db_cubit.dart';
 import '../../blocs/cubit/update_grading_students_cubit.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/inputs/Inputs.dart';
@@ -234,7 +235,7 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
                                       children: [
                                         // A SlidableAction can have an icon and/or a label.
                                         SlidableAction(
-                                          onPressed: doNothing,
+                                          onPressed: (context) => doNothing(state, index, widget.grading.id),
                                           backgroundColor: Color(0xFFFE4A49),
                                           foregroundColor: Colors.white,
                                           icon: Icons.delete,
@@ -297,8 +298,11 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
     );
   }
 
-  void doNothing(BuildContext context) {
-    print("student details page");
+  void doNothing(Gradingstudentdetails itemToRemove , int index, String gradingId) {
+    final gradingservice = Gradingservice();
+    final db = BlocProvider.of<DbCubit>(context).firestore;
+    gradingservice.deleteStudentFromGrading(db, itemToRemove );
+    
   }
 
   void addTheNewStudent() {
@@ -311,12 +315,15 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
       gradingFees: '',
       paidDate: '',
     );
-    //form validator
+
     final allset = Validator.gradingStudentValidator(student);
 
     if (allset == true) {
+      // Add the student to the grading
       gradingService.addStudent(student, context, widget.grading);
-
+      BlocProvider.of<UpdateGradingStudentsCubit>(context)
+        .addStudents(student, context);
+      // Clear input fields after successful addition
       studentNameController.clear();
       sNoController.clear();
       currentKyuController.clear();

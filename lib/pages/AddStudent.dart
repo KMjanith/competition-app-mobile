@@ -272,7 +272,7 @@ class _AddStudentState extends State<AddStudent> {
                       builder: (context) => IconButton(
                         onPressed: () => Scaffold.of(context).openDrawer(),
                         icon: const Icon(Icons.menu,
-                            color: Color.fromARGB(255, 0, 0, 0)),
+                            color: Color.fromARGB(255, 255, 255, 255)),
                       ),
                     ),
                   ],
