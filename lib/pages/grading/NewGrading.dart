@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../blocs/cubit/recentgradings_cubit.dart';
 import '../../blocs/cubit/update_grading_students_cubit.dart';
-import '../../components/buttons/CreateGradingButton.dart';
+import '../../components/buttons/CreateGradingButon.dart';
 import '../../components/common/HedingAnimation.dart';
 import 'AddNewGradingetails.dart';
 
@@ -97,8 +97,6 @@ class _NewGradingState extends State<NewGrading> {
                                 var today = DateTime.now();
                                 var gradingDate = DateTime.parse(
                                     state.grading[index].gradingTime);
-                                print(
-                                    "today(new grading page) - ${today} gradigDate - ${gradingDate} index - ${index}");
                                 if (gradingDate.isAfter(today)) {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),

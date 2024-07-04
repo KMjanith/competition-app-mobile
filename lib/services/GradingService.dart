@@ -34,6 +34,7 @@ class Gradingservice extends GradingDatabaseService {
       context: context,
       builder: (context) {
         return AlertDialog(
+          
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -77,8 +78,9 @@ class Gradingservice extends GradingDatabaseService {
               ],
             ),
           ],
-          backgroundColor: Color.fromARGB(232, 232, 233, 233),
+          backgroundColor: Color.fromARGB(255, 232, 233, 233),
           title: const Text("Create New Grading"),
+          surfaceTintColor: Colors.green,
           content: Container(
             width: double.infinity,
             height: 150,
@@ -118,7 +120,6 @@ class Gradingservice extends GradingDatabaseService {
 
     //database updation
     db.collection('Gradings').add(newGrading).then((DocumentReference doc) {
-      print("new Grading snapshot added with ID: ${doc.id}");
       final _newGrading = Grading(
         id: doc.id,
         gradingTime: date,
@@ -146,7 +147,7 @@ class Gradingservice extends GradingDatabaseService {
         },
       );
     }).catchError((error) {
-      print("Failed to add new Grading: $error");
+
       showDialog(
         context: context,
         builder: (context) {
@@ -171,7 +172,7 @@ class Gradingservice extends GradingDatabaseService {
   void addStudent(
       Gradingstudentdetails student, BuildContext context, Grading grading) {
     String studentDetails =
-        '${student.sNo}, ${student.fullName}, ${student.currentKyu}, ${student.paymentStatus}, ${student.gradingFees}, ${student.paidDate}';
+        '${student.sNo}, ${student.fullName}, ${student.currentKyu}, ${student.paymentStatus}, ${student.gradingFees}, ${student.paidDate}, ${student.passedKyu}';
 
     addStudentsToGradings(
         grading.id,
@@ -244,7 +245,7 @@ class Gradingservice extends GradingDatabaseService {
     final List<String> studentDetails = [];
     for (var student in students) {
       studentDetails.add(
-          '${student.sNo}, ${student.fullName}, ${student.currentKyu}, ${student.paymentStatus}, ${student.gradingFees}, ${student.paidDate}');
+          '${student.sNo}, ${student.fullName}, ${student.currentKyu}, ${student.paymentStatus}, ${student.gradingFees}, ${student.paidDate}, ${student.passedKyu}');
     }
     return studentDetails;
   }
