@@ -7,6 +7,7 @@ import '../../blocs/cubit/recentgradings_cubit.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../model/Grading.dart';
 import '../../services/GradingService.dart';
+import 'PastGradinDetails.dart';
 
 class Pastgradings extends StatefulWidget {
   const Pastgradings({Key? key}) : super(key: key);
@@ -64,8 +65,6 @@ class _PastgradingsState extends State<Pastgradings> {
                           var today = DateTime.now();
                           var gradingDate =
                               DateTime.parse(state.grading[index].gradingTime);
-                          print(
-                              "today(past Grading Page) - $today gradigDate - $gradingDate index - $index");
                           if (gradingDate.isBefore(today)) {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -76,15 +75,10 @@ class _PastgradingsState extends State<Pastgradings> {
                                 ),
                                 height: 75,
                                 child: Slidable(
-                                  // Specify a key if the Slidable is dismissible.
                                   key: const ValueKey(0),
-
-                                  // The start action pane is the one at the left or the top side.
                                   endActionPane: ActionPane(
-                                    // A motion is a widget used to control how the pane animates.
                                     motion: const ScrollMotion(),
 
-                                    // A pane can dismiss the Slidable.
                                     dismissible:
                                         DismissiblePane(onDismissed: () {}),
 
@@ -109,7 +103,15 @@ class _PastgradingsState extends State<Pastgradings> {
                                     ],
                                   ),
                                   child: ListTile(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PastGradinDetails(
+                                                    grading:
+                                                        state.grading[index],
+                                                  )));
+                                    },
                                     trailing: const Icon(Icons.menu),
                                     leading:
                                         const Icon(Icons.account_tree_rounded),

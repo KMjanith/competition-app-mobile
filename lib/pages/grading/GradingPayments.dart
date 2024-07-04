@@ -44,24 +44,23 @@ class _GradingstudentState extends State<GradingPayments> {
     Gradingstudentdetails student = widget.gradingstudentdetails[widget.index];
     student.gradingFees = payAmount.text;
     student.paidDate = datePaid.text;
-    student.paymentStatus =
-        selectedPaymentStatus ?? student.paymentStatus;
+    student.paymentStatus = selectedPaymentStatus ?? student.paymentStatus;
 
     final allset = Validator.gradingStudentPaymentDetailsValidator(student);
 
     if (allset == true) {
       gradingservice.updatePaymentStatus(
-      widget.gradingId,
-      widget.gradingstudentdetails,
-      context,
-    );
-    //updating the ui
-    BlocProvider.of<UpdateGradingStudentsCubit>(context)
-        .updateStudents(widget.gradingstudentdetails );
+        widget.gradingId,
+        widget.gradingstudentdetails,
+        context,
+      );
+      //updating the ui
+      BlocProvider.of<UpdateGradingStudentsCubit>(context)
+          .updateStudents(widget.gradingstudentdetails);
 
-    payAmount.clear();
-    datePaid.clear();
-    description.clear();
+      payAmount.clear();
+      datePaid.clear();
+      description.clear();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -73,8 +72,6 @@ class _GradingstudentState extends State<GradingPayments> {
         ),
       );
     }
-
-    
   }
 
   @override
@@ -152,7 +149,7 @@ class _GradingstudentState extends State<GradingPayments> {
                     InputField(
                         labelText: "amount",
                         controller: payAmount,
-                        keyboardType: TextInputType.text),
+                        keyboardType: TextInputType.number),
                     DatePickerInput(
                       dateController: datePaid,
                       lableName: "Date",

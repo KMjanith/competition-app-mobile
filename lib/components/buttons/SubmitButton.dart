@@ -4,13 +4,15 @@ import "../../Constants/StyleConstants.dart";
 
 class SubmitButton extends StatelessWidget {
   final VoidCallback? addStudent;
-  const SubmitButton({super.key, this.addStudent});
+  final String title;
+  const SubmitButton({super.key, this.addStudent, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(top: 10, bottom: 10, left: 19, right: 10),
+        padding:
+            const EdgeInsets.only(top: 10, bottom: 10, left: 19, right: 10),
         child: Container(
           decoration: BoxDecoration(
               gradient: StyleConstants.submitButtonColor,
@@ -21,8 +23,8 @@ class SubmitButton extends StatelessWidget {
             onPressed: () {
               addStudent;
             },
-            child: const Text(
-              "Add Student",
+            child: Text(
+              title,
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),

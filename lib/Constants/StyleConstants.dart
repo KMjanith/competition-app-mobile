@@ -21,6 +21,25 @@ class StyleConstants {
         ])),
   );
 
+  static LinearGradient upperBackgroundColor = const LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        Color.fromARGB(255, 18, 0, 20),
+        Color.fromARGB(255, 38, 255, 244),
+        Color.fromARGB(255, 1, 79, 102)
+      ]);
+
+  static LinearGradient lowerBackgroundColor = const LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        Color.fromARGB(255, 0, 0, 0),
+        Color.fromARGB(255, 61, 0, 71),
+        Color.fromARGB(255, 238, 183, 183)
+      ]);
+
+      
   static Positioned lowerBackgroundContainer = Positioned(
       child: Container(
     height: 450,
@@ -81,6 +100,5 @@ class StyleConstants {
     ],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
-
   );
 }

@@ -32,6 +32,7 @@ class RecentgradingsCubit extends Cubit<RecentgradingsCubitState> {
             paymentStatus: student[3].trim(),
             gradingFees: student[4].trim(),
             paidDate: student[5].trim(),
+            passedKyu: student[6].trim()
           );
 
           gradingStudentDetails.add(studentDetails);

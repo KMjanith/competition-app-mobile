@@ -353,6 +353,7 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
       paymentStatus: PaymentStatus.pending,
       gradingFees: '',
       paidDate: '',
+      passedKyu: 'Pending'
     );
 
     final allset = Validator.gradingStudentValidator(student);

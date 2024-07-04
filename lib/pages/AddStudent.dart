@@ -372,7 +372,7 @@ class _AddStudentState extends State<AddStudent> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     //submit button
-                    SubmitButton(addStudent: addStudent),
+                    SubmitButton(addStudent: addStudent, title: "Add Student",),
 
                     //Cancel Button
                     const CancelButton()
