@@ -213,8 +213,8 @@ class Gradingservice extends GradingDatabaseService {
   }
 
   @override
-  Future<void> updatePaymentStatus(String gradingId,
-      List<Gradingstudentdetails> newDetails, BuildContext context) async {
+  Future<void> updateGradingStudentDetails(String gradingId,
+      List<Gradingstudentdetails> newDetails, BuildContext context, String successMessage, String errorMessage) async {
     final List<String> studentDetails = getStudentDetails(newDetails);
 
     final db = BlocProvider.of<DbCubit>(context).firestore;
@@ -226,7 +226,7 @@ class Gradingservice extends GradingDatabaseService {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Color.fromARGB(255, 0, 124, 0),
         content: Text(
-          "Successfully updated payment status:",
+          successMessage,
           style: GoogleFonts.alegreya(fontSize: 20),
         ),
       ));
@@ -234,7 +234,7 @@ class Gradingservice extends GradingDatabaseService {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Color.fromARGB(255, 189, 2, 2),
         content: Text(
-          "Error updating payment status: $e",
+          errorMessage + e.toString(),
           style: GoogleFonts.alegreya(fontSize: 20),
         ),
       ));

@@ -3,11 +3,11 @@ import 'package:competition_app/model/GradingStudentDetals.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../inputs/Inputs.dart';
-
 class PastGradingDetailsTile extends StatelessWidget {
   final Gradingstudentdetails gradingStudent;
-  const PastGradingDetailsTile({super.key, required this.gradingStudent});
+  final Function(BuildContext context, Gradingstudentdetails student,
+    Color frontColor, Gradingstudentdetails studentDetail) changeGradingResults;
+  const PastGradingDetailsTile({super.key, required this.gradingStudent, required this.changeGradingResults});
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +17,13 @@ class PastGradingDetailsTile extends StatelessWidget {
     final Color frontColor;
 
     if (gradingStudent.paymentStatus != PaymentStatus.pending) {
-      gradingFees = "Not Paid";
-      paidDate = "Not Paid";
+      gradingFees = gradingStudent.gradingFees;
+      paidDate = gradingStudent.paidDate;
       backColor = const Color.fromARGB(255, 165, 255, 168);
       frontColor = Color.fromARGB(192, 102, 245, 107);
     } else {
-      gradingFees = gradingStudent.gradingFees;
-      paidDate = gradingStudent.paidDate;
+      gradingFees = "Not Paid";
+      paidDate = "Not Paid";
       backColor = Color.fromARGB(255, 255, 172, 166);
       frontColor = Color.fromARGB(204, 247, 129, 121);
     }
@@ -119,91 +119,6 @@ class PastGradingDetailsTile extends StatelessWidget {
       ),
     );
   }
-}
-
-void changeGradingResults(BuildContext context, Gradingstudentdetails student,
-    Color frontColor, Gradingstudentdetails studentDetail) {
-  final passedKyu = TextEditingController();
-  showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: Colors.red,
-                  ),
-                  width: 100,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      "Cancel",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-                Container(
-                  //Update new result button
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: const Color.fromARGB(255, 21, 243, 95),
-                  ),
-                  width: 100,
-                  child: TextButton(
-                    onPressed: () {
-                      studentDetail.passedKyu = passedKyu.text;
-                      
-                    },
-                    child: const Text(
-                      "Update",
-                      style: TextStyle(color: Color.fromARGB(255, 7, 0, 39)),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-          backgroundColor: const Color.fromARGB(255, 238, 238, 238),
-          title: const Text("Update grading Results"),
-          icon: const Icon(Icons.update_rounded),
-          shadowColor: Colors.black,
-          surfaceTintColor: frontColor,
-          content: Container(
-            width: double.infinity,
-            height: 150,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 24.0),
-                  child: Text(
-                    "Enter Kyu",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-                InputField(
-                  labelText: "New Kyu",
-                  controller: passedKyu,
-                  keyboardType: TextInputType.text,
-                ),
-              ],
-            ),
-          ),
-        );
-      });
 }
 
 Padding textingDetails(String key, String value) {

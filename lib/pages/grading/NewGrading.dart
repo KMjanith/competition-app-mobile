@@ -9,7 +9,7 @@ import '../../blocs/cubit/recentgradings_cubit.dart';
 import '../../blocs/cubit/update_grading_students_cubit.dart';
 import '../../components/buttons/CreateGradingButon.dart';
 import '../../components/common/HedingAnimation.dart';
-import 'AddNewGradingetails.dart';
+import 'AddNewStudent.dart';
 
 // ignore: must_be_immutable
 class NewGrading extends StatefulWidget {
@@ -157,7 +157,7 @@ class _NewGradingState extends State<NewGrading> {
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        Addnewgradingetails(
+                                                        AddNewStudent(
                                                           grading: state
                                                               .grading[index],
                                                           gradingstudentdetails:

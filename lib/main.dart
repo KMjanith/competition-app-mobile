@@ -1,3 +1,4 @@
+import 'package:competition_app/blocs/cubit/past_grading_details_cubit.dart';
 import 'package:competition_app/pages/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => UpdateGradingStudentsCubit(),
+        ),
+        BlocProvider(
+          create: (_) => PastGradingDetailsCubit(),
         ),
       ],
       child: MaterialApp(

@@ -12,21 +12,21 @@ import '../../components/inputs/Inputs.dart';
 import '../../model/GradingStudentDetals.dart';
 import '../../services/Validator.dart';
 
-class GradingPayments extends StatefulWidget {
+class UpdatePaymentDetails extends StatefulWidget {
   final String gradingId;
   final int index;
   final List<Gradingstudentdetails> gradingstudentdetails;
-  const GradingPayments(
+  const UpdatePaymentDetails(
       {super.key,
       required this.gradingstudentdetails,
       required this.index,
       required this.gradingId});
 
   @override
-  State<GradingPayments> createState() => _GradingstudentState();
+  State<UpdatePaymentDetails> createState() => _GradingstudentState();
 }
 
-class _GradingstudentState extends State<GradingPayments> {
+class _GradingstudentState extends State<UpdatePaymentDetails> {
   final payAmount = TextEditingController();
   final description = TextEditingController();
   final datePaid = TextEditingController();
@@ -49,10 +49,12 @@ class _GradingstudentState extends State<GradingPayments> {
     final allset = Validator.gradingStudentPaymentDetailsValidator(student);
 
     if (allset == true) {
-      gradingservice.updatePaymentStatus(
+      gradingservice.updateGradingStudentDetails(
         widget.gradingId,
         widget.gradingstudentdetails,
         context,
+        "Payment details updated successfully",
+        "Failed to update payment details"
       );
       //updating the ui
       BlocProvider.of<UpdateGradingStudentsCubit>(context)
@@ -61,6 +63,7 @@ class _GradingstudentState extends State<GradingPayments> {
       payAmount.clear();
       datePaid.clear();
       description.clear();
+      
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
