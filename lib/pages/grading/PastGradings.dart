@@ -1,3 +1,4 @@
+import 'package:competition_app/blocs/cubit/past_grading_details_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -104,6 +105,10 @@ class _PastgradingsState extends State<Pastgradings> {
                                   ),
                                   child: ListTile(
                                     onTap: () {
+                                      BlocProvider.of<PastGradingDetailsCubit>(
+                                              context)
+                                          .loadData(state.grading[index]
+                                              .gradingStudentDetails);
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (context) =>

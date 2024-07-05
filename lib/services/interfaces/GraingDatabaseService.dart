@@ -11,8 +11,8 @@ abstract class GradingDatabaseService {
       Gradingstudentdetails student, BuildContext context, Grading grading);
   Future<void> addStudentsToGradings(
       String docId, List<String> newStudent, BuildContext context);
-  Future<void> updatePaymentStatus(String gradingId,
-      List<Gradingstudentdetails> newDetails, BuildContext context);
+  Future<void> updateGradingStudentDetails(String gradingId,
+      List<Gradingstudentdetails> newDetails, BuildContext context, String successMessage, String errorMessage);
   Future<void> deleteGrading(String gradingId, BuildContext context);
   Future<String> deleteStudentFromGrading(
       String gradingId,

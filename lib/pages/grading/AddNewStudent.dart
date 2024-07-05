@@ -1,7 +1,7 @@
 import 'package:competition_app/Constants/PaymentStatus.dart';
 import 'package:competition_app/blocs/cubit/recentgradings_cubit.dart';
 import 'package:competition_app/model/GradingStudentDetals.dart';
-import 'package:competition_app/pages/grading/GradingPayments.dart';
+import 'package:competition_app/pages/grading/UpdatePaymentDetails.dart';
 import 'package:competition_app/services/GradingService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,17 +15,17 @@ import '../../components/inputs/Inputs.dart';
 import '../../model/Grading.dart';
 import '../../services/Validator.dart';
 
-class Addnewgradingetails extends StatefulWidget {
+class AddNewStudent extends StatefulWidget {
   final Grading grading;
   final List<Gradingstudentdetails> gradingstudentdetails;
-  const Addnewgradingetails(
+  const AddNewStudent(
       {super.key, required this.grading, required this.gradingstudentdetails});
 
   @override
-  State<Addnewgradingetails> createState() => _AddnewgradingetailsState();
+  State<AddNewStudent> createState() => _AddnewgradingetailsState();
 }
 
-class _AddnewgradingetailsState extends State<Addnewgradingetails> {
+class _AddnewgradingetailsState extends State<AddNewStudent> {
   late TextEditingController studentNameController;
   late TextEditingController sNoController;
   late TextEditingController currentKyuController;
@@ -261,7 +261,7 @@ class _AddnewgradingetailsState extends State<Addnewgradingetails> {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                GradingPayments(
+                                                UpdatePaymentDetails(
                                               gradingstudentdetails: state,
                                               index: index,
                                               gradingId: widget.grading.id,
