@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../model/Grading.dart';
 import '../../model/GradingStudentDetals.dart';
+import '../../services/AuthService.dart';
 import 'db_cubit.dart';
 
 part 'recentgradings_state.dart';
@@ -16,7 +17,10 @@ class RecentgradingsCubit extends Cubit<RecentgradingsCubitState> {
     var db = BlocProvider.of<DbCubit>(context).firestore;
 
     try {
-      QuerySnapshot querySnapshot = await db.collection('Gradings').get();
+      // Get the current user's UID
+    final auth = Authservice();
+    final uid = auth.getCurrentUserId();
+      QuerySnapshot querySnapshot = await db.collection('Gradings').where('userId', isEqualTo:uid ).get();  //get only the user's grading
       List<Grading> gradings = [];
 
       for (var doc in querySnapshot.docs) {

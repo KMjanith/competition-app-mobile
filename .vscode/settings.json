@@ -5,6 +5,7 @@
         "allset",
         "Authservice",
         "firestore",
+        "Gradings",
         "gradingservice",
         "Gradingstudentdetails",
         "Pastgradings",

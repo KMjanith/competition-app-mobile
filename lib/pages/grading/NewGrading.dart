@@ -1,4 +1,5 @@
 import 'package:competition_app/Constants/StyleConstants.dart';
+import 'package:competition_app/components/common/NothingWidget.dart';
 import 'package:competition_app/model/Grading.dart';
 import 'package:competition_app/pages/grading/PastGradings.dart';
 import 'package:competition_app/services/GradingService.dart';
@@ -97,7 +98,9 @@ class _NewGradingState extends State<NewGrading> {
                                 var today = DateTime.now();
                                 var gradingDate = DateTime.parse(
                                     state.grading[index].gradingTime);
+                                var x = 0;
                                 if (gradingDate.isAfter(today)) {
+                                  x = 1;
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
@@ -183,10 +186,13 @@ class _NewGradingState extends State<NewGrading> {
                                       ),
                                     ),
                                   );
-                                } else {
-                                  return const SizedBox
-                                      .shrink(); // Return an empty container to avoid null
+                                } else if (x == 0) {
+                                  return const NothingWidget(
+                                      content: "No Recent Grading found",
+                                      icon: Icons.error);
                                 }
+                                return const SizedBox
+                                    .shrink(); // Return an empty container to avoid null
                               });
                         }
                         return const SizedBox.shrink();

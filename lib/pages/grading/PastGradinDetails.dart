@@ -125,7 +125,6 @@ class PastGradinDetails extends StatelessWidget {
                             context,
                             "Updated New Results",
                             "Failed to Update New Results");
-                        
                       },
                       child: const Text(
                         "Update",

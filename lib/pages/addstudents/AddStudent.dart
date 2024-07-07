@@ -12,11 +12,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/cubit/db_cubit.dart';
-import '../components/buttons/AddPhotoButton.dart';
-import '../components/inputs/DropDownInput.dart';
-import '../components/inputs/Inputs.dart';
-import '../Constants/StyleConstants.dart';
+import '../../blocs/cubit/db_cubit.dart';
+import '../../components/buttons/AddPhotoButton.dart';
+import '../../components/inputs/DropDownInput.dart';
+import '../../components/inputs/Inputs.dart';
+import '../../Constants/StyleConstants.dart';
 
 class AddStudent extends StatefulWidget {
   const AddStudent({Key? key}) : super(key: key);

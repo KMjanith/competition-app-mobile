@@ -22,13 +22,11 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: StyleConstants.pageBackground,
-        child: SingleChildScrollView(
-          child: Container(
-            // This container ensures the background gradient covers the entire screen
-            height: MediaQuery.of(context).size.height,
-            decoration: StyleConstants.pageBackground,
+      body: Stack(
+        children: [
+          StyleConstants.upperBackgroundContainer,
+          StyleConstants.lowerBackgroundContainer,
+          SingleChildScrollView(
             child: Column(
               children: [
                 const SizedBox(height: 100),
@@ -88,17 +86,19 @@ class _SignUpState extends State<SignUp> {
                     width: double.infinity,
                     height: 50,
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 0, 154, 192),
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                      ),
+                      color: const Color.fromARGB(82, 255, 255, 255),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: TextButton(
                       onPressed: () async {
-                        final man = await _auth.createUserWithEmailAndPassword(
+                        final user = await _auth.logInUserWithEmailAndPassword(
                           emailController.text,
                           passwordController.text,
                         );
-                        print(man);
-                        if (man != null) {
+                        if (user != null) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -108,7 +108,7 @@ class _SignUpState extends State<SignUp> {
                         }
                       },
                       child: const Text(
-                        "Sign Up",
+                        "log in",
                         style: TextStyle(
                           color: Color.fromARGB(255, 20, 0, 65),
                           fontSize: 20,
@@ -117,16 +117,15 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+
+                const SizedBox(height: 10),
 
                 //google sign up
-                GoogleAuth(auth: _auth,context: context),
+                GoogleAuth(auth: _auth, context: context),
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }

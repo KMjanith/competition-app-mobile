@@ -8,9 +8,15 @@ import '../blocs/cubit/recentgradings_cubit.dart';
 import '../components/inputs/DatePickerInput.dart';
 import '../components/inputs/Inputs.dart';
 import '../model/GradingStudentDetals.dart';
+import 'AuthService.dart';
 import 'interfaces/GraingDatabaseService.dart';
 
 class Gradingservice extends GradingDatabaseService {
+
+   // Get the current user's UID
+    final auth = Authservice();
+    
+    
   @override
   void createNewGradingPopUp(BuildContext context) {
     final TextEditingController gradingTimeController = TextEditingController();
@@ -110,8 +116,10 @@ class Gradingservice extends GradingDatabaseService {
   //create a new document in grading collection
   @override
   void createNewGrading(String date, String place, BuildContext context) {
+    final uid = auth.getCurrentUserId();
     final db = BlocProvider.of<DbCubit>(context).firestore;
     final newGrading = <String, dynamic>{
+      'userId': uid,
       'date': date,
       'place': place,
       'students':

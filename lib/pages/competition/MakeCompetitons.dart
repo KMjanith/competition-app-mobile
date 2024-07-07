@@ -1,6 +1,6 @@
 import 'package:competition_app/Constants/StyleConstants.dart';
 import 'package:flutter/material.dart';
-import '../components/common/HedingAnimation.dart';
+import '../../components/common/HedingAnimation.dart';
 
 class MakeCompetition extends StatelessWidget {
   const MakeCompetition({super.key});

@@ -1,4 +1,4 @@
-import 'package:competition_app/pages/ViewData.dart';
+import 'package:competition_app/pages/viewStudentsDetails/ViewData.dart';
 import 'package:competition_app/pages/auth/SignUp.dart';
 import 'package:competition_app/services/AuthService.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +8,8 @@ import '../blocs/cubit/recentgradings_cubit.dart';
 import '../components/common/HedingAnimation.dart';
 import '../components/common/HomeCard.dart';
 import '../Constants/StyleConstants.dart';
-import 'AddStudent.dart';
-import 'MakeCompetitons.dart';
+import 'addstudents/AddStudent.dart';
+import 'competition/MakeCompetitons.dart';
 import 'grading/NewGrading.dart';
 import 'auth/Login.dart';
 
@@ -87,11 +87,31 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _signOut() async {
-    await _auth.logOut();
-    setState(() {
-      _isLoggedIn = false;
-    });
+  void _signOut() {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("Are You sure to sign out?"),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("No"),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await _auth.logOut();
+                    setState(() {
+                      _isLoggedIn = false;
+                    });
+                    
+                  },
+                  child: const Text("Yes"),
+                ),
+              ],
+            ));
   }
 
   @override
@@ -146,14 +166,14 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       HomeCard(
                         buttonText: "Add new Student",
-                        color: Color.fromARGB(255, 33, 0, 65),
+                        color: const Color.fromARGB(255, 33, 0, 65),
                         onPressed: () => _checkUserAuthenticationAndNavigate(
                             const AddStudent()),
                         description: "Add a new student to the database",
                       ),
                       HomeCard(
                         buttonText: "View Students",
-                        color: Color.fromARGB(255, 33, 0, 65),
+                        color: const Color.fromARGB(255, 33, 0, 65),
                         onPressed: () => _checkUserAuthenticationAndNavigate(
                             Viewdata()), // Replace with the actual target page for viewing students
                         description: "View all students in the database",
@@ -167,7 +187,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       HomeCard(
                         buttonText: "New Grading",
-                        color: Color.fromARGB(255, 33, 0, 65),
+                        color: const Color.fromARGB(255, 33, 0, 65),
                         onPressed: () => _checkUserAuthenticationAndNavigate(
                             NewGrading()), // Replace with the actual target page for grading
                         description:
@@ -175,7 +195,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       HomeCard(
                         buttonText: "New Competition",
-                        color: Color.fromARGB(255, 0, 0, 0),
+                        color: const Color.fromARGB(255, 0, 0, 0),
                         onPressed: () => _checkUserAuthenticationAndNavigate(
                             const MakeCompetition()), // Replace with the actual target page for competition
                         description:
