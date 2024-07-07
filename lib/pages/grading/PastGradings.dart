@@ -6,6 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../Constants/StyleConstants.dart';
 import '../../blocs/cubit/recentgradings_cubit.dart';
 import '../../components/common/HedingAnimation.dart';
+import '../../components/common/NothingWidget.dart';
 import '../../model/Grading.dart';
 import '../../services/GradingService.dart';
 import 'PastGradinDetails.dart';
@@ -63,10 +64,12 @@ class _PastgradingsState extends State<Pastgradings> {
                         padding: EdgeInsets.zero,
                         itemCount: state.grading.length,
                         itemBuilder: (context, index) {
+                          var x = 0;
                           var today = DateTime.now();
                           var gradingDate =
                               DateTime.parse(state.grading[index].gradingTime);
                           if (gradingDate.isBefore(today)) {
+                            x = 1;
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
@@ -130,12 +133,13 @@ class _PastgradingsState extends State<Pastgradings> {
                                 ),
                               ),
                             );
-                          } else {
-                            return const SizedBox.shrink();
+                          } else if (x == 0) {
+                            return const NothingWidget(content:"No Past Gradings Found", icon: Icons.error);
                           }
+                          return const SizedBox.shrink();
                         },
                       );
-                    }
+                    } 
                     // Handle other states if necessary
                     return const SizedBox.shrink();
                   },

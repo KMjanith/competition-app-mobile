@@ -14,8 +14,8 @@ class GoogleAuth extends StatelessWidget {
         width: double.infinity,
         height: 50,
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 236, 251, 255),
-          borderRadius: BorderRadius.circular(10),
+          color: const Color.fromARGB(255, 255, 255, 255),
+          borderRadius: BorderRadius.circular(50),
         ),
         child: TextButton(
           onPressed: () async {

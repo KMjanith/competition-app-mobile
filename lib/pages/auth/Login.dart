@@ -1,8 +1,9 @@
+import 'package:competition_app/pages/auth/SignUp.dart';
 import 'package:competition_app/services/AuthService.dart';
 import 'package:flutter/material.dart';
 import '../../components/buttons/GoogleAuth.dart';
-import '../../components/common/HedingAnimation.dart';
 import '../../Constants/StyleConstants.dart';
+import '../../components/common/HedingAnimation.dart';
 import '../../components/inputs/Inputs.dart';
 import '../HomePage.dart';
 
@@ -21,38 +22,59 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: StyleConstants.pageBackground,
-        child: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            decoration: StyleConstants.pageBackground,
+      body: Stack(
+        children: [
+          StyleConstants.upperBackgroundContainer,
+          StyleConstants.lowerBackgroundContainer,
+          SingleChildScrollView(
             child: Column(
               children: [
-                const SizedBox(height: 100),
+                const SizedBox(height: 50),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SignUp()));
+                          },
+                          icon: const Icon(
+                            Icons.app_registration_rounded,
+                            color: Colors.white,
+                            size: 25,
+                          ))
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 const HeadingAnimation(heading: "LOG IN"),
                 const SizedBox(height: 10),
                 Image.asset(
-                  "assets/images/account.png",
+                  "assets/images/login.png",
                   height: 200,
                   width: 200,
                 ),
+                const SizedBox(height: 30),
                 InputField(
                   labelText: "Email",
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                 ),
-
                 InputField(
                   labelText: "Password",
                   controller: passwordController,
                   keyboardType: TextInputType.visiblePassword,
                 ),
-
-                const SizedBox(height: 10),
                 Padding(
                   padding:
-                      const EdgeInsets.only(right: 20, left: 20, bottom: 40),
+                      const EdgeInsets.only(right: 20, left: 20, bottom: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -75,7 +97,10 @@ class _LoginState extends State<Login> {
                     width: double.infinity,
                     height: 50,
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 0, 154, 192),
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                      ),
+                      color: const Color.fromARGB(82, 255, 255, 255),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: TextButton(
@@ -85,7 +110,6 @@ class _LoginState extends State<Login> {
                           passwordController.text,
                         );
                         if (user != null) {
-                          
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -104,17 +128,12 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-
-                //google log in
+                const SizedBox(height: 10),
                 GoogleAuth(auth: _auth, context: context),
-                
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../blocs/viewData/view_data_bloc.dart';
-import '../components/common/CustomDrawer.dart';
-import '../blocs/viewData/ErrorAlert.dart';
-import '../components/common/HedingAnimation.dart';
-import '../components/inputs/Inputs.dart';
-import '../Constants/StyleConstants.dart';
-import '../services/ViewStudent.dart';
+import '../../blocs/viewData/view_data_bloc.dart';
+import '../../components/common/CustomDrawer.dart';
+import '../../blocs/viewData/ErrorAlert.dart';
+import '../../components/common/HedingAnimation.dart';
+import '../../components/inputs/Inputs.dart';
+import '../../Constants/StyleConstants.dart';
+import '../../services/ViewStudent.dart';
 
 class Viewdata extends StatefulWidget {
   @override
