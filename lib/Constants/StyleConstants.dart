@@ -10,58 +10,44 @@ class StyleConstants {
   static Container upperBackgroundContainer = Container(
     height: double.infinity,
     width: double.infinity,
-    decoration: const BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-          Color.fromARGB(255, 18, 0, 20),
-          Color.fromARGB(255, 38, 255, 244),
-          Color.fromARGB(255, 1, 79, 102)
-        ])),
+    decoration: BoxDecoration(gradient: lowerBackgroundColor),
   );
 
   static LinearGradient upperBackgroundColor = const LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        Color.fromARGB(255, 18, 0, 20),
-        Color.fromARGB(255, 38, 255, 244),
-        Color.fromARGB(255, 1, 79, 102)
+        Color.fromARGB(255, 0, 0, 0),
+        Color.fromARGB(255, 64, 0, 124),
+        Color.fromARGB(255, 118, 55, 189),
+        Color.fromARGB(255, 202, 146, 255),
+        Color.fromARGB(255, 226, 191, 255),
       ]);
 
   static LinearGradient lowerBackgroundColor = const LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
       colors: [
-        Color.fromARGB(255, 0, 0, 0),
-        Color.fromARGB(255, 61, 0, 71),
-        Color.fromARGB(255, 238, 183, 183)
+        Color.fromARGB(255, 30, 226, 252),
+        Color.fromARGB(255, 119, 248, 242),
+        Color.fromARGB(255, 56, 214, 206),
+        Color.fromARGB(255, 0, 46, 59)
       ]);
 
-      
   static Positioned lowerBackgroundContainer = Positioned(
       child: Container(
     height: 450,
-    decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
+    decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
-        gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color.fromARGB(255, 0, 0, 0),
-              Color.fromARGB(255, 61, 0, 71),
-              Color.fromARGB(255, 238, 183, 183)
-            ])),
+        gradient: upperBackgroundColor),
   ));
 
   static LinearGradient cardBackGround = const LinearGradient(
     colors: [
-      Color.fromARGB(255, 244, 232, 248),
-      Color.fromARGB(255, 231, 190, 250),
-      Color.fromARGB(255, 181, 222, 247),
-      Color.fromARGB(255, 113, 193, 243)
+      
+      Color.fromARGB(255, 159, 212, 247),
+      Color.fromARGB(255, 13, 98, 196)
     ],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,

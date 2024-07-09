@@ -1,3 +1,4 @@
+import 'package:competition_app/blocs/cubit/news_alerrt_cubit.dart';
 import 'package:competition_app/blocs/cubit/past_grading_details_cubit.dart';
 import 'package:competition_app/pages/HomePage.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => PastGradingDetailsCubit(),
+        ),
+        BlocProvider(
+          create: (_) => NewsAlertCubit(),
         ),
       ],
       child: MaterialApp(

@@ -22,7 +22,7 @@ class _HeadingAnimationState extends State<HeadingAnimation> {
             textStyle: GoogleFonts.cairo(
               fontWeight: FontWeight.bold,
               fontSize: 30,
-              color: Color.fromARGB(255, 0, 135, 168),
+              color: Color.fromARGB(255, 48, 203, 241),
             ),
             speed: const Duration(milliseconds: 100),
           ),
