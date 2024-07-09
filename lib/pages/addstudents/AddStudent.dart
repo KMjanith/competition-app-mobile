@@ -86,6 +86,7 @@ class _AddStudentState extends State<AddStudent> {
   }
 
   void addStudent() async {
+    print("in the add student method");
     final Addstudentmodel studentValidator = Addstudentmodel(
       firstName: firstName.text,
       lastName: lastName.text,
@@ -101,7 +102,7 @@ class _AddStudentState extends State<AddStudent> {
 
     //form validator
     final allset = Validator.StudentValidator(studentValidator);
-
+    
     if (allset != true) {
       showDialog(
         context: context,
@@ -164,8 +165,8 @@ class _AddStudentState extends State<AddStudent> {
         .getDownloadURL(); //taking the download url to store in the firestore
 
     // Get the current user's UID
-    final _auth = Authservice();
-    final uid = _auth.getCurrentUserId();
+    final auth = Authservice();
+    final uid = auth.getCurrentUserId();
 
     //this map will store in the firestore document
     final student = <String, dynamic>{
@@ -372,8 +373,10 @@ class _AddStudentState extends State<AddStudent> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     //submit button
-                    SubmitButton(addStudent: addStudent, title: "Add Student",),
-
+                    SubmitButton(
+                      addStudent: addStudent,
+                      title: "Add Student",
+                    ),
                     //Cancel Button
                     const CancelButton()
                   ],

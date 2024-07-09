@@ -1,10 +1,10 @@
 import "package:flutter/material.dart";
-
 import "../../Constants/StyleConstants.dart";
 
 class SubmitButton extends StatelessWidget {
   final VoidCallback? addStudent;
   final String title;
+
   const SubmitButton({super.key, this.addStudent, required this.title});
 
   @override
@@ -21,11 +21,11 @@ class SubmitButton extends StatelessWidget {
           height: 60,
           child: TextButton(
             onPressed: () {
-              addStudent;
+              addStudent?.call(); // Correctly calling the method
             },
             child: Text(
               title,
-              style: TextStyle(fontSize: 18, color: Colors.white),
+              style: const TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
         ),
