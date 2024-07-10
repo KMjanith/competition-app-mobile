@@ -18,11 +18,9 @@ class NewsAlertCubit extends Cubit<NewsAlertState> {
             HomePageService().parseArticles(res.body);
         emit(NewsAlertLoaded(articles));
       } else {
-        print("first");
         emit(NewsAlertError('Failed to load news'));
       }
     } catch (e) {
-      print("second");
       emit(NewsAlertError('Failed to load news ->  error is : $e'));
     }
   }

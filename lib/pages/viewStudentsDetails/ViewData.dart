@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../blocs/viewData/view_data_bloc.dart';
+import '../../blocs/cubit/view_data_cubit.dart';
 import '../../components/common/CustomDrawer.dart';
 import '../../blocs/viewData/ErrorAlert.dart';
 import '../../components/common/HedingAnimation.dart';
@@ -19,9 +18,7 @@ class _ViewdataState extends State<Viewdata> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ViewDataBloc>().add(viewIntialData());
-    });
+    context.read<ViewStudentDataCubit>().loadStudents(context);
   }
 
   CustomDrawer _returnDrawer(BuildContext context) {
@@ -45,15 +42,18 @@ class _ViewdataState extends State<Viewdata> {
                     TextButton(
                       onPressed: () {
                         final viewStudent =
-                            Provider.of<Viewstudent>(context, listen: false);
+                            BlocProvider.of<ViewStudentDataCubit>(context)
+                                .getStudents();
+                        final viewStudentService = Viewstudent();
+
                         final indexNo = indexInputController.text;
-                        final student = viewStudent.students.firstWhere(
+                        final student = viewStudent.firstWhere(
                           (student) => student['indexNo'] == indexNo,
                           orElse: () => {},
                         );
 
                         if (student.isNotEmpty) {
-                          viewStudent.showStudentDialog(student, context);
+                          viewStudentService.showStudentDialog(student, context);
                         } else {
                           showDialog(
                             context: context,
@@ -100,11 +100,11 @@ class _ViewdataState extends State<Viewdata> {
             ),
             const HeadingAnimation(heading: "Student data"),
             Expanded(
-              child: BlocBuilder<ViewDataBloc, ViewDataState>(
+              child: BlocBuilder<ViewStudentDataCubit, ViewStudentDataState>(
                 builder: (context, state) {
-                  if (state is ViewDataLoading) {
+                  if (state is ViewDataStudentsLoading) {
                     return const Center(child: CircularProgressIndicator());
-                  } else if (state is ViewDataLoaded) {
+                  } else if (state is ViewDataStudentsLoaded) {
                     return ListView.builder(
                       padding: EdgeInsets.zero,
                       itemCount: state.students.length,
@@ -113,9 +113,10 @@ class _ViewdataState extends State<Viewdata> {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: GestureDetector(
-                            onTap: () => context
-                                .read<Viewstudent>()
-                                .showStudentDialog(student, context),
+                            onTap: () {
+                              final viewStudentService = Viewstudent();
+                              viewStudentService.showStudentDialog(student, context);
+                            },
                             child: Container(
                               decoration: BoxDecoration(
                                 gradient: StyleConstants.cardBackGround,
@@ -173,7 +174,7 @@ class _ViewdataState extends State<Viewdata> {
                         );
                       },
                     );
-                  } else if (state is ViewDataError) {
+                  } else if (state is ViewDataStudentsError) {
                     return const Center(
                       child: Text("something"),
                     );

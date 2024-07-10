@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "Addnewgradingetails",
+        "Addstudentmodel",
         "alegreya",
         "allset",
         "Authservice",
@@ -11,6 +12,7 @@
         "Pastgradings",
         "perticular",
         "Recentgradings",
-        "Viewdatservice"
+        "Viewdatservice",
+        "Viewstudent"
     ]
 }

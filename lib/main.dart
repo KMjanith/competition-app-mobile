@@ -8,9 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/cubit/db_cubit.dart';
 import 'blocs/cubit/recentgradings_cubit.dart';
 import 'blocs/cubit/update_grading_students_cubit.dart';
+import 'blocs/cubit/view_data_cubit.dart';
 import 'firebase_options.dart';
-import 'services/ViewStudent.dart';
-import 'blocs/viewData/view_data_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,12 +25,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => Viewstudent(),
-        ),
-        BlocProvider(
-          create: (context) => ViewDataBloc(Provider.of<Viewstudent>(context, listen: false)),
-        ),
         BlocProvider(
           create: (_) => DbCubit(),
         ),
@@ -46,6 +39,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => NewsAlertCubit(),
+        ),
+        BlocProvider(
+          create: (_) => ViewStudentDataCubit(),
         ),
       ],
       child: MaterialApp(
