@@ -35,7 +35,7 @@ class InputField extends StatelessWidget {
                 BorderSide(color: Colors.transparent), // Transparent border
           ),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: const Color.fromARGB(150, 255, 255, 255),
           labelText: labelText,
           labelStyle: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
           hintText: "Enter $labelText",

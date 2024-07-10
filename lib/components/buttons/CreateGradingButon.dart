@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CreateGradingButon extends StatelessWidget {
-  final VoidCallback createGrading;
+class CreateWhiteButon extends StatelessWidget {
+  final VoidCallback callback;
   final String buttonTitle;
-  const CreateGradingButon(
-      {super.key, required this.createGrading, required this.buttonTitle});
+  const CreateWhiteButon(
+      {super.key, required this.callback, required this.buttonTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class CreateGradingButon extends StatelessWidget {
           height: 70,
           child: Center(
             child: TextButton(
-              onPressed: createGrading,
+              onPressed: callback,
               child: Text(
                 buttonTitle,
                 style: GoogleFonts.cairo(fontSize: 18, color: Colors.black),

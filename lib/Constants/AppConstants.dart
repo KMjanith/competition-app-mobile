@@ -16,13 +16,24 @@ class AppConstants {
 
   static const List<DropdownMenuItem<String>> paymentStatus = [
     DropdownMenuItem(
-        value: PaymentStatus.pending,
-        child: Text(PaymentStatus.pending)),
+        value: PaymentStatus.pending, child: Text(PaymentStatus.pending)),
     DropdownMenuItem(
         value: PaymentStatus.paidHandOver,
         child: Text(PaymentStatus.paidHandOver)),
     DropdownMenuItem(
         value: PaymentStatus.paidWithBankSlip,
         child: Text(PaymentStatus.paidWithBankSlip)),
+  ];
+
+  static const List<String> provincesOfSriLanka = [
+    "Central Province",
+    "Eastern Province",
+    "Northern Province",
+    "North Central Province",
+    "North Western Province",
+    "Sabaragamuwa Province",
+    "Southern Province",
+    "Uva Province",
+    "Western Province"
   ];
 }
