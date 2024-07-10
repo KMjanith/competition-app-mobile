@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SelectCompetition extends StatelessWidget {
+  final Widget pageToNavigate;
   final String competitionName;
   final Color color;
   const SelectCompetition(
-      {super.key, required this.competitionName, required this.color});
+      {super.key, required this.competitionName, required this.color, required this.pageToNavigate});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,12 @@ class SelectCompetition extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Center(
               child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => pageToNavigate),
+                    );
+                  },
                   child: Column(
                     children: [
                       const Image(

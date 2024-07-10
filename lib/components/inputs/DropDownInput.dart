@@ -22,7 +22,7 @@ class _DropDownInputState extends State<DropDownInput> {
       child: DropdownButtonFormField<String>(
         decoration: InputDecoration(
           filled: true,
-          fillColor: Colors.white,
+            fillColor: const Color.fromARGB(150, 255, 255, 255),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none, // No border side color
@@ -41,7 +41,7 @@ class _DropDownInputState extends State<DropDownInput> {
         value: selectedItem,
         hint:Text(
           widget.title,
-          style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+          style: TextStyle(color: Color.fromARGB(255, 61, 61, 61)),
         ),
         items: widget.itemList,
         onChanged: (String? newValue) {

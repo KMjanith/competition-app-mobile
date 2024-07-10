@@ -59,14 +59,14 @@ class _NewGradingState extends State<NewGrading> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     //create a new Grading
-                    CreateGradingButon(
-                        createGrading: () =>
+                    CreateWhiteButon(
+                        callback: () =>
                             gradingService.createNewGradingPopUp(context),
                         buttonTitle: 'CREATE GRADING'),
 
                     //Past Grading
-                    CreateGradingButon(
-                        createGrading: () => Navigator.of(context).push(
+                    CreateWhiteButon(
+                        callback: () => Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (context) => const Pastgradings())),
                         buttonTitle: 'PAST GRADINGS'),

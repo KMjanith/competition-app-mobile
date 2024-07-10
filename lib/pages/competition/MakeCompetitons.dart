@@ -1,4 +1,8 @@
 import 'package:competition_app/Constants/StyleConstants.dart';
+import 'package:competition_app/pages/competition/Custom.dart';
+import 'package:competition_app/pages/competition/Ministry.dart';
+import 'package:competition_app/pages/competition/NationalFederation.dart';
+import 'package:competition_app/pages/competition/SchoolKarateAssociation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../../components/common/HedingAnimation.dart';
@@ -39,33 +43,44 @@ class MakeCompetition extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Color.fromARGB(48, 255, 255, 255),
+                        color: const Color.fromARGB(48, 255, 255, 255),
                         borderRadius: BorderRadius.circular(10)),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              SelectCompetition(
-                                competitionName: "National School Meet",
+                              const SelectCompetition(
+                                pageToNavigate: NationalFederation(
+                                    headingTitle: "National Federation Meet"),
+                                competitionName: "National Federation Meet",
                                 color: Colors.red,
                               ),
                               SelectCompetition(
-                                competitionName: "National Federation Meet",
+                                pageToNavigate: SchoolKarateAssociation(
+                                  HeadingTitle: "National School Meet",
+                                ),
+                                competitionName: "National School Meet",
                                 color: Colors.green,
                               ),
                             ],
                           ),
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               SelectCompetition(
+                                pageToNavigate: CustomMeet(
+                                  headingTitle: "Custom Meet",
+                                ),
                                 competitionName: "Wado Meet",
                                 color: Colors.blue,
                               ),
                               SelectCompetition(
+                                pageToNavigate: Ministry(
+                                  headingTitle: "Ministry Meet",
+                                ),
                                 competitionName: "Ministry Meet",
                                 color: Colors.yellow,
                               ),

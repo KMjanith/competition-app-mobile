@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _checkUserLoggedInStatus();
-    BlocProvider.of<NewsAlertCubit>(context).getNews();
+    //BlocProvider.of<NewsAlertCubit>(context).getNews();
   }
 
   void _checkUserLoggedInStatus() {
