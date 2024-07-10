@@ -1,30 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'AuthService.dart';
 
 class Viewstudent with ChangeNotifier {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final _auth = Authservice();
-  final List<Map<String, dynamic>> _students = [];
-
-  List<Map<String, dynamic>> get students => _students;
-
   Viewstudent() {
-    getCollection();
-  }
-
-  //function for get the all data from the firestore collection
-  Future<void> getCollection() async {
-    QuerySnapshot querySnapshot = await _firestore
-        .collection('students')
-        .where('user', isEqualTo: _auth.getCurrentUserId())
-        .get();
-    _students.clear(); // Clear previous data
-    for (var doc in querySnapshot.docs) {
-      _students.add(doc.data() as Map<String, dynamic>);
-    }
-    notifyListeners(); // Notify listeners about the data change
+    //getCollection();
   }
 
   void showStudentDialog(Map<String, dynamic> student, BuildContext context) {
