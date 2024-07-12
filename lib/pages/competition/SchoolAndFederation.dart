@@ -1,38 +1,43 @@
-import 'package:competition_app/Constants/StyleConstants.dart';
-import 'package:competition_app/components/common/NothingWidget.dart';
-import 'package:competition_app/model/Grading.dart';
-import 'package:competition_app/pages/grading/PastGradings.dart';
-import 'package:competition_app/services/GradingService.dart';
+import 'package:competition_app/cubit/db_cubit.dart';
+import 'package:competition_app/model/Competition.dart';
+import 'package:competition_app/pages/competition/forms/SchoolAndfederationForm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import '../../cubit/recentgradings_cubit.dart';
-import '../../cubit/update_grading_students_cubit.dart';
+
+import '../../Constants/StyleConstants.dart';
 import '../../components/buttons/CreateGradingButon.dart';
 import '../../components/common/HedingAnimation.dart';
-import 'AddNewStudent.dart';
+import '../../components/common/NothingWidget.dart';
+import '../../cubit/fed_shol_competiton_cubit.dart';
+import '../../services/CompetitionService.dart';
 
-// ignore: must_be_immutable
-class NewGrading extends StatefulWidget {
-  NewGrading({super.key});
+class SchoolAndFederation extends StatefulWidget {
+  final String type;
+  final String headingTitle;
+  const SchoolAndFederation(
+      {super.key, required this.headingTitle, required this.type});
 
   @override
-  State<NewGrading> createState() => _NewGradingState();
+  State<SchoolAndFederation> createState() => _SchoolAndFederationState();
 }
 
-class _NewGradingState extends State<NewGrading> {
+class _SchoolAndFederationState extends State<SchoolAndFederation> {
+  void goToPage() {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const SchoolAndFederationForm()));
+  }
+
   @override
   void initState() {
     super.initState();
-    // Use a post-frame callback to ensure the context is properly initialized.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<RecentgradingsCubit>(context).loadData(context);
-    });
+    final db = BlocProvider.of<DbCubit>(context).firestore;
+    BlocProvider.of<FedSholCompetitionCubit>(context)
+        .loadCompetitions(db, widget.type);
   }
 
   @override
   Widget build(BuildContext context) {
-    final gradingService = Gradingservice();
     return Scaffold(
       body: Stack(
         children: [
@@ -54,27 +59,26 @@ class _NewGradingState extends State<NewGrading> {
                     ),
                   ],
                 ),
-                const HeadingAnimation(heading: "New Grading"),
+                HeadingAnimation(heading: widget.headingTitle),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     //create a new Grading
                     CreateWhiteButon(
-                        callback: () =>
-                            gradingService.createNewGradingPopUp(context),
-                        buttonTitle: 'CREATE GRADING'),
+                        callback: () {
+                          createCompetition(context);
+                        },
+                        buttonTitle: 'CREATE MEET'),
 
                     //Past Grading
                     CreateWhiteButon(
-                        callback: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const Pastgradings())),
-                        buttonTitle: 'PAST GRADINGS'),
+                        callback: () {}, buttonTitle: 'PAST MEETS'),
                   ],
                 ),
+                const SizedBox(height: 20),
                 const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text("Next Grading",
+                  child: Text("Next Meet",
                       style: TextStyle(fontSize: 20, color: Colors.white)),
                 ),
                 Padding(
@@ -84,20 +88,20 @@ class _NewGradingState extends State<NewGrading> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     height: 450,
-                    child: BlocBuilder<RecentgradingsCubit,
-                        RecentgradingsCubitState>(
+                    child: BlocBuilder<FedSholCompetitionCubit,
+                        FedSholCompetitionState>(
                       builder: (context, state) {
-                        if (state is RecentgradingsLoading) {
+                        if (state is FedSholCompetitonLoading) {
                           return const Center(
                               child: CircularProgressIndicator());
-                        } else if (state is RecentgradingsLoaded) {
+                        } else if (state is FedSholCompetitonLoaded) {
                           return ListView.builder(
                               padding: EdgeInsets.zero,
-                              itemCount: state.grading.length,
+                              itemCount: state.competitions.length,
                               itemBuilder: (context, index) {
                                 var today = DateTime.now();
-                                var gradingDate = DateTime.parse(
-                                    state.grading[index].gradingTime);
+                                var gradingDate =
+                                    state.competitions[index].date;
                                 var x = 0;
                                 if (gradingDate.isAfter(today)) {
                                   x = 1;
@@ -105,35 +109,26 @@ class _NewGradingState extends State<NewGrading> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                          //color: Color.fromARGB(221, 255, 255, 255),
                                           gradient:
                                               StyleConstants.cardBackGround,
                                           borderRadius:
                                               BorderRadius.circular(16)),
                                       height: 75,
                                       child: Slidable(
-                                        // Specify a key if the Slidable is dismissible.
                                         key: const ValueKey(0),
-
-                                        // The start action pane is the one at the left or the top side.
                                         endActionPane: ActionPane(
-                                          // A motion is a widget used to control how the pane animates.
                                           motion: const ScrollMotion(),
-
-                                          // A pane can dismiss the Slidable.
                                           dismissible: DismissiblePane(
                                               onDismissed: () {}),
-
-                                          // All actions are defined in the children parameter.
                                           children: [
-                                            // A SlidableAction can have an icon and/or a label.
                                             SlidableAction(
                                               onPressed: (context) => {
                                                 doNothing(
                                                     context,
-                                                    state.grading[index].id,
+                                                    state.competitions[index]
+                                                        .userId,
                                                     index,
-                                                    state.grading)
+                                                    state.competitions)
                                               },
                                               backgroundColor:
                                                   const Color(0xFFFE4A49),
@@ -145,43 +140,21 @@ class _NewGradingState extends State<NewGrading> {
                                             ),
                                           ],
                                         ),
-
                                         child: ListTile(
-                                          onTap: () {
-                                            //navigate to the grading details page
-                                            //loading exiting student list to the BlocProvider
-                                            BlocProvider.of<
-                                                        UpdateGradingStudentsCubit>(
-                                                    context)
-                                                .addInitialStudent(state
-                                                    .grading[index]
-                                                    .gradingStudentDetails);
-
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        AddNewStudent(
-                                                          grading: state
-                                                              .grading[index],
-                                                          gradingstudentdetails:
-                                                              state
-                                                                  .grading[
-                                                                      index]
-                                                                  .gradingStudentDetails,
-                                                        )));
-                                          },
+                                          onTap: () {},
                                           trailing: const Icon(Icons.menu),
                                           leading: const Icon(
                                               Icons.account_tree_rounded),
                                           tileColor: const Color.fromARGB(
                                               255, 12, 110, 160),
                                           title: Text(
-                                            state.grading[index].gradingPlace,
+                                            state.competitions[index].place,
                                             style:
                                                 const TextStyle(fontSize: 20),
                                           ),
-                                          subtitle: Text(
-                                              state.grading[index].gradingTime),
+                                          subtitle: Text(state
+                                              .competitions[index].date
+                                              .toString()),
                                         ),
                                       ),
                                     ),
@@ -209,32 +182,37 @@ class _NewGradingState extends State<NewGrading> {
   }
 
   void doNothing(BuildContext context, String gradingId, int index,
-      List<Grading> list) async {
-    final Gradingservice gradingservice = Gradingservice();
-    BlocProvider.of<RecentgradingsCubit>(context)
-        .deleteItem(index, list, gradingId, context);
-    dynamic result = await gradingservice.deleteGrading(
-        gradingId, context); // Await deletion
+      List<Competition> list) async {
+    //final competitionService = CompetitionService();
+    // BlocProvider.of<RecentgradingsCubit>(context)
+    //     .deleteItem(index, list, gradingId, context);
+    //dynamic result = await competitionService.deleteGrading(
+    //gradingId, context); // Await deletion
 
     if (!mounted) return; // Ensure the widget is still mounted
 
-    if (result == "Success") {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: const Color.fromARGB(255, 18, 189, 2),
-        content: Text(
-          "Successfully deleted the grading with ID: $gradingId",
-          style: const TextStyle(fontSize: 20),
-        ),
-      ));
-    } else {
-      // Handle errors appropriately
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: const Color.fromARGB(255, 189, 2, 2),
-        content: Text(
-          "Error deleting grading: ${result.toString()}",
-          style: const TextStyle(fontSize: 20),
-        ),
-      ));
-    }
+    // if (result == "Success") {
+    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //     backgroundColor: const Color.fromARGB(255, 18, 189, 2),
+    //     content: Text(
+    //       "Successfully deleted the grading with ID: $gradingId",
+    //       style: const TextStyle(fontSize: 20),
+    //     ),
+    //   ));
+    // } else {
+    //   // Handle errors appropriately
+    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //     backgroundColor: const Color.fromARGB(255, 189, 2, 2),
+    //     content: Text(
+    //       "Error deleting grading: ${result.toString()}",
+    //       style: const TextStyle(fontSize: 20),
+    //     ),
+    //   ));
+    // }
+  }
+
+  void createCompetition(BuildContext context) {
+    final competitionService = CompetitionService();
+    competitionService.createNewCompetitionPopUp(context, widget.type);
   }
 }

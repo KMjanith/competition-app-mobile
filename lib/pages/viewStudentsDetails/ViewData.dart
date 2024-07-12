@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../blocs/cubit/view_data_cubit.dart';
+import '../../cubit/view_data_cubit.dart';
 import '../../components/common/CustomDrawer.dart';
-import '../../blocs/viewData/ErrorAlert.dart';
+import '../../cubit/ErrorAlert.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/inputs/Inputs.dart';
 import '../../Constants/StyleConstants.dart';

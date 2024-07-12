@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../model/Grading.dart';
-import '../../model/GradingStudentDetals.dart';
-import '../../services/AuthService.dart';
+import '../model/Grading.dart';
+import '../model/GradingStudentDetals.dart';
+import '../services/AuthService.dart';
 import 'db_cubit.dart';
 
 part 'recentgradings_state.dart';
@@ -18,9 +18,12 @@ class RecentgradingsCubit extends Cubit<RecentgradingsCubitState> {
 
     try {
       // Get the current user's UID
-    final auth = Authservice();
-    final uid = auth.getCurrentUserId();
-      QuerySnapshot querySnapshot = await db.collection('Gradings').where('userId', isEqualTo:uid ).get();  //get only the user's grading
+      final auth = Authservice();
+      final uid = auth.getCurrentUserId();
+      QuerySnapshot querySnapshot = await db
+          .collection('Gradings')
+          .where('userId', isEqualTo: uid)
+          .get(); //get only the user's grading
       List<Grading> gradings = [];
 
       for (var doc in querySnapshot.docs) {
@@ -30,14 +33,13 @@ class RecentgradingsCubit extends Cubit<RecentgradingsCubitState> {
           var studentString = stringStudent[i];
           var student = studentString.split(',');
           var studentDetails = Gradingstudentdetails(
-            sNo: student[0].trim(),
-            fullName: student[1].trim(),
-            currentKyu: student[2].trim(),
-            paymentStatus: student[3].trim(),
-            gradingFees: student[4].trim(),
-            paidDate: student[5].trim(),
-            passedKyu: student[6].trim()
-          );
+              sNo: student[0].trim(),
+              fullName: student[1].trim(),
+              currentKyu: student[2].trim(),
+              paymentStatus: student[3].trim(),
+              gradingFees: student[4].trim(),
+              paidDate: student[5].trim(),
+              passedKyu: student[6].trim());
 
           gradingStudentDetails.add(studentDetails);
         }
@@ -67,7 +69,7 @@ class RecentgradingsCubit extends Cubit<RecentgradingsCubitState> {
       emit(RecentgradingsLoaded([...currentState.grading, grading]));
     }
   }
-  
+
   void updateGradingList(Grading grading, String newListId) {
     final updatedList = (state as RecentgradingsLoaded)
         .grading

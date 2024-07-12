@@ -1,4 +1,4 @@
-import 'package:competition_app/blocs/cubit/past_grading_details_cubit.dart';
+import 'package:competition_app/cubit/past_grading_details_cubit.dart';
 import 'package:competition_app/services/GradingService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

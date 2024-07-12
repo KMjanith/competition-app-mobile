@@ -26,14 +26,30 @@ class AppConstants {
   ];
 
   static const List<String> provincesOfSriLanka = [
-    "Central Province",
-    "Eastern Province",
-    "Northern Province",
-    "North Central Province",
-    "North Western Province",
-    "Sabaragamuwa Province",
-    "Southern Province",
-    "Uva Province",
-    "Western Province"
+    "All Island",
+    "Central Prov",
+    "Eastern Prov",
+    "Northern Prov",
+    "North Central Prov",
+    "North Western Prov",
+    "Sabaragamuwa Prov",
+    "Southern Prov",
+    "Uva Prov",
+    "Western Prov"
+  ];
+
+  static const List<String> levels = [
+    "Lv.1",
+    "Lv.2",
+    "Lv.3",
+    "Lv.4",
+    "Lv.5",
+  ];
+
+  static const List<String> catagories = [
+    "Junior",
+    "Cadet",
+    "Sub Junior",
+    "Senior",
   ];
 }
