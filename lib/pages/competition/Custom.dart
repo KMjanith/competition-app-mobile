@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../Constants/StyleConstants.dart';
 import '../../components/buttons/CreateGradingButon.dart';
 import '../../components/common/HedingAnimation.dart';
+import '../../services/CompetitionService.dart';
 
 class CustomMeet extends StatefulWidget {
   final String headingTitle;
@@ -42,7 +43,11 @@ class _CustomMeetState extends State<CustomMeet> {
                   children: [
                     //create a new Grading
                     CreateWhiteButon(
-                        callback: () {}, buttonTitle: 'CREATE MEET'),
+                        callback: () {
+                          final competitionService = CompetitionService();
+                          competitionService.createNewCompetitionPopUp(context,"Custom");
+                        },
+                        buttonTitle: 'CREATE MEET'),
 
                     //Past Grading
                     CreateWhiteButon(

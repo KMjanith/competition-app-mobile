@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:competition_app/blocs/cubit/db_cubit.dart';
+import 'package:competition_app/cubit/db_cubit.dart';
 import 'package:competition_app/services/AuthService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

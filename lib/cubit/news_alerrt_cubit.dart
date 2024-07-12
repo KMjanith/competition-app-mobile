@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../model/Article.dart';
-import '../../services/HomePageServices.dart';
+import '../model/Article.dart';
+import '../services/HomePageServices.dart';
 
 part 'news_alerrt_state.dart';
 

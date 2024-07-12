@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../Constants/StyleConstants.dart';
 import '../../components/buttons/CreateGradingButon.dart';
 import '../../components/common/HedingAnimation.dart';
+import '../../services/CompetitionService.dart';
 
 class Ministry extends StatefulWidget {
   final String headingTitle;
@@ -50,7 +51,10 @@ class _MinistryState extends State<Ministry> {
                   children: [
                     //create a new Grading
                     CreateWhiteButon(
-                        callback: () => goToPage(), buttonTitle: 'CREATE MEET'),
+                        callback: (){
+                          final competitionService = CompetitionService();
+                          competitionService.createNewCompetitionPopUp(context, "Ministry");
+                        }, buttonTitle: 'CREATE MEET'),
 
                     //Past Grading
                     CreateWhiteButon(

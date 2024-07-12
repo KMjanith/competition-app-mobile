@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import '../../model/GradingStudentDetals.dart';
+import '../model/GradingStudentDetals.dart';
 
 part 'update_grading_students_state.dart';
 
