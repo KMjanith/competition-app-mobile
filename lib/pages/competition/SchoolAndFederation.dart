@@ -1,6 +1,5 @@
 import 'package:competition_app/cubit/db_cubit.dart';
-import 'package:competition_app/model/Competition.dart';
-import 'package:competition_app/pages/competition/forms/SchoolAndfederationForm.dart';
+import 'package:competition_app/pages/competition/AddFedShoolPlayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -10,6 +9,7 @@ import '../../components/buttons/CreateGradingButon.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/common/NothingWidget.dart';
 import '../../cubit/fed_shol_competiton_cubit.dart';
+import '../../model/Competition.dart';
 import '../../services/CompetitionService.dart';
 
 class SchoolAndFederation extends StatefulWidget {
@@ -23,9 +23,9 @@ class SchoolAndFederation extends StatefulWidget {
 }
 
 class _SchoolAndFederationState extends State<SchoolAndFederation> {
-  void goToPage() {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const SchoolAndFederationForm()));
+  void goToPage(Competition competiton) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => AddFedShoolPlayers(competiton: competiton,)));
   }
 
   @override
@@ -34,6 +34,7 @@ class _SchoolAndFederationState extends State<SchoolAndFederation> {
     final db = BlocProvider.of<DbCubit>(context).firestore;
     BlocProvider.of<FedSholCompetitionCubit>(context)
         .loadCompetitions(db, widget.type);
+    
   }
 
   @override
@@ -125,8 +126,8 @@ class _SchoolAndFederationState extends State<SchoolAndFederation> {
                                               onPressed: (context) => {
                                                 doNothing(
                                                     context,
-                                                    state.competitions[index]
-                                                        .userId,
+                                                    state
+                                                        .competitions[index].id,
                                                     index,
                                                     state.competitions)
                                               },
@@ -141,7 +142,9 @@ class _SchoolAndFederationState extends State<SchoolAndFederation> {
                                           ],
                                         ),
                                         child: ListTile(
-                                          onTap: () {},
+                                          onTap: () {
+                                            goToPage(state.competitions[index]);
+                                          },
                                           trailing: const Icon(Icons.menu),
                                           leading: const Icon(
                                               Icons.account_tree_rounded),
@@ -154,14 +157,15 @@ class _SchoolAndFederationState extends State<SchoolAndFederation> {
                                           ),
                                           subtitle: Text(state
                                               .competitions[index].date
-                                              .toString()),
+                                              .toString()
+                                              .split(" ")[0]),
                                         ),
                                       ),
                                     ),
                                   );
                                 } else if (x == 0) {
                                   return const NothingWidget(
-                                      content: "No Recent Grading found",
+                                      content: "No Recent Competitions found",
                                       icon: Icons.error);
                                 }
                                 return const SizedBox
@@ -181,34 +185,35 @@ class _SchoolAndFederationState extends State<SchoolAndFederation> {
     );
   }
 
-  void doNothing(BuildContext context, String gradingId, int index,
-      List<Competition> list) async {
-    //final competitionService = CompetitionService();
-    // BlocProvider.of<RecentgradingsCubit>(context)
-    //     .deleteItem(index, list, gradingId, context);
-    //dynamic result = await competitionService.deleteGrading(
-    //gradingId, context); // Await deletion
+  void doNothing(BuildContext context, String competitionId, int index,
+      List<Competition> currentList) async {
+    final competitionService = CompetitionService();
 
-    if (!mounted) return; // Ensure the widget is still mounted
-
-    // if (result == "Success") {
-    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //     backgroundColor: const Color.fromARGB(255, 18, 189, 2),
-    //     content: Text(
-    //       "Successfully deleted the grading with ID: $gradingId",
-    //       style: const TextStyle(fontSize: 20),
-    //     ),
-    //   ));
-    // } else {
-    //   // Handle errors appropriately
-    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //     backgroundColor: const Color.fromARGB(255, 189, 2, 2),
-    //     content: Text(
-    //       "Error deleting grading: ${result.toString()}",
-    //       style: const TextStyle(fontSize: 20),
-    //     ),
-    //   ));
-    // }
+    final db = BlocProvider.of<DbCubit>(context).firestore;
+    String result = await competitionService.deleteCompetiton(
+        competitionId, db); // Await deletion
+    if (result == "Success" ) {
+      //update the state
+      BlocProvider.of<FedSholCompetitionCubit>(context)
+          .deleteCompetiton(index, currentList);
+          
+      //show snackbar
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: const Color.fromARGB(255, 18, 189, 2),
+        content: Text(
+          "Successfully deleted the competition with ID: $competitionId",
+          style: const TextStyle(fontSize: 20),
+        ),
+      ));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: const Color.fromARGB(255, 189, 2, 2),
+        content: Text(
+          "Error deleting competiton: ${result.toString()}",
+          style: const TextStyle(fontSize: 20),
+        ),
+      ));
+    }
   }
 
   void createCompetition(BuildContext context) {

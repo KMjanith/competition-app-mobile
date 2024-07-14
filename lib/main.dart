@@ -44,10 +44,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => ViewStudentDataCubit(),
         ),
-         BlocProvider(
+        BlocProvider(
           create: (_) => FedSholCompetitionCubit(),
         ),
-        
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

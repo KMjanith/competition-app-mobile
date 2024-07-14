@@ -12,6 +12,13 @@ class AppConstants {
     DropdownMenuItem(value: "grade 4", child: Text("grade 4")),
     DropdownMenuItem(value: "grade 5", child: Text("grade 5")),
     DropdownMenuItem(value: "grade 6", child: Text("grade 6")),
+    DropdownMenuItem(value: "grade 7", child: Text("grade 7")),
+    DropdownMenuItem(value: "grade 8", child: Text("grade 8")),
+    DropdownMenuItem(value: "grade 9", child: Text("grade 9")),
+    DropdownMenuItem(value: "grade 10", child: Text("grade 10")),
+    DropdownMenuItem(value: "grade 11", child: Text("grade 11")),
+    DropdownMenuItem(value: "grade 12", child: Text("grade 12")),
+    DropdownMenuItem(value: "grade 13", child: Text("grade 13")),
   ];
 
   static const List<DropdownMenuItem<String>> paymentStatus = [

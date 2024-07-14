@@ -30,12 +30,12 @@ class _DropDownInputState extends State<DropDownInput> {
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide:
-                BorderSide(color: Colors.transparent), // Transparent border
+                const BorderSide(color: Colors.transparent), // Transparent border
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide:
-                BorderSide(color: Colors.transparent), // Transparent border
+                const BorderSide(color: Colors.transparent), // Transparent border
           ),
         ),
         value: selectedItem,

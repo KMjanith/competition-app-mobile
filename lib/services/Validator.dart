@@ -4,6 +4,7 @@ import 'package:competition_app/model/GradingStudentDetals.dart';
 import 'package:intl/intl.dart';
 
 class Validator {
+  //-------------------------------------------------------------------------------------------------STUDENT--------------------------------------------------------------------------------------------
   static dynamic StudentValidator(Addstudentmodel student) {
     // Validate if fields are empty
     if (student.firstName.isEmpty) {
@@ -30,13 +31,15 @@ class Validator {
 
     // Validate firstName, lastName, nameWithInitials, and guardianName contain only letters
     RegExp stringPattern = RegExp(r'^[a-zA-Z]+$');
+    RegExp nameWithInitialsPattern = RegExp(r'^[a-zA-Z\s.]+$');
+
     if (!stringPattern.hasMatch(student.firstName)) {
       return "First Name must contain only letters";
     } else if (!stringPattern.hasMatch(student.lastName)) {
       return "Last Name must contain only letters";
-    } else if (!stringPattern.hasMatch(student.nameWithInitials)) {
-      return "Name with Initials must contain only letters";
-    } else if (!stringPattern.hasMatch(student.guardianName)) {
+    } else if (!nameWithInitialsPattern.hasMatch(student.nameWithInitials)) {
+      return "Name with Initials must contain only letters, spaces, and periods";
+    } else if (!nameWithInitialsPattern.hasMatch(student.guardianName)) {
       return "Guardian Name must contain only letters";
     }
 
@@ -78,6 +81,8 @@ class Validator {
     // If all validations pass
     return true;
   }
+
+  //-------------------------------------------------------------------------------------------------GRADING--------------------------------------------------------------------------------------------
 
   static dynamic gradingStudentValidator(Gradingstudentdetails student) {
     // Validate if fields are empty
@@ -125,5 +130,67 @@ class Validator {
     } else {
       return true;
     }
+  }
+
+  //------------------------------------------------------------------------------COMPETITION------------------------------------------------------------------------------
+
+  static dynamic addCompetitionValidator(
+      String date, String place, String type, String weights) {
+    // Validate if fields are empty
+    if (date.isEmpty) {
+      return "Please enter Date";
+    } else if (place.isEmpty) {
+      return "Please enter Place";
+    } else if (type.isEmpty) {
+      return "Please enter Type";
+    } else if (weights.isEmpty) {
+      return "Please enter Weights";
+    }
+
+    // Validate date is in the correct format
+    try {
+      DateFormat('yyyy-MM-dd').parse(date);
+    } catch (e) {
+      return "Date format is incorrect. Expected format: yyyy-MM-dd";
+    }
+
+    //validate place is in the correct format
+    RegExp stringPattern = RegExp(r'^[a-zA-Z\s]+$');
+    if (!stringPattern.hasMatch(place)) {
+      return "Place must contain only letters";
+    }
+
+    // Validate weights are in the correct format
+    List<String> weightList = weights.split(',');
+    for (String weight in weightList) {
+      if (!RegExp(r'^[+-]\d{2,3}$').hasMatch(weight)) {
+        return "Weights must be in the format: +35,-35, +45,-45";
+      }
+    }
+
+    // If all validations pass
+    return true;
+  }
+
+  static dynamic addCompetitionPlayerValidator(
+      String name,
+      String birthCertificateNumber,
+      String level,
+      String competeCategory,
+      String weight) {
+    // Validate if fields are empty
+    if (name.isEmpty) {
+      return "Please enter Name";
+    } else if (birthCertificateNumber.isEmpty) {
+      return "Please enter Birth Certificate Number";
+    } else if (level.isEmpty) {
+      return "Please enter Level";
+    } else if (competeCategory.isEmpty) {
+      return "Please enter Compete Category";
+    } else if (weight.isEmpty) {
+      return "Please enter Weight";
+    }
+
+    return true;
   }
 }

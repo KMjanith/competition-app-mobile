@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:competition_app/components/buttons/CancelButton.dart';
@@ -87,6 +88,7 @@ class _AddStudentState extends State<AddStudent> {
 
   void addStudent() async {
     print("in the add student method");
+    log("scoolGrad: $selectedGrade");
     final Addstudentmodel studentValidator = Addstudentmodel(
       firstName: firstName.text,
       lastName: lastName.text,
@@ -102,7 +104,7 @@ class _AddStudentState extends State<AddStudent> {
 
     //form validator
     final allset = Validator.StudentValidator(studentValidator);
-    
+
     if (allset != true) {
       showDialog(
         context: context,
@@ -183,6 +185,8 @@ class _AddStudentState extends State<AddStudent> {
       "mobileNumber": mobileNumber.text,
       "photoUrl": urlDownload,
     };
+
+     log("scoolGrad: $selectedGrade");
 
     db.collection("students").add(student).then((DocumentReference doc) {
       print("Document snapshot added with ID: ${doc.id}");

@@ -64,7 +64,7 @@ class Viewstudent with ChangeNotifier {
                 _buildInfoText('Index No:', '${student['indexNo']}'),
                 _buildInfoText(
                     'Name With Initials:', '${student['nameWithInitials']}'),
-                _buildInfoText('School Grade:', '${student['schoolGrade']}'),
+                _buildInfoText('School Grade:', '${student['shoolGrade']}'),
                 _buildInfoText('Birth Day:', '${student['birthDay']}'),
                 _buildInfoText('Guardian Name:', '${student['guardianName']}'),
                 _buildInfoText('Entered Year:', '${student['enteredYear']}'),

@@ -1,4 +1,4 @@
-import 'package:competition_app/pages/viewStudentsDetails/ViewData.dart';
+import 'package:competition_app/pages/viewData/ViewData.dart';
 import 'package:competition_app/pages/auth/SignUp.dart';
 import 'package:competition_app/services/AuthService.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _checkUserLoggedInStatus();
-    //BlocProvider.of<NewsAlertCubit>(context).getNews();
+   // BlocProvider.of<NewsAlertCubit>(context).getNews();
   }
 
   void _checkUserLoggedInStatus() {
