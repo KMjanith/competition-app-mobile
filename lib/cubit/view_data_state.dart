@@ -16,3 +16,10 @@ final class ViewDataStudentsError extends ViewStudentDataState {
   final String message;
   ViewDataStudentsError(this.message);
 }
+
+final class ViewDataDeletingLoading extends ViewStudentDataState {}
+
+final class ViewDataDeletingLoaded extends ViewStudentDataState {
+  final List<Map<String, dynamic>> students;
+  ViewDataDeletingLoaded(this.students);
+} 
