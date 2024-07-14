@@ -33,7 +33,7 @@ class _ViewdataState extends State<Viewdata> {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  backgroundColor: const Color.fromARGB(255, 218, 218, 218),
+                  backgroundColor: Color.fromARGB(179, 216, 216, 216),
                   title: const Text("Add index number"),
                   actions: [
                     InputField(
@@ -131,6 +131,7 @@ class _ViewdataState extends State<Viewdata> {
                                   SlidableAction(
                                     padding: const EdgeInsets.all(5),
                                     onPressed: (context) => {
+                                      
                                       context
                                           .read<ViewStudentDataCubit>()
                                           .deleteStudent(student['indexNo'],
@@ -151,9 +152,21 @@ class _ViewdataState extends State<Viewdata> {
                                           showDialog(
                                             context: context,
                                             builder: (context) {
-                                              return const AlertDialog(
-                                                title: Text(
-                                                    "Student Deleted Successfully"),
+                                              return AlertDialog(
+                                                title: const Text("Success"),
+                                                content: const Text(
+                                                    "Student deleted successfully"),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: const Text("OK"),
+                                                  ),
+                                                ],
                                               );
                                             },
                                           )
