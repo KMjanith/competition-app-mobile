@@ -43,6 +43,9 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
             var kumite = bool.parse(player[5].trim());
             var teamKata = bool.parse(player[6].trim());
             var weight = int.parse(player[7].trim());
+            var paymentStatus = player[8].trim().toString();
+            var paidAmount = player[9].trim().toString();
+            var paidDate = player[10].trim().toString();
 
             final playerObject = Player(
                 name: name,
@@ -52,7 +55,10 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
                 kata: kata,
                 kumite: kumite,
                 teamKata: teamKata,
-                weight: weight);
+                weight: weight,
+                paymentStatus: paymentStatus,
+                paidAmount: paidAmount,
+                paidDate: paidDate);
 
             players.add(playerObject);
           }
@@ -70,7 +76,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
         }
       }
 
-      emit(FedSholCompetitonLoaded(competitions, const [], const [], const [], const [], const []));
+      emit(FedSholCompetitonLoaded(
+          competitions, const [], const [], const [], const [], const []));
     } catch (e) {
       emit(FedSholCompetitonError(e.toString()));
     }
@@ -79,8 +86,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
   void clearPlayerLists() {
     if (state is FedSholCompetitonLoaded) {
       final currentState = state as FedSholCompetitonLoaded;
-      emit(FedSholCompetitonLoaded(
-          currentState.competitions, const [], const [], const [], const [], const []));
+      emit(FedSholCompetitonLoaded(currentState.competitions, const [],
+          const [], const [], const [], const []));
     }
   }
 
@@ -130,9 +137,31 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
     return currentState.lv1KataPlayers;
   }
 
+  void setL1List(List<Player> player) {
+    final currentState = state as FedSholCompetitonLoaded;
+    emit(FedSholCompetitonLoaded(
+        currentState.competitions,
+        player,
+        currentState.lv2KataPlayers,
+        currentState.lv3KataPlayers,
+        currentState.lv4KataPlayers,
+        currentState.lv5KataPlayers));
+  }
+
   List<Player> getLv2KataPlayers() {
     final currentState = state as FedSholCompetitonLoaded;
     return currentState.lv2KataPlayers;
+  }
+
+  void setL2List(List<Player> player) {
+    final currentState = state as FedSholCompetitonLoaded;
+    emit(FedSholCompetitonLoaded(
+        currentState.competitions,
+        currentState.lv1KataPlayers,
+        player,
+        currentState.lv3KataPlayers,
+        currentState.lv4KataPlayers,
+        currentState.lv5KataPlayers));
   }
 
   List<Player> getLv3KataPlayers() {
@@ -140,14 +169,47 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
     return currentState.lv3KataPlayers;
   }
 
+  void setL3List(List<Player> player) {
+    final currentState = state as FedSholCompetitonLoaded;
+    emit(FedSholCompetitonLoaded(
+        currentState.competitions,
+        currentState.lv1KataPlayers,
+        currentState.lv2KataPlayers,
+        player,
+        currentState.lv4KataPlayers,
+        currentState.lv5KataPlayers));
+  }
+
   List<Player> getLv4KataPlayers() {
     final currentState = state as FedSholCompetitonLoaded;
     return currentState.lv4KataPlayers;
   }
 
+  void setL4List(List<Player> player) {
+    final currentState = state as FedSholCompetitonLoaded;
+    emit(FedSholCompetitonLoaded(
+        currentState.competitions,
+        currentState.lv1KataPlayers,
+        currentState.lv2KataPlayers,
+        currentState.lv3KataPlayers,
+        player,
+        currentState.lv5KataPlayers));
+  }
+
   List<Player> getLv5KataPlayers() {
     final currentState = state as FedSholCompetitonLoaded;
     return currentState.lv5KataPlayers;
+  }
+
+  void setL5List(List<Player> player) {
+    final currentState = state as FedSholCompetitonLoaded;
+    emit(FedSholCompetitonLoaded(
+        currentState.competitions,
+        currentState.lv1KataPlayers,
+        currentState.lv2KataPlayers,
+        currentState.lv3KataPlayers,
+        currentState.lv4KataPlayers,
+        player));
   }
 
   List<Competition> getCompetitions() {
@@ -203,5 +265,17 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
           [...currentState.lv5KataPlayers, player]));
       log("new level 5list : ${currentState.lv5KataPlayers}");
     }
+  }
+
+//when updating the payment details need to add the new players in the current competition into the database
+  List<Player> getCurrentPlayers() {
+    List<Player> playerList = [];
+    final currentState = state as FedSholCompetitonLoaded;
+    playerList.addAll(currentState.lv1KataPlayers);
+    playerList.addAll(currentState.lv2KataPlayers);
+    playerList.addAll(currentState.lv3KataPlayers);
+    playerList.addAll(currentState.lv4KataPlayers);
+    playerList.addAll(currentState.lv5KataPlayers);
+    return playerList;
   }
 }

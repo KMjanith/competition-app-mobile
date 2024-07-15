@@ -1,3 +1,4 @@
+import 'package:competition_app/Constants/PaymentStatus.dart';
 import 'package:competition_app/Constants/StyleConstants.dart';
 import 'package:competition_app/cubit/db_cubit.dart';
 import 'package:competition_app/cubit/fed_shol_competiton_cubit.dart';
@@ -259,26 +260,31 @@ class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
 
                 //Kata tiles
                 KatKumiteTile(
+                  competitonId: widget.competiton.id,
                   players: BlocProvider.of<FedSholCompetitionCubit>(context)
                       .getLv1KataPlayers(),
                   title: AppConstants.levels[0],
                 ),
                 KatKumiteTile(
+                  competitonId: widget.competiton.id,
                   players: BlocProvider.of<FedSholCompetitionCubit>(context)
                       .getLv2KataPlayers(),
                   title: AppConstants.levels[1],
                 ),
                 KatKumiteTile(
+                  competitonId: widget.competiton.id,
                   players: BlocProvider.of<FedSholCompetitionCubit>(context)
                       .getLv3KataPlayers(),
                   title: AppConstants.levels[2],
                 ),
                 KatKumiteTile(
+                  competitonId: widget.competiton.id,
                   players: BlocProvider.of<FedSholCompetitionCubit>(context)
                       .getLv4KataPlayers(),
                   title: AppConstants.levels[3],
                 ),
                 KatKumiteTile(
+                  competitonId: widget.competiton.id,
                   players: BlocProvider.of<FedSholCompetitionCubit>(context)
                       .getLv5KataPlayers(),
                   title: AppConstants.levels[4],
@@ -331,6 +337,9 @@ class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
       kumite: selectedEvent == 'Kumite',
       teamKata: selectedEvent == 'Team Kata',
       weight: int.parse(weightController.text),
+      paymentStatus: PaymentStatus.pending,
+      paidAmount: '',
+      paidDate: '',
     );
     final competitonService = CompetitionService();
 
@@ -353,7 +362,7 @@ class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
             style: GoogleFonts.alegreya(fontSize: 20),
           ),
         ));
-      }else{
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: const Color.fromARGB(255, 189, 2, 2),
           content: Text(

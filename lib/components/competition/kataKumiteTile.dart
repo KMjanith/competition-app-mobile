@@ -5,9 +5,14 @@ import '../../model/Player.dart';
 import '../../pages/competition/PlayersDisplay.dart';
 
 class KatKumiteTile extends StatelessWidget {
+  final String competitonId;
   final String title;
   final List<Player> players;
-  const KatKumiteTile({super.key, required this.title, required this.players});
+  const KatKumiteTile(
+      {super.key,
+      required this.title,
+      required this.players,
+      required this.competitonId});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +27,7 @@ class KatKumiteTile extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => PlayersDisplay(
+                      competitonId: competitonId,
                       players: players,
                       heading: "$title kata players",
                     )));

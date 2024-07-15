@@ -299,6 +299,32 @@ class CompetitionService {
   }
 
   createItemString(Player player) {
-    return '${player.name},${player.birthCertificateNumber},${player.level},${player.competeCategory},${player.kata.toString()},${player.kumite.toString()},${player.teamKata.toString()},${player.weight.toString()}';
+    return '${player.name},${player.birthCertificateNumber},${player.level},${player.competeCategory},${player.kata.toString()},${player.kumite.toString()},${player.teamKata.toString()},${player.weight.toString()},${player.paymentStatus}, ${player.paidAmount}, ${player.paidDate}';
+  }
+
+  void updatePlayerPaymentDetails(String competitonId,
+      Player player, FirebaseFirestore db, BuildContext context) {
+    List<Competition> competitions =
+        BlocProvider.of<FedSholCompetitionCubit>(context).getCompetitions();
+    List<Player> players =
+        BlocProvider.of<FedSholCompetitionCubit>(context).getCurrentPlayers();
+
+    for (var i = 0; i < competitions.length; i++) {
+      if (competitions[i].id == competitonId) {
+        competitions[i].player = players;
+      }
+    }
+
+    BlocProvider.of<FedSholCompetitionCubit>(context)
+        .updateCompetitions(competitions);
+
+    final itemToAdd = createItemString(player);
+    db.collection("Competitions").doc(competitonId).update({
+      'players': FieldValue.arrayRemove([itemToAdd])
+    }).then((value) {
+      db.collection("Competitions").doc(competitonId).update({
+        'players': FieldValue.arrayUnion([itemToAdd])
+      });
+    });
   }
 }
