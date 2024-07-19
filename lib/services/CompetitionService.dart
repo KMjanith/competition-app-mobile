@@ -6,6 +6,7 @@ import 'package:competition_app/services/AuthService.dart';
 import 'package:competition_app/services/Validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickalert/quickalert.dart';
 
 import '../Constants/AppConstants.dart';
 import '../components/inputs/DatePickerInput.dart';
@@ -70,7 +71,7 @@ class CompetitionService {
                   width: 100,
                   child: TextButton(
                     onPressed: () {
-                      savingValidationCompetiton(
+                      savingValidatedCompetiton(
                           meetTimeController.text,
                           meetPlaceController.text,
                           selectedType ?? "",
@@ -149,7 +150,7 @@ class CompetitionService {
     );
   }
 
-  void savingValidationCompetiton(String date, String place, String type,
+  void savingValidatedCompetiton(String date, String place, String type,
       BuildContext context, String weights, String competitionName) {
     final validation =
         Validator.addCompetitionValidator(date, place, type, weights);
@@ -210,40 +211,22 @@ class CompetitionService {
 
         BlocProvider.of<FedSholCompetitionCubit>(context)
             .addCompetition(newCompetitions);
-        showDialog(
+        QuickAlert.show(
           context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text("Success"),
-              content: const Text("New Competition added successfully"),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("OK"),
-                ),
-              ],
-            );
+          type: QuickAlertType.success,
+          text: 'New Competition added successfully!',
+          onConfirmBtnTap: () {
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
           },
         );
       }).catchError((error) {
-        showDialog(
+        QuickAlert.show(
           context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text("Error"),
-              content: Text("Failed to add new Grading: $error"),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("OK"),
-                ),
-              ],
-            );
+          type: QuickAlertType.error,
+          text: "Failed to add new Grading: $error",
+          onConfirmBtnTap: () {
+            Navigator.of(context).pop();
           },
         );
       });
@@ -263,26 +246,80 @@ class CompetitionService {
     }
   }
 
-  void initialPlayerLoading(Competition competiton, BuildContext context) {
+  //initial kata players loading method
+  void initialKataPlayerLoading(Competition competiton, BuildContext context) {
     for (var element in competiton.player) {
       if (element.kata == true) {
-        log("adding player to : ${element.level}");
         BlocProvider.of<FedSholCompetitionCubit>(context).addPlayer(element);
       }
     }
   }
 
-  // kumitePlayerList(Competition competiton) {
-  //   List<String> weights = competiton.weights.split(',');
-  //   List<List<Player>> kumitePlayersListOfList = [];
-  // }
+  //initial kumite players loading method
+  void initialKumitePlayerLoading(
+      Competition competiton, BuildContext context) {
+    List<String> weights = competiton.weights.split(',');
+    Map<String, List<Player>> kumitePlayersListOfList = {};
 
+    for (var stringWeight in weights) {
+      kumitePlayersListOfList[stringWeight] = [];
+    }
+
+    for (var player in competiton.player) {
+      if (player.kumite == true && player.kata != true) {
+        String? keyToAddPLayer =
+            findWeightCategory(kumitePlayersListOfList, player.weight);
+        kumitePlayersListOfList[keyToAddPLayer]?.add(player);
+      }
+    }
+
+    BlocProvider.of<FedSholCompetitionCubit>(context)
+        .addKumitePlayers(kumitePlayersListOfList);
+  }
+
+  //finding the right list to add the kumite player
+  String? findWeightCategory(
+      Map<String, List<Player>> kumitePLayers, int weight) {
+    //list to get the sorted weight categories
+    List<int> sortedWeightCategories = [];
+    kumitePLayers.forEach(
+      (key, value) {
+        final regex = RegExp(r'[+-]?\d+');
+        final match = regex.firstMatch(key);
+        final weightString = match!.group(0)!.replaceAll(RegExp(r'[+-]'), '');
+        sortedWeightCategories.add(int.parse(weightString));
+      },
+    );
+    sortedWeightCategories.sort();
+    Map<int, String> tempMap = {}; //for index mapping
+    for (var i = 0; i < sortedWeightCategories.length; i++) {
+      if (i < sortedWeightCategories.length - 1) {
+        tempMap[i] = "-${sortedWeightCategories[i].toString()}";
+      } else {
+        tempMap[i] = "+${sortedWeightCategories[i].toString()}";
+      }
+    }
+
+    var playerWeight = weight;
+    var index = 0;
+    while (playerWeight >= sortedWeightCategories[index]) {
+      if (index == sortedWeightCategories.length - 1) {
+        break;
+      }
+      index++;
+    }
+
+    return tempMap[index];
+  }
+
+  //method to add player to the database
   Future<void> addPlayerToDataBase(String competitonId, Player player,
       FirebaseFirestore db, BuildContext context) async {
     List<Competition> competitions =
         BlocProvider.of<FedSholCompetitionCubit>(context).getCompetitions();
+
     for (var i = 0; i < competitions.length; i++) {
-      if (competitions[i].id == competitonId && player.kata == true) {
+      if (competitions[i].id == competitonId) {
         competitions[i].player.add(player);
         break;
       }
@@ -290,6 +327,7 @@ class CompetitionService {
 
     BlocProvider.of<FedSholCompetitionCubit>(context)
         .updateCompetitions(competitions);
+
     BlocProvider.of<FedSholCompetitionCubit>(context).addPlayer(player);
 
     final itemToAdd = createItemString(player);
@@ -298,7 +336,22 @@ class CompetitionService {
     });
   }
 
-  createItemString(Player player) {
-    return '${player.name},${player.birthCertificateNumber},${player.level},${player.competeCategory},${player.kata.toString()},${player.kumite.toString()},${player.teamKata.toString()},${player.weight.toString()}';
+  String createItemString(Player player) {
+    return '${player.name},${player.birthCertificateNumber},${player.level},${player.competeCategory},${player.kata.toString()},${player.kumite.toString()},${player.teamKata.toString()},${player.weight.toString()},${player.paymentStatus}, ${player.paidAmount}, ${player.paidDate}';
+  }
+
+  Future<String> updatePlayerPaymentDetails(String competitonId, Player player,
+      FirebaseFirestore db, BuildContext context) async {
+    log("player: ${player.kumite}, ${player.paymentStatus}, ${player.paidAmount}, ${player.paidDate}");
+    List<Player> players = BlocProvider.of<FedSholCompetitionCubit>(context)
+        .getCurrentAllPlayers();
+
+    try {
+      await db.collection("Competitions").doc(competitonId).update(
+          {'players': players.map((e) => createItemString(e)).toList()});
+      return "Success";
+    } catch (e) {
+      return e.toString();
+    }
   }
 }

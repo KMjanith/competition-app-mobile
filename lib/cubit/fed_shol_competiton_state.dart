@@ -9,13 +9,20 @@ final class FedSholCompetitonLoading extends FedSholCompetitionState {}
 
 final class FedSholCompetitonLoaded extends FedSholCompetitionState {
   final List<Competition> competitions;
-  final List<Player> lv1KataPlayers ;
-  final List<Player> lv2KataPlayers ;
-  final List<Player> lv3KataPlayers ;
-  final List<Player> lv4KataPlayers ;
-  final List<Player> lv5KataPlayers ;
+  final List<Player> lv1KataPlayers;
+  final List<Player> lv2KataPlayers;
+  final List<Player> lv3KataPlayers;
+  final List<Player> lv4KataPlayers;
+  final List<Player> lv5KataPlayers;
+  final Map<String, List<Player>> kumitePlayers;
 
-  FedSholCompetitonLoaded(this.competitions, this.lv1KataPlayers, this.lv2KataPlayers, this.lv3KataPlayers, this.lv4KataPlayers, this.lv5KataPlayers);
+  FedSholCompetitonLoaded(
+      this.competitions,
+      this.lv1KataPlayers,
+      this.lv2KataPlayers,
+      this.lv3KataPlayers,
+      this.lv4KataPlayers,
+      this.lv5KataPlayers, this.kumitePlayers);
 }
 
 final class FedSholCompetitonError extends FedSholCompetitionState {

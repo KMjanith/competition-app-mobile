@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quickalert/quickalert.dart';
 import '../../cubit/view_data_cubit.dart';
 import '../../components/common/CustomDrawer.dart';
 import '../../cubit/ErrorAlert.dart';
@@ -131,45 +132,35 @@ class _ViewdataState extends State<Viewdata> {
                                   SlidableAction(
                                     padding: const EdgeInsets.all(5),
                                     onPressed: (context) => {
-                                      
                                       context
                                           .read<ViewStudentDataCubit>()
                                           .deleteStudent(student['indexNo'],
                                               context, state.students, index),
                                       if (state is ViewDataDeletingLoading)
                                         {
-                                          showDialog(
+                                          QuickAlert.show(
                                             context: context,
-                                            builder: (context) {
-                                              return const ErrorAlert(
-                                                  description:
-                                                      "Deleting student");
+                                            type: QuickAlertType.error,
+                                            text:
+                                                "Student deleted successfully",
+                                            onConfirmBtnTap: () {
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context).pop();
                                             },
-                                          )
+                                          ),
                                         }
                                       else
                                         {
-                                          showDialog(
+                                          QuickAlert.show(
                                             context: context,
-                                            builder: (context) {
-                                              return AlertDialog(
-                                                title: const Text("Success"),
-                                                content: const Text(
-                                                    "Student deleted successfully"),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                    child: const Text("OK"),
-                                                  ),
-                                                ],
-                                              );
+                                            type: QuickAlertType.success,
+                                            text:
+                                                "Student deleted successfully",
+                                            onConfirmBtnTap: () {
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context).pop();
                                             },
-                                          )
+                                          ),
                                         }
                                     },
                                     backgroundColor: const Color(0xFFFE4A49),

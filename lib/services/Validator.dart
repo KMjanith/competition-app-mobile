@@ -1,7 +1,10 @@
+import 'package:competition_app/Constants/KarateEvents.dart';
 import 'package:competition_app/Constants/PaymentStatus.dart';
 import 'package:competition_app/model/AddStudentModel.dart';
 import 'package:competition_app/model/GradingStudentDetals.dart';
 import 'package:intl/intl.dart';
+
+import '../model/Player.dart';
 
 class Validator {
   //-------------------------------------------------------------------------------------------------STUDENT--------------------------------------------------------------------------------------------
@@ -173,6 +176,7 @@ class Validator {
   }
 
   static dynamic addCompetitionPlayerValidator(
+      String selectedEvent,
       String name,
       String birthCertificateNumber,
       String level,
@@ -183,14 +187,38 @@ class Validator {
       return "Please enter Name";
     } else if (birthCertificateNumber.isEmpty) {
       return "Please enter Birth Certificate Number";
-    } else if (level.isEmpty) {
-      return "Please enter Level";
-    } else if (competeCategory.isEmpty) {
-      return "Please enter Compete Category";
-    } else if (weight.isEmpty) {
-      return "Please enter Weight";
+    } else {
+      if (selectedEvent == KarateEvents.kata) {
+        if (level.isEmpty) {
+          return "Please enter Level";
+        } else if (competeCategory.isEmpty) {
+          return "Please enter Compete Category";
+        }
+      } else {
+        if (weight.isEmpty) {
+          return "Please enter Weight";
+        } else if (competeCategory.isEmpty) {
+          return "Please enter Compete Category";
+        }
+      }
     }
 
     return true;
+  }
+
+  static dynamic playerPaymentDetailsValidator(Player player) {
+    if (player.paymentStatus == PaymentStatus.pending &&
+        player.paidAmount.isEmpty &&
+        player.paidDate.isEmpty) {
+      return true;
+    } else if (player.paidAmount.isEmpty) {
+      return "Please enter Fees";
+    } else if (player.paidDate.isEmpty) {
+      return "Please enter Paid Date";
+    } else if (player.paymentStatus.isEmpty) {
+      return "Please enter Payment Description";
+    } else {
+      return true;
+    }
   }
 }

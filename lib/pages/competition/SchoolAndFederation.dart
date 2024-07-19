@@ -25,7 +25,7 @@ class SchoolAndFederation extends StatefulWidget {
 class _SchoolAndFederationState extends State<SchoolAndFederation> {
   void goToPage(Competition competiton) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => AddFedShoolPlayers(competiton: competiton,)));
+        .push(MaterialPageRoute(builder: (context) => AddFedShoolPlayers(competition: competiton,)));
   }
 
   @override

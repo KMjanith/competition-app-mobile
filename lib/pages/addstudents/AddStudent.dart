@@ -13,6 +13,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickalert/quickalert.dart';
 import '../../cubit/db_cubit.dart';
 import '../../components/buttons/AddPhotoButton.dart';
 import '../../components/inputs/DropDownInput.dart';
@@ -106,28 +107,16 @@ class _AddStudentState extends State<AddStudent> {
     final allset = Validator.StudentValidator(studentValidator);
 
     if (allset != true) {
-      showDialog(
+      QuickAlert.show(
         context: context,
-        builder: (context) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: AlertDialog(
-              title: const Text("Error"),
-              content: Text(allset),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("OK"),
-                ),
-              ],
-            ),
-          );
+        type: QuickAlertType.error,
+        title: 'Oops...',
+        text: allset,
+        onCancelBtnTap: () {
+          Navigator.of(context).pop();
         },
       );
+
       return;
     }
 
@@ -186,26 +175,16 @@ class _AddStudentState extends State<AddStudent> {
       "photoUrl": urlDownload,
     };
 
-     log("scoolGrad: $selectedGrade");
+    log("scoolGrad: $selectedGrade");
 
     db.collection("students").add(student).then((DocumentReference doc) {
-      print("Document snapshot added with ID: ${doc.id}");
-      showDialog(
+      QuickAlert.show(
         context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Success"),
-            content: const Text("Student added successfully"),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
-                child: const Text("OK"),
-              ),
-            ],
-          );
+        type: QuickAlertType.success,
+        text: "Student added successfully",
+        onConfirmBtnTap: () {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
         },
       );
 
