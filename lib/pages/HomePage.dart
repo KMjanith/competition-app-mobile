@@ -7,6 +7,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quickalert/quickalert.dart';
 import '../cubit/news_alerrt_cubit.dart';
 import '../cubit/recentgradings_cubit.dart';
 import '../components/common/HedingAnimation.dart';
@@ -99,29 +100,24 @@ class _HomePageState extends State<HomePage> {
 
   //--------------------------------------------------------------------------------------------SIGN OUT-------------------------------------------------------
   void _signOut() {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title: const Text("Are You sure to sign out?"),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("No"),
-                ),
-                TextButton(
-                  onPressed: () async {
-                    Navigator.pop(context);
-                    await _auth.logOut();
-                    setState(() {
-                      _isLoggedIn = false;
-                    });
-                  },
-                  child: const Text("Yes"),
-                ),
-              ],
-            ));
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.confirm,
+      text: 'Do you want to logout',
+      confirmBtnText: 'Yes',
+      cancelBtnText: 'No',
+      confirmBtnColor: Colors.green,
+      onConfirmBtnTap: () async {
+        Navigator.pop(context);
+        await _auth.logOut();
+        setState(() {
+          _isLoggedIn = false;
+        });
+      },
+      onCancelBtnTap: () {
+        Navigator.pop(context);
+      },
+    );
   }
 
   //-------------------------------------------------------------------------------------BUILD CONTEXT-------------------------------------------------------
@@ -194,7 +190,6 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.only(left: 5.0),
                     child: BlocBuilder<NewsAlertCubit, NewsAlertState>(
                       builder: (context, state) {
-                        
                         if (state is NewsAlertLoading) {
                           return const CircularProgressIndicator();
                         } else if (state is NewsAlertLoaded) {
