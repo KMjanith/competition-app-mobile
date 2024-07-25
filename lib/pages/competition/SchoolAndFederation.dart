@@ -1,16 +1,15 @@
 import 'package:competition_app/cubit/db_cubit.dart';
-import 'package:competition_app/pages/competition/AddFedShoolPlayers.dart';
+import 'package:competition_app/pages/competition/AddPlayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
 import '../../Constants/StyleConstants.dart';
 import '../../components/buttons/CreateGradingButon.dart';
 import '../../components/common/HedingAnimation.dart';
-import '../../components/common/NothingWidget.dart';
 import '../../cubit/fed_shol_competiton_cubit.dart';
 import '../../model/Competition.dart';
 import '../../services/CompetitionService.dart';
+import 'PastCompetitions.dart';
 
 class SchoolAndFederation extends StatefulWidget {
   final String type;
@@ -24,8 +23,10 @@ class SchoolAndFederation extends StatefulWidget {
 
 class _SchoolAndFederationState extends State<SchoolAndFederation> {
   void goToPage(Competition competiton) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => AddFedShoolPlayers(competition: competiton,)));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => AddPlayers(
+              competition: competiton,
+            )));
   }
 
   @override
@@ -34,7 +35,6 @@ class _SchoolAndFederationState extends State<SchoolAndFederation> {
     final db = BlocProvider.of<DbCubit>(context).firestore;
     BlocProvider.of<FedSholCompetitionCubit>(context)
         .loadCompetitions(db, widget.type);
-    
   }
 
   @override
@@ -73,7 +73,11 @@ class _SchoolAndFederationState extends State<SchoolAndFederation> {
 
                     //Past Grading
                     CreateWhiteButon(
-                        callback: () {}, buttonTitle: 'PAST MEETS'),
+                        callback: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const PastCompetitions()));
+                        },
+                        buttonTitle: 'PAST MEETS'),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -103,9 +107,8 @@ class _SchoolAndFederationState extends State<SchoolAndFederation> {
                                 var today = DateTime.now();
                                 var gradingDate =
                                     state.competitions[index].date;
-                                var x = 0;
+
                                 if (gradingDate.isAfter(today)) {
-                                  x = 1;
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
@@ -163,11 +166,8 @@ class _SchoolAndFederationState extends State<SchoolAndFederation> {
                                       ),
                                     ),
                                   );
-                                } else if (x == 0) {
-                                  return const NothingWidget(
-                                      content: "No Recent Competitions found",
-                                      icon: Icons.error);
                                 }
+
                                 return const SizedBox
                                     .shrink(); // Return an empty container to avoid null
                               });
@@ -192,11 +192,11 @@ class _SchoolAndFederationState extends State<SchoolAndFederation> {
     final db = BlocProvider.of<DbCubit>(context).firestore;
     String result = await competitionService.deleteCompetiton(
         competitionId, db); // Await deletion
-    if (result == "Success" ) {
+    if (result == "Success") {
       //update the state
       BlocProvider.of<FedSholCompetitionCubit>(context)
           .deleteCompetiton(index, currentList);
-          
+
       //show snackbar
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: const Color.fromARGB(255, 18, 189, 2),

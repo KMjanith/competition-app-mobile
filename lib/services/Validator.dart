@@ -176,6 +176,7 @@ class Validator {
   }
 
   static dynamic addCompetitionPlayerValidator(
+      String competitionType,
       String selectedEvent,
       String name,
       String birthCertificateNumber,
@@ -188,11 +189,17 @@ class Validator {
     } else if (birthCertificateNumber.isEmpty) {
       return "Please enter Birth Certificate Number";
     } else {
-      if (selectedEvent == KarateEvents.kata) {
+      if (selectedEvent == KarateConst.KATA &&
+          (competitionType == KarateConst.FEDERATION ||
+              competitionType == KarateConst.SCHOOL)) {
         if (level.isEmpty) {
           return "Please enter Level";
         } else if (competeCategory.isEmpty) {
           return "Please enter Compete Category";
+        } else {
+          if (competeCategory.isEmpty) {
+            return "Please enter Compete Category";
+          }
         }
       } else {
         if (weight.isEmpty) {

@@ -56,7 +56,7 @@ class _CustomMeetState extends State<CustomMeet> {
                 ),
                 const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text("Next Meet",
+                  child: Text("Future custom Meets",
                       style: TextStyle(fontSize: 20, color: Colors.white)),
                 ),
                 // Padding(

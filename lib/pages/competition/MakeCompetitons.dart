@@ -3,7 +3,6 @@ import 'package:competition_app/pages/competition/Custom.dart';
 import 'package:competition_app/pages/competition/Ministry.dart';
 import 'package:competition_app/pages/competition/SchoolAndFederation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/competition/SelectCompetition.dart';
 
@@ -75,7 +74,7 @@ class MakeCompetition extends StatelessWidget {
                                 pageToNavigate: CustomMeet(
                                   headingTitle: "Custom Meet",
                                 ),
-                                competitionName: "Wado Meet",
+                                competitionName: "Custom Meet",
                                 color: Colors.blue,
                               ),
                               SelectCompetition(

@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:competition_app/Constants/KarateEvents.dart';
 import 'package:competition_app/Constants/PaymentStatus.dart';
 import 'package:competition_app/components/inputs/Inputs.dart';
 import 'package:competition_app/cubit/db_cubit.dart';
@@ -17,6 +21,7 @@ import '../../model/Player.dart';
 import '../../services/Validator.dart';
 
 class PlayersDisplay extends StatefulWidget {
+  final String competitionName;
   final String competitonId;
   final String heading;
   final List<Player> players;
@@ -24,7 +29,8 @@ class PlayersDisplay extends StatefulWidget {
       {super.key,
       required this.players,
       required this.heading,
-      required this.competitonId});
+      required this.competitonId,
+      required this.competitionName});
 
   @override
   State<PlayersDisplay> createState() => _PlayersDisplayState();
@@ -132,12 +138,14 @@ class _PlayersDisplayState extends State<PlayersDisplay> {
     );
   }
 
-  void updatePaymentDetails(Player player) async {
+  void updatePaymentDetails(Player player) {
+    log("player: ${player.name}");
     player.paidDate = paymentTimeController.text;
     player.paidAmount = amountController.text;
     player.paymentStatus = paymentStatus!;
 
     final allset = Validator.playerPaymentDetailsValidator(player);
+    log("allset $allset");
     final db = BlocProvider.of<DbCubit>(context).firestore;
     if (allset != true) {
       QuickAlert.show(
@@ -149,30 +157,45 @@ class _PlayersDisplayState extends State<PlayersDisplay> {
           Navigator.of(context).pop();
         },
       );
-    } else if (player.kata) {
+    } else if (player.kata &&
+        (widget.competitionName == KarateConst.FEDERATION ||
+            widget.competitionName == KarateConst.SCHOOL)) {
       if (player.level == AppConstants.levels[0]) {
         BlocProvider.of<FedSholCompetitionCubit>(context)
             .setL1List(widget.players);
+        updateTheDatabase(widget.competitonId, player, db, context);
       }
       if (player.level == AppConstants.levels[1]) {
         BlocProvider.of<FedSholCompetitionCubit>(context)
             .setL2List(widget.players);
+        updateTheDatabase(widget.competitonId, player, db, context);
       }
       if (player.level == AppConstants.levels[2]) {
         BlocProvider.of<FedSholCompetitionCubit>(context)
             .setL3List(widget.players);
+        updateTheDatabase(widget.competitonId, player, db, context);
       }
       if (player.level == AppConstants.levels[3]) {
         BlocProvider.of<FedSholCompetitionCubit>(context)
             .setL4List(widget.players);
+        updateTheDatabase(widget.competitonId, player, db, context);
       }
       if (player.level == AppConstants.levels[4]) {
         BlocProvider.of<FedSholCompetitionCubit>(context)
             .setL5List(widget.players);
+        updateTheDatabase(widget.competitonId, player, db, context);
       }
     } else {
-      await competitionService.updatePlayerPaymentDetails(
-          widget.competitonId, player, db, context);
+      updateTheDatabase(widget.competitonId, player, db, context);
+    }
+  }
+
+  void updateTheDatabase(String competitonId, Player player,
+      FirebaseFirestore db, BuildContext context) async {
+    final result = await competitionService.updatePlayerPaymentDetails(
+        widget.competitonId, player, db, context);
+    log(result);
+    if (result == "Success") {
       setState(() {
         QuickAlert.show(
           context: context,
@@ -183,6 +206,18 @@ class _PlayersDisplayState extends State<PlayersDisplay> {
             paymentTimeController.clear();
             amountController.clear();
             Navigator.of(context).pop();
+            Navigator.of(context).pop();
+          },
+        );
+      });
+    } else {
+      setState(() {
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.error,
+          title: 'Oops...',
+          text: result,
+          onCancelBtnTap: () {
             Navigator.of(context).pop();
           },
         );

@@ -16,6 +16,7 @@ import '../Constants/StyleConstants.dart';
 import '../components/homepage/NewsCard.dart';
 import '../services/HomePageServices.dart';
 import 'addstudents/AddStudent.dart';
+import 'competition/DrawMaker.dart';
 import 'competition/MakeCompetitons.dart';
 import 'grading/NewGrading.dart';
 import 'auth/Login.dart';
@@ -303,6 +304,15 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
+                          HomeCard(
+                                buttonText: "Draw Maker",
+                                color: const Color.fromARGB(255, 0, 0, 0),
+                                onPressed: () =>
+                                    _checkUserAuthenticationAndNavigate(
+                                        const DrawMaker()), // Replace with the actual target page for competition
+                                description:
+                                    "you can monitor your player path to win, and also you can create a draw for your competition",
+                              ),
                           const SizedBox(height: 10),
                         ],
                       ),

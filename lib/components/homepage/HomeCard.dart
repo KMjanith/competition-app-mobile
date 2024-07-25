@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:competition_app/Constants/StyleConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -40,16 +41,7 @@ class _HomeCardState extends State<HomeCard> {
               spreadRadius: 1,
             ),
           ],
-          gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color.fromARGB(255, 255, 255, 255),
-              Color.fromARGB(255, 241, 205, 255),
-              Color.fromARGB(255, 83, 240, 227),
-              Color.fromARGB(255, 198, 240, 245), // Darker color
-            ],
-          ),
+          gradient: StyleConstants.homeCardGradient
         ),
         child: Column(
           children: [
