@@ -267,7 +267,7 @@ class _AddStudentState extends State<AddStudent> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 187, 227, 236),
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -309,7 +309,7 @@ class _AddStudentState extends State<AddStudent> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 3, 54, 68),
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 ),
 

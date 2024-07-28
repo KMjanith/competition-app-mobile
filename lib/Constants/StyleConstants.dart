@@ -17,18 +17,17 @@ class StyleConstants {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        Color.fromARGB(255, 0, 73, 94),
-        Color.fromARGB(255, 89, 138, 151),
-        Color.fromARGB(255, 185, 243, 248),
+        Color.fromARGB(255, 4, 66, 83),
+        Color.fromARGB(255, 0, 0, 0),
+        Color.fromARGB(255, 0, 16, 17),
       ]);
 
   static LinearGradient lowerBackgroundColor = const LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        Color.fromARGB(255, 242, 246, 247),
-        Color.fromARGB(255, 119, 248, 242),
-        Color.fromARGB(255, 64, 223, 212),
+        Color.fromARGB(255, 0, 30, 37),
+        Color.fromARGB(255, 0, 32, 30),
         Color.fromARGB(255, 4, 66, 83)
       ]);
 

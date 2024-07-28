@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:competition_app/Constants/AppConstants.dart';
+import 'package:competition_app/Constants/KarateEvents.dart';
 import 'package:competition_app/services/CompetitionService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -333,7 +334,7 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
   }
 
 //when updating the payment details need to add the new players in the current competition into the database
-  List<Player> getCurrentAllKataPlayers() {
+  List<Player> getCurrentAllKataPlayers(String competitionType) {
     List<Player> playerList = [];
     final currentState = state as FedSholCompetitonLoaded;
     playerList.addAll(currentState.lv1KataPlayers);
@@ -341,15 +342,18 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
     playerList.addAll(currentState.lv3KataPlayers);
     playerList.addAll(currentState.lv4KataPlayers);
     playerList.addAll(currentState.lv5KataPlayers);
-    for(var player in currentState.kataPlayerByCategory){
-      playerList.addAll(player);
+    if (competitionType == KarateConst.MINISTRY) {
+      for (var player in currentState.kataPlayerByCategory) {
+        playerList.addAll(player);
+      }
     }
+
     return playerList;
   }
 
-  List<Player> allPLayer() {
+  List<Player> allPLayer(String competitionType) {
     List<Player> allPLayers = [];
-    allPLayers.addAll(getCurrentAllKataPlayers());
+    allPLayers.addAll(getCurrentAllKataPlayers(competitionType));
     final currentState = state as FedSholCompetitonLoaded;
     currentState.kumitePlayers.forEach((key, value) {
       allPLayers.addAll(value);
@@ -372,7 +376,6 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
         kataPlayerByCategory[3].add(i);
       }
     }
-
 
     log("kata players by category : $kataPlayerByCategory");
     emit(FedSholCompetitonLoaded(

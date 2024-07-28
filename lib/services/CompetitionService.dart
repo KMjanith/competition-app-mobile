@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:competition_app/Constants/KarateEvents.dart';
 import 'package:competition_app/cubit/db_cubit.dart';
@@ -95,9 +93,11 @@ class CompetitionService {
                   ],
                 ),
               ],
-              backgroundColor: Color.fromARGB(255, 255, 255, 255),
-              title: const Text("Create New Meet"),
-              surfaceTintColor: Color.fromARGB(255, 0, 102, 105),
+              backgroundColor: Color.fromARGB(255, 12, 0, 0),
+              title: const Text(
+                "Create New Meet",
+                style: TextStyle(color: Colors.white),
+              ),
               content: Container(
                 width: double.infinity,
                 height: 400,
@@ -142,8 +142,15 @@ class CompetitionService {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                      "Enter weight categories separated by commas"),
-                                  Text('ex: +35,-35, +45,-45'),
+                                    "Enter weight categories separated by commas",
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 179, 218, 250)),
+                                  ),
+                                  Text(
+                                    'ex: +35,-35, +45,-45',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ],
                               ),
                             ),
@@ -173,8 +180,15 @@ class CompetitionService {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                      "* Enter weight categories separated by commas for kumite"),
-                                  Text('ex: +35,-35, +45,-45'),
+                                    "* Enter weight categories separated by commas for kumite",
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 136, 199, 250)),
+                                  ),
+                                  Text(
+                                    'ex: +35,-35, +45,-45',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ],
                               ),
                             ),
@@ -190,8 +204,12 @@ class CompetitionService {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                      "* Enter Age categories separated by commas. "),
-                                  Text('ex: 8-9-10,16-17, 18-19, 20-21'),
+                                      "* Enter Age categories separated by commas. ",
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 136, 199, 250))),
+                                  Text('ex: 8-9-10,16-17, 18-19, 20-21',
+                                      style: TextStyle(color: Colors.white)),
                                 ],
                               ),
                             ),
@@ -402,16 +420,19 @@ class CompetitionService {
     return '${player.name},${player.birthCertificateNumber},${player.level},${player.competeCategory},${player.kata.toString()},${player.kumite.toString()},${player.teamKata.toString()},${player.weight.toString()},${player.paymentStatus}, ${player.paidAmount}, ${player.paidDate}';
   }
 
-  Future<String> updatePlayerPaymentDetails(String competitonId, Player player,
-      FirebaseFirestore db, BuildContext context) async {
-    log("player: ${player.kumite}, ${player.paymentStatus}, ${player.paidAmount}, ${player.paidDate}");
-    List<Player> players =
-        BlocProvider.of<FedSholCompetitionCubit>(context).allPLayer();
+  Future<String> updatePlayerPaymentDetails(
+      String competitonId,
+      Player player,
+      FirebaseFirestore db,
+      BuildContext context,
+      String competitionType) async {
+    List<Player> players = BlocProvider.of<FedSholCompetitionCubit>(context)
+        .allPLayer(competitionType);
 
     try {
       await db.collection("Competitions").doc(competitonId).update(
           {'players': players.map((e) => createItemString(e)).toList()});
-      log("in update player payment details");
+
       return "Success";
     } catch (e) {
       return e.toString();

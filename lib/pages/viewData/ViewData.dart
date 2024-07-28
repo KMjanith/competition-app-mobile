@@ -132,6 +132,7 @@ class _ViewdataState extends State<Viewdata> {
                                   SlidableAction(
                                     padding: const EdgeInsets.all(5),
                                     onPressed: (context) => {
+                          
                                       context
                                           .read<ViewStudentDataCubit>()
                                           .deleteStudent(student['indexNo'],

@@ -102,8 +102,8 @@ class _PlayersDisplayState extends State<PlayersDisplay> {
               ],
             ),
           ],
-          backgroundColor: const Color.fromARGB(255, 232, 233, 233),
-          title: const Text("Edit Payment Details"),
+          backgroundColor: Color.fromARGB(255, 0, 0, 0),
+          title: const Text("Edit Payment Details", style: TextStyle(color: Colors.white),),
           surfaceTintColor: const Color.fromARGB(255, 140, 248, 252),
           content: Container(
             width: double.infinity,
@@ -193,7 +193,7 @@ class _PlayersDisplayState extends State<PlayersDisplay> {
   void updateTheDatabase(String competitonId, Player player,
       FirebaseFirestore db, BuildContext context) async {
     final result = await competitionService.updatePlayerPaymentDetails(
-        widget.competitonId, player, db, context);
+        widget.competitonId, player, db, context, widget.competitionName);
     log(result);
     if (result == "Success") {
       setState(() {
