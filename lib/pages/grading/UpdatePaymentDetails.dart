@@ -50,12 +50,11 @@ class _GradingstudentState extends State<UpdatePaymentDetails> {
 
     if (allset == true) {
       gradingservice.updateGradingStudentDetails(
-        widget.gradingId,
-        widget.gradingstudentdetails,
-        context,
-        "Payment details updated successfully",
-        "Failed to update payment details"
-      );
+          widget.gradingId,
+          widget.gradingstudentdetails,
+          context,
+          "Payment details updated successfully",
+          "Failed to update payment details");
       //updating the ui
       BlocProvider.of<UpdateGradingStudentsCubit>(context)
           .updateStudents(widget.gradingstudentdetails);
@@ -63,7 +62,6 @@ class _GradingstudentState extends State<UpdatePaymentDetails> {
       payAmount.clear();
       datePaid.clear();
       description.clear();
-      
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -114,8 +112,8 @@ class _GradingstudentState extends State<UpdatePaymentDetails> {
                         decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(16)),
                             gradient: LinearGradient(colors: [
-                              Color.fromARGB(255, 235, 154, 32),
-                              Color.fromARGB(255, 238, 39, 39),
+                              Color.fromARGB(255, 1, 70, 77),
+                              Color.fromARGB(255, 0, 64, 68),
                             ])),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 15, bottom: 15),

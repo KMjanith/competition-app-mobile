@@ -1,4 +1,4 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:competition_app/Constants/StyleConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -27,30 +27,20 @@ class _HomeCardState extends State<HomeCard> {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         width: 150,
-        height: 220,
+        height: 150,
         decoration: BoxDecoration(
-          color: widget.color,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: const [
-            // Top left shadow
-            BoxShadow(
-              color: Color.fromARGB(125, 0, 0, 0),
-              offset: Offset(1, 5),
-              blurRadius: 6,
-              spreadRadius: 1,
-            ),
-          ],
-          gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color.fromARGB(255, 255, 255, 255),
-              Color.fromARGB(255, 241, 205, 255),
-              Color.fromARGB(255, 83, 240, 227),
-              Color.fromARGB(255, 198, 240, 245), // Darker color
+            color: widget.color,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: const [
+              // Top left shadow
+              BoxShadow(
+                color: Color.fromARGB(125, 0, 0, 0),
+                offset: Offset(1, 5),
+                blurRadius: 6,
+                spreadRadius: 1,
+              ),
             ],
-          ),
-        ),
+            gradient: StyleConstants.homeCardGradient),
         child: Column(
           children: [
             Row(
@@ -59,12 +49,12 @@ class _HomeCardState extends State<HomeCard> {
                 IconButton(
                   onPressed: () {
                     showDialog(
+                
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: const Text("Information"),
-                            content: const Text(
-                                "This is a card to add a new student"),
+                            title: const Text("What ?"),
+                            content: Text(widget.description),
                             actions: [
                               TextButton(
                                   onPressed: () {
@@ -91,31 +81,31 @@ class _HomeCardState extends State<HomeCard> {
                 textAlign: TextAlign.center,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(103, 255, 255, 255),
-                    borderRadius: BorderRadius.circular(10)),
-                child: AnimatedTextKit(
-                  animatedTexts: [
-                    TyperAnimatedText(
-                      textAlign: TextAlign.center,
-                      widget.description,
-                      textStyle: GoogleFonts.cairo(
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 0, 69, 87),
-                      ),
-                      speed: const Duration(milliseconds: 100),
-                    ),
-                  ],
-                  totalRepeatCount: Duration.minutesPerDay,
-                  pause: const Duration(milliseconds: 5000),
-                  displayFullTextOnTap: true,
-                  stopPauseOnTap: true,
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //         color: Color.fromARGB(103, 255, 255, 255),
+            //         borderRadius: BorderRadius.circular(10)),
+            //     child: AnimatedTextKit(
+            //       animatedTexts: [
+            //         TyperAnimatedText(
+            //           textAlign: TextAlign.center,
+            //           widget.description,
+            //           textStyle: GoogleFonts.cairo(
+            //             fontWeight: FontWeight.bold,
+            //             color: Color.fromARGB(255, 0, 69, 87),
+            //           ),
+            //           speed: const Duration(milliseconds: 100),
+            //         ),
+            //       ],
+            //       totalRepeatCount: Duration.minutesPerDay,
+            //       pause: const Duration(milliseconds: 5000),
+            //       displayFullTextOnTap: true,
+            //       stopPauseOnTap: true,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

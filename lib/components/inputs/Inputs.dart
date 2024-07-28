@@ -35,12 +35,12 @@ class InputField extends StatelessWidget {
                 const BorderSide(color: Colors.transparent), // Transparent border
           ),
           filled: true,
-          fillColor: const Color.fromARGB(150, 255, 255, 255),
+          fillColor: Color.fromARGB(149, 255, 255, 255),
           labelText: labelText,
-          labelStyle: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-          hintText: "Enter $labelText",
+          labelStyle: const TextStyle(color: Color.fromARGB(255, 252, 252, 252)),
+
           hintStyle: const TextStyle(
-              color: Color.fromARGB(179, 0, 0, 0)), // Hint text style
+              color: Color.fromARGB(255, 255, 255, 255)), // Hint text style
         ),
         controller: controller,
         style: const TextStyle(

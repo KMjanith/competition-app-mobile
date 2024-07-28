@@ -36,7 +36,7 @@ class _PastgradingsState extends State<Pastgradings> {
                     builder: (context) => IconButton(
                       onPressed: () => Scaffold.of(context).openDrawer(),
                       icon: const Icon(Icons.menu,
-                          color: Color.fromARGB(255, 0, 0, 0)),
+                          color: Color.fromARGB(255, 255, 255, 255)),
                     ),
                   ),
                 ],
@@ -44,7 +44,7 @@ class _PastgradingsState extends State<Pastgradings> {
               const HeadingAnimation(heading: "Past Gradings"),
               const Text(
                 "click one to see the details",
-                style: TextStyle(fontSize: 15),
+                style: TextStyle(fontSize: 15, color: Colors.white),
               ),
               const SizedBox(
                 height: 5,

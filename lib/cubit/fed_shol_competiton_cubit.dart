@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:competition_app/Constants/AppConstants.dart';
+import 'package:competition_app/Constants/KarateEvents.dart';
 import 'package:competition_app/services/CompetitionService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -78,7 +81,7 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
       }
 
       emit(FedSholCompetitonLoaded(competitions, const [], const [], const [],
-          const [], const [], const {}));
+          const [], const [], const {}, const []));
     } catch (e) {
       emit(FedSholCompetitonError(e.toString()));
     }
@@ -88,7 +91,7 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
     if (state is FedSholCompetitonLoaded) {
       final currentState = state as FedSholCompetitonLoaded;
       emit(FedSholCompetitonLoaded(currentState.competitions, const [],
-          const [], const [], const [], const [], const {}));
+          const [], const [], const [], const [], const {}, []));
     }
   }
 
@@ -102,7 +105,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
           currentState.lv3KataPlayers,
           currentState.lv4KataPlayers,
           currentState.lv5KataPlayers,
-          currentState.kumitePlayers));
+          currentState.kumitePlayers,
+          currentState.kataPlayerByCategory));
     }
   }
 
@@ -118,7 +122,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
           currentState.lv3KataPlayers,
           currentState.lv4KataPlayers,
           currentState.lv5KataPlayers,
-          currentState.kumitePlayers)); // Emit the updated state
+          currentState.kumitePlayers,
+          currentState.kataPlayerByCategory)); // Emit the updated state
     }
   }
 
@@ -132,7 +137,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
           currentState.lv3KataPlayers,
           currentState.lv4KataPlayers,
           currentState.lv5KataPlayers,
-          currentState.kumitePlayers));
+          currentState.kumitePlayers,
+          currentState.kataPlayerByCategory)); // Emit the updated state
     }
   }
 
@@ -150,7 +156,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
         currentState.lv3KataPlayers,
         currentState.lv4KataPlayers,
         currentState.lv5KataPlayers,
-        currentState.kumitePlayers));
+        currentState.kumitePlayers,
+        currentState.kataPlayerByCategory));
   }
 
   List<Player> getLv2KataPlayers() {
@@ -167,7 +174,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
         currentState.lv3KataPlayers,
         currentState.lv4KataPlayers,
         currentState.lv5KataPlayers,
-        currentState.kumitePlayers));
+        currentState.kumitePlayers,
+        currentState.kataPlayerByCategory));
   }
 
   List<Player> getLv3KataPlayers() {
@@ -184,7 +192,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
         player,
         currentState.lv4KataPlayers,
         currentState.lv5KataPlayers,
-        currentState.kumitePlayers));
+        currentState.kumitePlayers,
+        currentState.kataPlayerByCategory));
   }
 
   List<Player> getLv4KataPlayers() {
@@ -201,7 +210,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
         currentState.lv3KataPlayers,
         player,
         currentState.lv5KataPlayers,
-        currentState.kumitePlayers));
+        currentState.kumitePlayers,
+        currentState.kataPlayerByCategory));
   }
 
   List<Player> getLv5KataPlayers() {
@@ -218,7 +228,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
         currentState.lv3KataPlayers,
         currentState.lv4KataPlayers,
         player,
-        currentState.kumitePlayers));
+        currentState.kumitePlayers,
+        currentState.kataPlayerByCategory));
   }
 
   List<Competition> getCompetitions() {
@@ -237,7 +248,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
           currentState.lv3KataPlayers,
           currentState.lv4KataPlayers,
           currentState.lv5KataPlayers,
-          kumitePLayers));
+          kumitePLayers,
+          currentState.kataPlayerByCategory));
     }
   }
 
@@ -252,7 +264,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
             currentState.lv3KataPlayers,
             currentState.lv4KataPlayers,
             currentState.lv5KataPlayers,
-            currentState.kumitePlayers));
+            currentState.kumitePlayers,
+            currentState.kataPlayerByCategory));
         //log("new level 1list : ${currentState.lv1KataPlayers}");
       } else if (player.level == AppConstants.levels[1]) {
         emit(FedSholCompetitonLoaded(
@@ -262,7 +275,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
             currentState.lv3KataPlayers,
             currentState.lv4KataPlayers,
             currentState.lv5KataPlayers,
-            currentState.kumitePlayers));
+            currentState.kumitePlayers,
+            currentState.kataPlayerByCategory));
         //log("new level 2list : ${currentState.lv2KataPlayers}");
       } else if (player.level == AppConstants.levels[2]) {
         emit(FedSholCompetitonLoaded(
@@ -272,7 +286,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
             [...currentState.lv3KataPlayers, player],
             currentState.lv4KataPlayers,
             currentState.lv5KataPlayers,
-            currentState.kumitePlayers));
+            currentState.kumitePlayers,
+            currentState.kataPlayerByCategory));
         //log("new level 3list : ${currentState.lv3KataPlayers}");
       } else if (player.level == AppConstants.levels[3]) {
         emit(FedSholCompetitonLoaded(
@@ -282,7 +297,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
             currentState.lv3KataPlayers,
             [...currentState.lv4KataPlayers, player],
             currentState.lv5KataPlayers,
-            currentState.kumitePlayers));
+            currentState.kumitePlayers,
+            currentState.kataPlayerByCategory));
         //log("new level 4list : ${currentState.lv4KataPlayers}");
       } else if (player.level == AppConstants.levels[4]) {
         emit(FedSholCompetitonLoaded(
@@ -292,7 +308,8 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
             currentState.lv3KataPlayers,
             currentState.lv4KataPlayers,
             [...currentState.lv5KataPlayers, player],
-            currentState.kumitePlayers));
+            currentState.kumitePlayers,
+            currentState.kataPlayerByCategory));
         //log("new level 5list : ${currentState.lv5KataPlayers}");
       }
     } else {
@@ -310,13 +327,14 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
             currentState.lv3KataPlayers,
             currentState.lv4KataPlayers,
             currentState.lv5KataPlayers,
-            currentState.kumitePlayers));
+            currentState.kumitePlayers,
+            currentState.kataPlayerByCategory));
       }
     }
   }
 
 //when updating the payment details need to add the new players in the current competition into the database
-  List<Player> getCurrentAllPlayers() {
+  List<Player> getCurrentAllKataPlayers(String competitionType) {
     List<Player> playerList = [];
     final currentState = state as FedSholCompetitonLoaded;
     playerList.addAll(currentState.lv1KataPlayers);
@@ -324,9 +342,52 @@ class FedSholCompetitionCubit extends Cubit<FedSholCompetitionState> {
     playerList.addAll(currentState.lv3KataPlayers);
     playerList.addAll(currentState.lv4KataPlayers);
     playerList.addAll(currentState.lv5KataPlayers);
-    currentState.kumitePlayers.forEach((key, value) {
-      playerList.addAll(value);
-    });
+    if (competitionType == KarateConst.MINISTRY) {
+      for (var player in currentState.kataPlayerByCategory) {
+        playerList.addAll(player);
+      }
+    }
+
     return playerList;
+  }
+
+  List<Player> allPLayer(String competitionType) {
+    List<Player> allPLayers = [];
+    allPLayers.addAll(getCurrentAllKataPlayers(competitionType));
+    final currentState = state as FedSholCompetitonLoaded;
+    currentState.kumitePlayers.forEach((key, value) {
+      allPLayers.addAll(value);
+    });
+    return allPLayers;
+  }
+
+  List<List<Player>> sortKataPlayerInCategories(List<Player> playerList) {
+    final currentState = state as FedSholCompetitonLoaded;
+    List<List<Player>> kataPlayerByCategory = [[], [], [], []];
+
+    for (var i in playerList) {
+      if (i.competeCategory == AppConstants.catagories[0]) {
+        kataPlayerByCategory[0].add(i);
+      } else if (i.competeCategory == AppConstants.catagories[1]) {
+        kataPlayerByCategory[1].add(i);
+      } else if (i.competeCategory == AppConstants.catagories[2]) {
+        kataPlayerByCategory[2].add(i);
+      } else if (i.competeCategory == AppConstants.catagories[3]) {
+        kataPlayerByCategory[3].add(i);
+      }
+    }
+
+    log("kata players by category : $kataPlayerByCategory");
+    emit(FedSholCompetitonLoaded(
+        currentState.competitions,
+        currentState.lv1KataPlayers,
+        currentState.lv2KataPlayers,
+        currentState.lv3KataPlayers,
+        currentState.lv4KataPlayers,
+        currentState.lv5KataPlayers,
+        currentState.kumitePlayers,
+        kataPlayerByCategory));
+
+    return kataPlayerByCategory;
   }
 }

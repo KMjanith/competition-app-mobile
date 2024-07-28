@@ -25,8 +25,8 @@ class NewsCard extends StatelessWidget {
     );
 
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
         color: Color.fromARGB(62, 255, 255, 255),
       ),
       width: 200,

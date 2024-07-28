@@ -84,8 +84,8 @@ class Gradingservice extends GradingDatabaseService {
               ],
             ),
           ],
-          backgroundColor: Color.fromARGB(255, 232, 233, 233),
-          title: const Text("Create New Grading"),
+          backgroundColor: Color.fromARGB(255, 0, 0, 0),
+          title: const Text("Create New Grading", style: TextStyle(color: Colors.white),),
           surfaceTintColor: Colors.green,
           content: Container(
             width: double.infinity,

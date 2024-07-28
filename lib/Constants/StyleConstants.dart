@@ -17,22 +17,31 @@ class StyleConstants {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
+        Color.fromARGB(255, 4, 66, 83),
         Color.fromARGB(255, 0, 0, 0),
-        Color.fromARGB(255, 64, 0, 124),
-        Color.fromARGB(255, 118, 55, 189),
-        Color.fromARGB(255, 202, 146, 255),
-        Color.fromARGB(255, 226, 191, 255),
+        Color.fromARGB(255, 0, 16, 17),
       ]);
 
   static LinearGradient lowerBackgroundColor = const LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        Color.fromARGB(255, 30, 226, 252),
-        Color.fromARGB(255, 119, 248, 242),
-        Color.fromARGB(255, 56, 214, 206),
-        Color.fromARGB(255, 0, 46, 59)
+        Color.fromARGB(255, 0, 30, 37),
+        Color.fromARGB(255, 0, 32, 30),
+        Color.fromARGB(255, 4, 66, 83)
       ]);
+
+  static LinearGradient homeCardGradient = const LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color.fromARGB(255, 255, 255, 255),
+      Color.fromARGB(255, 19, 220, 235),
+      Color.fromARGB(255, 117, 247, 236),
+      Color.fromARGB(255, 146, 248, 240),
+      Color.fromARGB(255, 198, 240, 245), // Darker color
+    ],
+  );
 
   static Positioned lowerBackgroundContainer = Positioned(
       child: Container(
@@ -45,7 +54,6 @@ class StyleConstants {
 
   static LinearGradient cardBackGround = const LinearGradient(
     colors: [
-      
       Color.fromARGB(255, 159, 212, 247),
       Color.fromARGB(255, 13, 98, 196)
     ],

@@ -16,6 +16,7 @@ import '../Constants/StyleConstants.dart';
 import '../components/homepage/NewsCard.dart';
 import '../services/HomePageServices.dart';
 import 'addstudents/AddStudent.dart';
+import 'DrawMaker.dart';
 import 'competition/MakeCompetitons.dart';
 import 'grading/NewGrading.dart';
 import 'auth/Login.dart';
@@ -175,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           "Latest Sports News",
                           style: TextStyle(
-                            color: Color.fromARGB(255, 24, 0, 92),
+                            color: Color.fromARGB(255, 255, 255, 255),
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -233,7 +234,7 @@ class _HomePageState extends State<HomePage> {
                                 Text(
                                   "Lets Play",
                                   style: TextStyle(
-                                    color: Color.fromARGB(255, 24, 0, 92),
+                                    color: Color.fromARGB(255, 255, 255, 255),
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -244,7 +245,7 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             "KARATE",
                             style: GoogleFonts.roboto(
-                                color: Color.fromARGB(221, 0, 0, 0),
+                                color: Color.fromARGB(221, 255, 255, 255),
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold),
                             maxLines: 2,
@@ -303,6 +304,15 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
+                          HomeCard(
+                                buttonText: "Draw Maker",
+                                color: const Color.fromARGB(255, 0, 0, 0),
+                                onPressed: () =>
+                                    _checkUserAuthenticationAndNavigate(
+                                        const DrawMaker()), // Replace with the actual target page for competition
+                                description:
+                                    "you can monitor your player path to win, and also you can create a draw for your competition",
+                              ),
                           const SizedBox(height: 10),
                         ],
                       ),

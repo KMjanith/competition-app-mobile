@@ -3,6 +3,7 @@ import '../../model/Player.dart';
 import '../../pages/competition/PlayersDisplay.dart';
 
 class KatKumiteTile extends StatelessWidget {
+  final String competitonName;
   final String competitonId;
   final String title;
   final List<Player> players;
@@ -12,7 +13,8 @@ class KatKumiteTile extends StatelessWidget {
       required this.title,
       required this.players,
       required this.competitonId,
-      required this.itemCount});
+      required this.itemCount,
+      required this.competitonName});
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +27,9 @@ class KatKumiteTile extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(15))),
           child: GestureDetector(
             onTap: () {
-              
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => PlayersDisplay(
+                        competitionName: competitonName,
                         competitonId: competitonId,
                         players: players,
                         heading: "$title kata players",

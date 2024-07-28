@@ -18,7 +18,7 @@ class DatePickerInput extends StatelessWidget {
       child: TextField(
         controller: dateController, // Use controller to display selected date
         decoration: InputDecoration(
-           fillColor: const Color.fromARGB(150, 255, 255, 255),
+          fillColor: const Color.fromARGB(150, 255, 255, 255),
           filled: true,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
@@ -26,19 +26,22 @@ class DatePickerInput extends StatelessWidget {
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide:
-                const BorderSide(color: Colors.transparent), // Transparent border
+            borderSide: const BorderSide(
+                color: Color.fromARGB(0, 0, 0, 0)), // Transparent border
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide:
-                const BorderSide(color: Colors.transparent), // Transparent border
+            borderSide: const BorderSide(
+                color:
+                    Color.fromARGB(255, 255, 255, 255)), // Transparent border
           ),
           prefixIcon: const Icon(Icons.calendar_today,
-              color: Color.fromARGB(255, 150, 150, 150)),
-          labelText: lableName,
+              color: Color.fromARGB(255, 255, 255, 255)),
+          label: Text(
+            lableName,
+            style: const TextStyle(color: Colors.white),
+          ),
           labelStyle: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-          hintText: "Select Date",
         ),
         readOnly: true,
         onTap: () {

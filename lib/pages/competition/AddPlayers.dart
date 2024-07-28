@@ -20,15 +20,15 @@ import '../../components/inputs/Inputs.dart';
 import '../../components/inputs/radioButton.dart';
 import '../../services/Validator.dart';
 
-class AddFedShoolPlayers extends StatefulWidget {
+class AddPlayers extends StatefulWidget {
   final Competition competition;
-  const AddFedShoolPlayers({super.key, required this.competition});
+  const AddPlayers({super.key, required this.competition});
 
   @override
-  _AddFedShoolPlayersState createState() => _AddFedShoolPlayersState();
+  _AddPlayersState createState() => _AddPlayersState();
 }
 
-class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
+class _AddPlayersState extends State<AddPlayers> {
   final fullNameController = TextEditingController();
   final birthCertificateNumberController = TextEditingController();
   final weightController = TextEditingController();
@@ -36,7 +36,7 @@ class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
   String? level;
   String? category;
   String? selectedLevel;
-  String? selectedEvent = KarateEvents.kata;
+  String? selectedEvent = KarateConst.KATA;
 
   @override
   void initState() {
@@ -49,6 +49,24 @@ class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
 
   @override
   Widget build(BuildContext context) {
+    List<Player> l1 =
+        BlocProvider.of<FedSholCompetitionCubit>(context).getLv1KataPlayers();
+    List<Player> l2 =
+        BlocProvider.of<FedSholCompetitionCubit>(context).getLv2KataPlayers();
+    List<Player> l3 =
+        BlocProvider.of<FedSholCompetitionCubit>(context).getLv3KataPlayers();
+    List<Player> l4 =
+        BlocProvider.of<FedSholCompetitionCubit>(context).getLv4KataPlayers();
+    List<Player> l5 =
+        BlocProvider.of<FedSholCompetitionCubit>(context).getLv5KataPlayers();
+    List<List<Player>> c = BlocProvider.of<FedSholCompetitionCubit>(context)
+        .sortKataPlayerInCategories(widget.competition.player);
+    List<Player> c1 = c[0];
+    List<Player> c2 = c[1];
+    List<Player> c3 = c[2];
+    List<Player> c4 = c[3];
+    final competitionName = widget.competition.name;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -103,7 +121,7 @@ class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             RadioButton(
-                              title: KarateEvents.kata,
+                              title: KarateConst.KATA,
                               groupValue: selectedEvent ?? '',
                               onChanged: (value) {
                                 setState(() {
@@ -112,7 +130,7 @@ class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
                               },
                             ),
                             RadioButton(
-                              title: KarateEvents.kumite,
+                              title: KarateConst.KUMITE,
                               groupValue: selectedEvent ?? '',
                               onChanged: (value) {
                                 setState(() {
@@ -121,7 +139,7 @@ class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
                               },
                             ),
                             RadioButton(
-                              title: KarateEvents.teamKata,
+                              title: KarateConst.TEAMKATA,
                               groupValue: selectedEvent ?? '',
                               onChanged: (value) {
                                 setState(() {
@@ -133,8 +151,10 @@ class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
                         ),
                       ),
                     ),
-                    if (selectedEvent !=
-                        KarateEvents.kumite) // if selected event is not kumite
+                    if (selectedEvent != KarateConst.KUMITE &&
+                        widget.competition.name !=
+                            KarateConst
+                                .MINISTRY) // if selected event is not kumite
                       Row(
                         children: [
                           Expanded(
@@ -167,8 +187,25 @@ class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
                           ),
                         ],
                       ),
+                    if (selectedEvent != KarateConst.KUMITE &&
+                        widget.competition.name ==
+                            KarateConst
+                                .MINISTRY) // if selected event is not kumite
+
+                      DropDownInput(
+                        onChanged: (value) {
+                          category = value;
+                        },
+                        title: "Category",
+                        itemList: AppConstants.catagories
+                            .map((item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(item),
+                                ))
+                            .toList(),
+                      ),
                     if (selectedEvent !=
-                        KarateEvents.kata) // if selected event is not kata
+                        KarateConst.KATA) // if selected event is not kata
                       Row(
                         children: [
                           Expanded(
@@ -260,61 +297,80 @@ class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-                    KatKumiteTile(
-                      competitonId: widget.competition.id,
-                      players: BlocProvider.of<FedSholCompetitionCubit>(context)
-                          .getLv1KataPlayers(),
-                      title: AppConstants.levels[0],
-                      itemCount:
-                          BlocProvider.of<FedSholCompetitionCubit>(context)
-                              .getLv1KataPlayers()
-                              .length
-                              .toString(),
-                    ),
-                    KatKumiteTile(
-                      competitonId: widget.competition.id,
-                      players: BlocProvider.of<FedSholCompetitionCubit>(context)
-                          .getLv2KataPlayers(),
-                      title: AppConstants.levels[1],
-                      itemCount:
-                          BlocProvider.of<FedSholCompetitionCubit>(context)
-                              .getLv2KataPlayers()
-                              .length
-                              .toString(),
-                    ),
-                    KatKumiteTile(
-                      competitonId: widget.competition.id,
-                      players: BlocProvider.of<FedSholCompetitionCubit>(context)
-                          .getLv3KataPlayers(),
-                      title: AppConstants.levels[2],
-                      itemCount:
-                          BlocProvider.of<FedSholCompetitionCubit>(context)
-                              .getLv3KataPlayers()
-                              .length
-                              .toString(),
-                    ),
-                    KatKumiteTile(
-                      competitonId: widget.competition.id,
-                      players: BlocProvider.of<FedSholCompetitionCubit>(context)
-                          .getLv4KataPlayers(),
-                      title: AppConstants.levels[3],
-                      itemCount:
-                          BlocProvider.of<FedSholCompetitionCubit>(context)
-                              .getLv4KataPlayers()
-                              .length
-                              .toString(),
-                    ),
-                    KatKumiteTile(
-                      competitonId: widget.competition.id,
-                      players: BlocProvider.of<FedSholCompetitionCubit>(context)
-                          .getLv5KataPlayers(),
-                      title: AppConstants.levels[4],
-                      itemCount:
-                          BlocProvider.of<FedSholCompetitionCubit>(context)
-                              .getLv5KataPlayers()
-                              .length
-                              .toString(),
-                    ),
+                    if (widget.competition.name == "Federation" ||
+                        widget.competition.name == "School")
+                      Column(
+                        children: [
+                          KatKumiteTile(
+                            competitonName:competitionName,
+                            competitonId: widget.competition.id,
+                            players: l1,
+                            title: AppConstants.levels[0],
+                            itemCount: l1.length.toString(),
+                          ),
+                          KatKumiteTile(
+                            competitonName: competitionName,
+                            competitonId: widget.competition.id,
+                            players: l2,
+                            title: AppConstants.levels[1],
+                            itemCount: l2.length.toString(),
+                          ),
+                          KatKumiteTile(
+                            competitonName: competitionName,
+                            competitonId: widget.competition.id,
+                            players: l3,
+                            title: AppConstants.levels[2],
+                            itemCount: l3.length.toString(),
+                          ),
+                          KatKumiteTile(
+                            competitonName: competitionName,
+                            competitonId: widget.competition.id,
+                            players: l4,
+                            title: AppConstants.levels[3],
+                            itemCount: l4.length.toString(),
+                          ),
+                          KatKumiteTile(
+                            competitonName: competitionName,
+                            competitonId: widget.competition.id,
+                            players: l5,
+                            title: AppConstants.levels[4],
+                            itemCount: l5.length.toString(),
+                          ),
+                        ],
+                      ),
+                    if (widget.competition.name == "Ministry")
+                      Column(
+                        children: [
+                          KatKumiteTile(
+                            competitonName: competitionName,
+                            competitonId: widget.competition.id,
+                            players: c1,
+                            title: AppConstants.catagories[0],
+                            itemCount: c1.length.toString(),
+                          ),
+                          KatKumiteTile(
+                            competitonName: competitionName,
+                            competitonId: widget.competition.id,
+                            players: c2,
+                            title: AppConstants.catagories[1],
+                            itemCount: c2.length.toString(),
+                          ),
+                          KatKumiteTile(
+                            competitonName: competitionName,
+                            competitonId: widget.competition.id,
+                            players: c3,
+                            title: AppConstants.catagories[2],
+                            itemCount: c3.length.toString(),
+                          ),
+                          KatKumiteTile(
+                            competitonName: competitionName,
+                            competitonId: widget.competition.id,
+                            players: c4,
+                            title: AppConstants.catagories[3],
+                            itemCount: c4.length.toString(),
+                          ),
+                        ],
+                      ),
                     const SizedBox(height: 10),
                     const Center(
                       // kumite players display
@@ -336,6 +392,7 @@ class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
                           return KatKumiteTile(
+                            competitonName: competitionName,
                             competitonId: widget.competition.id,
                             itemCount: state.kumitePlayers.values
                                 .toList()[index]
@@ -369,9 +426,9 @@ class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
       birthCertificateNumber: birthCertificateNumberController.text,
       level: level ?? '',
       competeCategory: category ?? '',
-      kata: selectedEvent == KarateEvents.kata,
-      kumite: selectedEvent == KarateEvents.kumite,
-      teamKata: selectedEvent == KarateEvents.teamKata,
+      kata: selectedEvent == KarateConst.KATA,
+      kumite: selectedEvent == KarateConst.KUMITE,
+      teamKata: selectedEvent == KarateConst.TEAMKATA,
       weight: int.parse(weightController.text),
       paymentStatus: PaymentStatus.pending,
       paidAmount: '',
@@ -381,6 +438,7 @@ class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
     final competitionService = CompetitionService();
 
     dynamic validation = Validator.addCompetitionPlayerValidator(
+      widget.competition.name,
       selectedEvent ?? '',
       fullNameController.text,
       birthCertificateNumberController.text,
@@ -406,7 +464,7 @@ class _AddFedShoolPlayersState extends State<AddFedShoolPlayers> {
         weightController.clear();
         selectedLevel = '';
         category = '';
-        selectedEvent = KarateEvents.kata;
+        selectedEvent = KarateConst.KATA;
       });
     } else {
       log("validation passed : $validation");

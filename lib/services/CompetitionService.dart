@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:competition_app/Constants/KarateEvents.dart';
 import 'package:competition_app/cubit/db_cubit.dart';
 import 'package:competition_app/services/AuthService.dart';
 import 'package:competition_app/services/Validator.dart';
@@ -12,6 +11,7 @@ import '../Constants/AppConstants.dart';
 import '../components/inputs/DatePickerInput.dart';
 import '../components/inputs/DropDownInput.dart';
 import '../components/inputs/Inputs.dart';
+import '../components/inputs/YeasOrNoInput.dart';
 import '../cubit/fed_shol_competiton_cubit.dart';
 import '../model/Competition.dart';
 import '../model/Player.dart';
@@ -23,6 +23,10 @@ class CompetitionService {
     final TextEditingController meetTimeController = TextEditingController();
     final TextEditingController meetPlaceController = TextEditingController();
     final TextEditingController weightController = TextEditingController();
+    final TextEditingController customAgeController = TextEditingController();
+
+    String? selectedType;
+    String? useLevels; // Variable to store yes/no selection
 
     Future<void> _selectDate() async {
       DateTime? picked = await showDatePicker(
@@ -37,114 +41,190 @@ class CompetitionService {
       }
     }
 
-    String? selectedType;
-
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: Colors.red,
-                  ),
-                  width: 100,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      "Cancel",
-                      style: TextStyle(color: Colors.white),
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.red,
+                      ),
+                      width: 100,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: const Color.fromARGB(255, 21, 243, 95),
-                  ),
-                  width: 100,
-                  child: TextButton(
-                    onPressed: () {
-                      savingValidatedCompetiton(
-                          meetTimeController.text,
-                          meetPlaceController.text,
-                          selectedType ?? "",
-                          context,
-                          weightController.text,
-                          competitionName);
-                    },
-                    child: const Text(
-                      "Create",
-                      style: TextStyle(color: Color.fromARGB(255, 7, 0, 39)),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: const Color.fromARGB(255, 21, 243, 95),
+                      ),
+                      width: 100,
+                      child: TextButton(
+                        onPressed: () {
+                          savingValidatedCompetiton(
+                              meetTimeController.text,
+                              meetPlaceController.text,
+                              selectedType ?? "",
+                              context,
+                              weightController.text,
+                              competitionName);
+                        },
+                        child: const Text(
+                          "Create",
+                          style:
+                              TextStyle(color: Color.fromARGB(255, 7, 0, 39)),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
-            ),
-          ],
-          backgroundColor: const Color.fromARGB(255, 232, 233, 233),
-          title: const Text("Create New Meet"),
-          surfaceTintColor: const Color.fromARGB(255, 140, 248, 252),
-          content: Container(
-            width: double.infinity,
-            height: 300,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  DatePickerInput(
-                    dateController: meetTimeController,
-                    selectedDate: _selectDate,
-                    lableName: "Date",
-                  ),
-                  InputField(
-                    labelText: "Meet Place",
-                    controller: meetPlaceController,
-                    keyboardType: TextInputType.text,
-                  ),
-                  DropDownInput(
-                    onChanged: (value) {
-                      selectedType = value;
-                    },
-                    title: "Competition Type",
-                    itemList: AppConstants.provincesOfSriLanka
-                        .map((item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(item),
-                            ))
-                        .toList(),
-                  ),
-
-                  //weight catagories
-                  const Padding(
-                    padding: EdgeInsets.only(
-                        top: 5.0, bottom: 5, left: 20, right: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("enter weight catagories separated by commas"),
-                        Text('ex: +35,-35, +45,-45'),
-                      ],
-                    ),
-                  ),
-
-                  InputField(
-                      labelText: "Weights",
-                      controller: weightController,
-                      keyboardType: TextInputType.text)
-                ],
+              backgroundColor: Color.fromARGB(255, 12, 0, 0),
+              title: const Text(
+                "Create New Meet",
+                style: TextStyle(color: Colors.white),
               ),
-            ),
-          ),
+              content: Container(
+                width: double.infinity,
+                height: 400,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      DatePickerInput(
+                        dateController: meetTimeController,
+                        selectedDate: _selectDate,
+                        lableName: "Date",
+                      ),
+                      InputField(
+                        labelText: "Meet Place",
+                        controller: meetPlaceController,
+                        keyboardType: TextInputType.text,
+                      ),
+                      DropDownInput(
+                        onChanged: (value) {
+                          selectedType = value;
+                        },
+                        title: "Competition Type",
+                        itemList: AppConstants.provincesOfSriLanka
+                            .map((item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(item),
+                                ))
+                            .toList(),
+                      ),
+                      if (competitionName == KarateConst.FEDERATION ||
+                          competitionName == KarateConst.SCHOOL ||
+                          competitionName == KarateConst.MINISTRY)
+                        Column(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                  top: 5.0, bottom: 5, left: 20, right: 20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Enter weight categories separated by commas",
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 179, 218, 250)),
+                                  ),
+                                  Text(
+                                    'ex: +35,-35, +45,-45',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            InputField(
+                                labelText: "Weights",
+                                controller: weightController,
+                                keyboardType: TextInputType.text)
+                          ],
+                        ),
+                      if (competitionName == KarateConst.CUSTOM)
+                        Column(
+                          children: [
+                            YeasOrNoInput(
+                              title: 'Use levels?',
+                              groupValue: useLevels,
+                              onChanged: (value) {
+                                setState(() {
+                                  useLevels = value;
+                                });
+                              },
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                  top: 5.0, bottom: 5, left: 20, right: 20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "* Enter weight categories separated by commas for kumite",
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 136, 199, 250)),
+                                  ),
+                                  Text(
+                                    'ex: +35,-35, +45,-45',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            InputField(
+                                labelText: "Weights",
+                                controller: weightController,
+                                keyboardType: TextInputType.text),
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                  top: 5.0, bottom: 5, left: 20, right: 20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      "* Enter Age categories separated by commas. ",
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 136, 199, 250))),
+                                  Text('ex: 8-9-10,16-17, 18-19, 20-21',
+                                      style: TextStyle(color: Colors.white)),
+                                ],
+                              ),
+                            ),
+                            InputField(
+                                labelText: "age categories",
+                                controller: customAgeController,
+                                keyboardType: TextInputType.text),
+                          ],
+                        )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         );
       },
     );
@@ -340,15 +420,19 @@ class CompetitionService {
     return '${player.name},${player.birthCertificateNumber},${player.level},${player.competeCategory},${player.kata.toString()},${player.kumite.toString()},${player.teamKata.toString()},${player.weight.toString()},${player.paymentStatus}, ${player.paidAmount}, ${player.paidDate}';
   }
 
-  Future<String> updatePlayerPaymentDetails(String competitonId, Player player,
-      FirebaseFirestore db, BuildContext context) async {
-    log("player: ${player.kumite}, ${player.paymentStatus}, ${player.paidAmount}, ${player.paidDate}");
+  Future<String> updatePlayerPaymentDetails(
+      String competitonId,
+      Player player,
+      FirebaseFirestore db,
+      BuildContext context,
+      String competitionType) async {
     List<Player> players = BlocProvider.of<FedSholCompetitionCubit>(context)
-        .getCurrentAllPlayers();
+        .allPLayer(competitionType);
 
     try {
       await db.collection("Competitions").doc(competitonId).update(
           {'players': players.map((e) => createItemString(e)).toList()});
+
       return "Success";
     } catch (e) {
       return e.toString();
