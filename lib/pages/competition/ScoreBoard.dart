@@ -27,6 +27,8 @@ class _ScoreBoardState extends State<ScoreBoard> {
   int? _minutes;
   int? _seconds;
   AudioPlayer? audioPlayer;
+  ScoreBoardComp? akaScoreBoard;
+  ScoreBoardComp? awoScoreBoard;
 
   @override
   void initState() {
@@ -39,6 +41,18 @@ class _ScoreBoardState extends State<ScoreBoard> {
     _minutes = widget.minutes;
     _seconds = widget.seconds;
     audioPlayer = AudioPlayer();
+    akaScoreBoard = ScoreBoardComp(
+      /*aka score board */
+      color: const Color.fromARGB(255, 187, 16, 3),
+      playerName: widget.akaPlayerName,
+      side: KarateConst.AKA,
+    );
+    awoScoreBoard = ScoreBoardComp(
+      //awo score board
+      color: Color.fromARGB(255, 0, 3, 146),
+      playerName: widget.awoPlayerName,
+      side: KarateConst.AWO,
+    );
   }
 
   @override
@@ -78,8 +92,9 @@ class _ScoreBoardState extends State<ScoreBoard> {
             _seconds! == 0 &&
             _seconds! >= 0) {
           audioPlayer?.play(AssetSource('audios/ending.mp3'));
+
+          findTheWinner();
         }
-        
       });
     });
   }
@@ -96,6 +111,10 @@ class _ScoreBoardState extends State<ScoreBoard> {
     });
   }
 
+   void findTheWinner() {
+    
+   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,26 +124,18 @@ class _ScoreBoardState extends State<ScoreBoard> {
             padding: EdgeInsets.zero,
             child: Row(
               children: [
-                ScoreBoardComp(
-                  color: const Color.fromARGB(255, 187, 16, 3),
-                  playerName: widget.akaPlayerName,
-                  side: KarateConst.AKA,
-                ),
-                ScoreBoardComp(
-                  color: Color.fromARGB(255, 0, 3, 146),
-                  playerName: widget.awoPlayerName,
-                  side: KarateConst.AWO,
-                ),
+                akaScoreBoard!,
+                awoScoreBoard!,
               ],
             ),
           ),
           Positioned(
-            top: 140,
+            top: 120,
             right: 250,
             left: 250,
             child: Container(
               decoration: BoxDecoration(
-                color: Color.fromARGB(132, 0, 0, 0),
+                color: const Color.fromARGB(132, 0, 0, 0),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
@@ -181,4 +192,6 @@ class _ScoreBoardState extends State<ScoreBoard> {
       ),
     );
   }
+  
+ 
 }

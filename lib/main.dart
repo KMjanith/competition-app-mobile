@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'cubit/cubit/score_board_cubit.dart';
+import 'cubit/score_board_cubit.dart';
 import 'cubit/db_cubit.dart';
 import 'cubit/fed_shol_competiton_cubit.dart';
 import 'cubit/recentgradings_cubit.dart';

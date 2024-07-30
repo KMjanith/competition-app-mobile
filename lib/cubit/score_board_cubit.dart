@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import '../../model/ScoreBoard.dart';
+import '../model/ScoreBoard.dart';
 
 
 part 'score_board_state.dart';

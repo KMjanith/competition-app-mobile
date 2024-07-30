@@ -1,6 +1,6 @@
 import 'package:competition_app/Constants/KarateEvents.dart';
 import 'package:competition_app/Constants/StyleConstants.dart';
-import 'package:competition_app/cubit/cubit/score_board_cubit.dart';
+import 'package:competition_app/cubit/score_board_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../components/common/HedingAnimation.dart';
@@ -140,8 +140,8 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ScoreBoard(
-                                akaPlayerName: akaPLayerNameController.text,
-                                awoPlayerName: awoPLayerNameCOntroller.text,
+                                akaPlayerName: (akaPLayerNameController.text == "") ? "No name" : akaPLayerNameController.text,
+                                awoPlayerName: awoPLayerNameCOntroller.text == "" ? "No name" : awoPLayerNameCOntroller.text,
                                 minutes:
                                     int.parse(minuteDurationController.text),
                                 seconds:

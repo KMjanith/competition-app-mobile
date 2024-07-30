@@ -45,7 +45,7 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                   style: GoogleFonts.sancreek(
                     height: 0,
                     color: Color.fromARGB(255, 220, 231, 63),
-                    fontSize: 35,
+                    fontSize: 30,
                   ),
                 ),
                 TextButton(
@@ -63,7 +63,10 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                       width: 30,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10)),
-                      child: const Icon(Icons.restore_outlined, color: Colors.white,),
+                      child: const Icon(
+                        Icons.restore_outlined,
+                        color: Colors.white,
+                      ),
                     ))
               ],
             ),
@@ -76,7 +79,7 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                     height: 0,
                     decoration: TextDecoration.none,
                     color: Colors.white,
-                    fontSize: 45,
+                    fontSize: 37,
                   ),
                 ),
               ],
@@ -85,24 +88,41 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
               Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      textButton(),
+                      const SizedBox(
+                        width: 40,
+                      ),
+                      Column(
+                        children: [
+                          textButton(KarateConst.YUKO, 1, KarateConst.AKA),
+                          textButton(KarateConst.WAZAARI, 2, KarateConst.AKA),
+                          textButton(KarateConst.IPPON, 3, KarateConst.AKA),
+                        ],
+                      ),
                       const SizedBox(
                         width: 10,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 70.0),
-                        child: Text(
-                          "$score",
-                          style: GoogleFonts.robotoMono(
-                            color: Color.fromARGB(255, 218, 218, 218),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 80,
-                          ),
+                        child: Column(
+                          children: [
+                            Text(
+                              "$score",
+                              style: GoogleFonts.robotoMono(
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 90,
+                              ),
+                            ),
+                            undoButton("score")
+                          ],
                         ),
                       ),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -124,7 +144,9 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                                     });
                                   },
                                   child: const Icon(
-                                      Icons.wb_incandescent_outlined, color: Colors.white,))),
+                                    Icons.wb_incandescent_outlined,
+                                    color: Colors.white,
+                                  ))),
                           const SizedBox(
                             width: 25,
                           ),
@@ -147,7 +169,11 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                         ],
                       ),
                       const SizedBox(
-                        width: 170,
+                        width: 40,
+                      ),
+                      undoButton("panlties"),
+                      const SizedBox(
+                        width: 80,
                       ),
                     ],
                   ),
@@ -157,29 +183,50 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
               Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 70.0),
-                        child: Text(
-                          "$score",
-                          style: GoogleFonts.robotoMono(
-                            color: Color.fromARGB(255, 218, 218, 218),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 80,
-                          ),
+                        child: Column(
+                          children: [
+                            Text(
+                              "$score",
+                              style: GoogleFonts.robotoMono(
+                                color: Color.fromARGB(255, 218, 218, 218),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 90,
+                              ),
+                            ),
+                            undoButton("score")
+                          ],
                         ),
                       ),
                       const SizedBox(
                         width: 10,
                       ),
-                      textButton()
+                      Column(
+                        children: [
+                          textButton(KarateConst.YUKO, 1, KarateConst.AWO),
+                          textButton(KarateConst.WAZAARI, 2, KarateConst.AWO),
+                          textButton(KarateConst.IPPON, 3, KarateConst.AWO),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 40,
+                      ),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   Row(
                     children: [
                       const SizedBox(
-                        width: 170,
+                        width: 80,
+                      ),
+                      undoButton("panalties"),
+                      const SizedBox(
+                        width: 40,
                       ),
                       Row(
                         children: [
@@ -217,14 +264,16 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                                     });
                                   },
                                   child: const Icon(
-                                      Icons.wb_incandescent_outlined, color: Colors.white,))),
+                                    Icons.wb_incandescent_outlined,
+                                    color: Colors.white,
+                                  ))),
                         ],
                       ),
                     ],
                   ),
                 ],
               ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Row(
@@ -249,24 +298,110 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
     );
   }
 
-  Container textButton() {
-    return Container(
-        height: 40,
-        width: 40,
-        decoration: BoxDecoration(
-            color: const Color.fromARGB(132, 255, 255, 255),
-            borderRadius: BorderRadius.circular(10)),
-        child: TextButton(
-            onPressed: () {
-              setState(() {
-                score++;
-              });
-            },
-            child: const Center(
-                child: Icon(
-                weight: 51,
-              Icons.add,
-              size: 18,
-            ))));
+  Padding textButton(String type, int incrementer, String side) {
+    if (side == KarateConst.AWO) {
+      return Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: SizedBox(
+          width: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                height: 40,
+                width: 40,
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(132, 255, 255, 255),
+                    borderRadius: BorderRadius.circular(10)),
+                child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        score = score + incrementer;
+                      });
+                    },
+                    child: const Center(
+                        child: Icon(
+                      weight: 51,
+                      Icons.add,
+                      size: 18,
+                    ))),
+              ),
+              Text(
+                type,
+                style: GoogleFonts.robotoSlab(color: Colors.white),
+              )
+            ],
+          ),
+        ),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: SizedBox(
+          width: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                type,
+                style: GoogleFonts.robotoSlab(color: Colors.white),
+              ),
+              Container(
+                height: 40,
+                width: 40,
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(132, 255, 255, 255),
+                    borderRadius: BorderRadius.circular(10)),
+                child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        score = score + incrementer;
+                      });
+                    },
+                    child: const Center(
+                        child: Icon(
+                      weight: 51,
+                      Icons.add,
+                      size: 18,
+                    ))),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
+  GestureDetector undoButton(String type) {
+    if (type == "score") {
+      return GestureDetector(
+        child: const Icon(
+          Icons.undo,
+          color: Colors.amber,
+        ),
+        onTap: () {
+          setState(() {
+            if (score != 0) {
+              score = score - 1;
+            }
+          });
+        },
+      );
+    } else {
+      return GestureDetector(
+        child: const Icon(
+          Icons.undo,
+          color: Colors.amber,
+        ),
+        onTap: () {
+          setState(() {
+            if (index != 0) {
+              penalties[index - 1] = false;
+              index = index - 1;
+            }
+          });
+        },
+      );
+    }
   }
 }
