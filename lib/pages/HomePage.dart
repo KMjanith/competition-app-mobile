@@ -1,3 +1,4 @@
+import 'package:competition_app/pages/competition/ScoreBoardCreation.dart';
 import 'package:competition_app/pages/viewData/ViewData.dart';
 import 'package:competition_app/pages/auth/SignUp.dart';
 import 'package:competition_app/services/AuthService.dart';
@@ -304,7 +305,12 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-                          HomeCard(
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              HomeCard(
                                 buttonText: "Draw Maker",
                                 color: const Color.fromARGB(255, 0, 0, 0),
                                 onPressed: () =>
@@ -313,6 +319,18 @@ class _HomePageState extends State<HomePage> {
                                 description:
                                     "you can monitor your player path to win, and also you can create a draw for your competition",
                               ),
+                              HomeCard(
+                                buttonText: "Score Board",
+                                color: const Color.fromARGB(255, 0, 0, 0),
+                                onPressed: () =>
+                                    _checkUserAuthenticationAndNavigate(
+                                        const ScoreBoardCreation()), // Replace with the actual target page for competition
+                                description:
+                                    "kumite score board",
+                              ),
+                            ],
+                          ),
+                          
                           const SizedBox(height: 10),
                         ],
                       ),
