@@ -3,6 +3,7 @@ import 'package:competition_app/Constants/StyleConstants.dart';
 import 'package:competition_app/cubit/score_board_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickalert/quickalert.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/inputs/Inputs.dart';
 import '../../model/ScoreBoard.dart';
@@ -27,40 +28,18 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
   void initState() {
     super.initState();
     context.read<ScoreBoardCubit>().loadScoreBoard();
-    final scoreBoard1 = Scoreboard(
+    final scoreBoardDetails1 = ScoreboardDetails(
         akaPlayerName: "John",
         awoPLayerName: "Doe",
         timeDuration: "10",
         akaPlayerPoints: [1, 1, 1],
         awoPlayerPoints: [1, 1, 1],
         winner: KarateConst.AKA,
-        akaPenalties: ["l1", "l2"],
-        awoPenalties: ["l1", "l2"],
-        firstPoint: KarateConst.AKA);
-    final scoreBoard2 = Scoreboard(
-        akaPlayerName: "John",
-        awoPLayerName: "Doe",
-        timeDuration: "10",
-        akaPlayerPoints: [1, 1, 1],
-        awoPlayerPoints: [1, 1, 1],
-        winner: KarateConst.AKA,
-        akaPenalties: ["l1", "l2"],
-        awoPenalties: ["l1", "l2"],
-        firstPoint: KarateConst.AKA);
-    final scoreBoard3 = Scoreboard(
-        akaPlayerName: "John",
-        awoPLayerName: "Doe",
-        timeDuration: "10",
-        akaPlayerPoints: [1, 1, 1],
-        awoPlayerPoints: [1, 1, 1],
-        winner: KarateConst.AKA,
-        akaPenalties: ["l1", "l2"],
-        awoPenalties: ["l1", "l2"],
+        akaPenalties: [1,1],
+        awoPenalties: [1],
         firstPoint: KarateConst.AKA);
 
-    BlocProvider.of<ScoreBoardCubit>(context).addScoreBoard(scoreBoard1);
-    BlocProvider.of<ScoreBoardCubit>(context).addScoreBoard(scoreBoard2);
-    BlocProvider.of<ScoreBoardCubit>(context).addScoreBoard(scoreBoard3);
+    BlocProvider.of<ScoreBoardCubit>(context).addScoreBoard(scoreBoardDetails1);
   }
 
   @override
@@ -138,15 +117,31 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
                   child: FloatingActionButton(
                     backgroundColor: Color.fromARGB(255, 77, 218, 236),
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ScoreBoard(
-                                akaPlayerName: (akaPLayerNameController.text == "") ? "No name" : akaPLayerNameController.text,
-                                awoPlayerName: awoPLayerNameCOntroller.text == "" ? "No name" : awoPLayerNameCOntroller.text,
-                                minutes:
-                                    int.parse(minuteDurationController.text),
-                                seconds:
-                                    int.parse(secondDurationController.text),
-                              )));
+                      if (minuteDurationController.text == "" ||
+                          secondDurationController.text == "") {
+                        QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.error,
+                          text: 'Please enter the minutes and seconds',
+                        );
+                      } else {
+                        
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ScoreBoard(
+                                  akaPlayerName:
+                                      (akaPLayerNameController.text == "")
+                                          ? "No name"
+                                          : akaPLayerNameController.text,
+                                  awoPlayerName:
+                                      awoPLayerNameCOntroller.text == ""
+                                          ? "No name"
+                                          : awoPLayerNameCOntroller.text,
+                                  minutes:
+                                      int.parse(minuteDurationController.text),
+                                  seconds:
+                                      int.parse(secondDurationController.text),
+                                )));
+                      }
                     },
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),

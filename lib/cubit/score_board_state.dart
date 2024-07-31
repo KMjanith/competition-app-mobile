@@ -1,12 +1,15 @@
 part of 'score_board_cubit.dart';
 
 @immutable
-sealed class ScoreBoardState {}
+sealed class ScoreBoardState {
+  get scoreboardDetails => null;
+}
 
 final class ScoreBoardInitial extends ScoreBoardState {}
 
 final class ScoreBoardLoaded extends ScoreBoardState {
-  final List<Scoreboard> scoreBoards;
+  final List<ScoreboardDetails> scoreBoards;
+  final ScoreboardDetails scoreboardDetails;
 
-  ScoreBoardLoaded(this.scoreBoards);
+  ScoreBoardLoaded(this.scoreBoards, this.scoreboardDetails);
 }

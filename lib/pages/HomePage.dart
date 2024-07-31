@@ -2,10 +2,7 @@ import 'package:competition_app/pages/competition/ScoreBoardCreation.dart';
 import 'package:competition_app/pages/viewData/ViewData.dart';
 import 'package:competition_app/pages/auth/SignUp.dart';
 import 'package:competition_app/services/AuthService.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quickalert/quickalert.dart';
@@ -129,7 +126,7 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           StyleConstants.upperBackgroundContainer,
-          StyleConstants.lowerBackgroundContainer,
+          //StyleConstants.lowerBackgroundContainer,
           Center(
             child: SingleChildScrollView(
               child: Column(
@@ -222,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Color.fromARGB(62, 255, 255, 255),
+                        color: const Color.fromARGB(62, 255, 255, 255),
                       ),
                       child: Column(
                         children: [
@@ -246,7 +243,7 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             "KARATE",
                             style: GoogleFonts.roboto(
-                                color: Color.fromARGB(221, 255, 255, 255),
+                                color: const Color.fromARGB(221, 255, 255, 255),
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold),
                             maxLines: 2,

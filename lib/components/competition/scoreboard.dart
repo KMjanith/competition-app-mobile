@@ -1,8 +1,14 @@
+import 'dart:developer';
+
 import 'package:competition_app/Constants/KarateEvents.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../cubit/score_board_cubit.dart';
+import '../../model/ScoreBoard.dart';
 
 class ScoreBoardComp extends StatefulWidget {
   final Color color;
@@ -56,6 +62,18 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                         penalties.fillRange(0, penalties.length, false);
                         akaFirstScore = false;
                         awoFirstScore = false;
+                        (context.read<ScoreBoardCubit>().state.scoreboardDetails
+                                as ScoreboardDetails)
+                            .akaPenalties = [];
+                        (context.read<ScoreBoardCubit>().state.scoreboardDetails
+                                as ScoreboardDetails)
+                            .akaPlayerPoints = [];
+                        (context.read<ScoreBoardCubit>().state.scoreboardDetails
+                                as ScoreboardDetails)
+                            .awoPlayerPoints = [];
+                        (context.read<ScoreBoardCubit>().state.scoreboardDetails
+                                as ScoreboardDetails)
+                            .awoPenalties = [];
                       });
                     },
                     child: Container(
@@ -84,6 +102,7 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                 ),
               ],
             ),
+            //---------------------------------------------------------------------------------------------------------------AKA-------------------------------------------------------------------------
             if (widget.side == KarateConst.AKA)
               Column(
                 children: [
@@ -115,7 +134,7 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                                 fontSize: 90,
                               ),
                             ),
-                            undoButton("score")
+                            undoButton("score", KarateConst.AKA)
                           ],
                         ),
                       ),
@@ -134,14 +153,18 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                               width: 75,
                               decoration: BoxDecoration(
                                   color: akaFirstScore
-                                      ? Color.fromARGB(255, 240, 182, 255)
-                                      : Color.fromARGB(0, 243, 194, 255),
+                                      ? const Color.fromARGB(255, 240, 182, 255)
+                                      : const Color.fromARGB(0, 243, 194, 255),
                                   borderRadius: BorderRadius.circular(10)),
                               child: TextButton(
                                   onPressed: () {
                                     setState(() {
                                       akaFirstScore = !akaFirstScore;
+                                      BlocProvider.of<ScoreBoardCubit>(context)
+                                          .setFirstPoint(KarateConst.AKA, akaFirstScore);
                                     });
+                                     log("awoFirstScore: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).firstPoint}");
+
                                   },
                                   child: const Icon(
                                     Icons.wb_incandescent_outlined,
@@ -163,15 +186,19 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                                         penalties[index] = true;
                                         index++;
                                       }
+                                      BlocProvider.of<ScoreBoardCubit>(context)
+                                          .addPenalties(KarateConst.AKA);
                                     });
+                                    log("akaPenalties: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).akaPenalties}");
+                                    
                                   },
-                                  child: const Text("Penalty"))),
+                                 child: const Text("Penalty", style: TextStyle(color: Colors.black),))),
                         ],
                       ),
                       const SizedBox(
                         width: 40,
                       ),
-                      undoButton("panlties"),
+                      undoButton("panlties", KarateConst.AKA),
                       const SizedBox(
                         width: 80,
                       ),
@@ -179,6 +206,8 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                   ),
                 ],
               ),
+
+            //--------------------------------------------------------------------------------------------AWO-------------------------------------------------------------------------
             if (widget.side == KarateConst.AWO)
               Column(
                 children: [
@@ -197,7 +226,7 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                                 fontSize: 90,
                               ),
                             ),
-                            undoButton("score")
+                            undoButton("score", KarateConst.AWO),
                           ],
                         ),
                       ),
@@ -224,7 +253,7 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                       const SizedBox(
                         width: 80,
                       ),
-                      undoButton("panalties"),
+                      undoButton("panalties", KarateConst.AWO),
                       const SizedBox(
                         width: 40,
                       ),
@@ -243,9 +272,12 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                                         penalties[index] = true;
                                         index++;
                                       }
+                                      BlocProvider.of<ScoreBoardCubit>(context)
+                                          .addPenalties(KarateConst.AWO);
                                     });
+                                    log("awoPenalties: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).awoPenalties}");
                                   },
-                                  child: const Text("Penalty"))),
+                                  child: const Text("Penalty", style: TextStyle(color: Colors.black),))),
                           const SizedBox(
                             width: 25,
                           ),
@@ -254,14 +286,18 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                               width: 75,
                               decoration: BoxDecoration(
                                   color: awoFirstScore
-                                      ? Color.fromARGB(255, 240, 182, 255)
-                                      : Color.fromARGB(0, 243, 194, 255),
+                                      ? const Color.fromARGB(255, 240, 182, 255)
+                                      : const Color.fromARGB(0, 243, 194, 255),
                                   borderRadius: BorderRadius.circular(10)),
                               child: TextButton(
                                   onPressed: () {
                                     setState(() {
                                       awoFirstScore = !awoFirstScore;
+                                      BlocProvider.of<ScoreBoardCubit>(context)
+                                          .setFirstPoint(KarateConst.AWO, awoFirstScore);
                                     });
+                                    log("awoFirstScore: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).firstPoint}");
+
                                   },
                                   child: const Icon(
                                     Icons.wb_incandescent_outlined,
@@ -298,7 +334,7 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
     );
   }
 
-  Padding textButton(String type, int incrementer, String side) {
+  Padding textButton(String type, int incrementor, String side) {
     if (side == KarateConst.AWO) {
       return Padding(
         padding: const EdgeInsets.all(2.0),
@@ -316,8 +352,12 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                 child: TextButton(
                     onPressed: () {
                       setState(() {
-                        score = score + incrementer;
+                        score = score + incrementor;
+                        BlocProvider.of<ScoreBoardCubit>(context)
+                            .addPoints(incrementor, side);
                       });
+
+                      log("scoreBoardDetails awo: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).awoPlayerPoints}");
                     },
                     child: const Center(
                         child: Icon(
@@ -355,8 +395,12 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                 child: TextButton(
                     onPressed: () {
                       setState(() {
-                        score = score + incrementer;
+                        score = score + incrementor;
+                        BlocProvider.of<ScoreBoardCubit>(context)
+                            .addPoints(incrementor, side);
                       });
+
+                      log("scoreBoardDetails aka: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).akaPlayerPoints}");
                     },
                     child: const Center(
                         child: Icon(
@@ -372,7 +416,7 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
     }
   }
 
-  GestureDetector undoButton(String type) {
+  GestureDetector undoButton(String type, String side) {
     if (type == "score") {
       return GestureDetector(
         child: const Icon(
@@ -384,7 +428,11 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
             if (score != 0) {
               score = score - 1;
             }
+            BlocProvider.of<ScoreBoardCubit>(context).popScores(side);
+         
           });
+            log("scoreBoardDetails aka: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).akaPlayerPoints}");
+            log("scoreBoardDetails awo: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).awoPlayerPoints}");
         },
       );
     } else {
@@ -399,7 +447,10 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
               penalties[index - 1] = false;
               index = index - 1;
             }
+            BlocProvider.of<ScoreBoardCubit>(context).popPenalties(side);
           });
+          log("scoreBoardDetails aka: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).akaPenalties}");
+          log("scoreBoardDetails awo: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).awoPenalties}");
         },
       );
     }
