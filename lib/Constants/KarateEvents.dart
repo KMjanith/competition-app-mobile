@@ -9,4 +9,13 @@ class KarateConst {
   static const String SCHOOL = "School";
   static const String CUSTOM = "Custom";
   static const String MINISTRY = "Ministry";
+
+  //scoreboard
+  static const String AKA = "aka";
+  static const String AWO = "awo";
+
+  //scores
+  static const String WAZAARI = "wazaari";
+  static const String IPPON = "ippon";
+  static const String YUKO = "yuko";
 }

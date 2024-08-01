@@ -1,10 +1,8 @@
+import 'package:competition_app/pages/competition/ScoreBoardCreation.dart';
 import 'package:competition_app/pages/viewData/ViewData.dart';
 import 'package:competition_app/pages/auth/SignUp.dart';
 import 'package:competition_app/services/AuthService.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quickalert/quickalert.dart';
@@ -37,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _checkUserLoggedInStatus();
-   BlocProvider.of<NewsAlertCubit>(context).getNews();
+   // BlocProvider.of<NewsAlertCubit>(context).getNews();
   }
 
   void _checkUserLoggedInStatus() {
@@ -128,38 +126,41 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           StyleConstants.upperBackgroundContainer,
-          StyleConstants.lowerBackgroundContainer,
+          //StyleConstants.lowerBackgroundContainer,
+
+          Positioned(
+            top: 50,
+            left: 10,
+            right: 10,
+            child:  Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.menu,
+                        color: Color.fromARGB(255, 255, 255, 255)),
+                  ),
+                  if (_isLoggedIn)
+                    TextButton(
+                      onPressed: _signOut,
+                      child: const Text(
+                        'Sign Out',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 18),
+                      ),
+                    )
+                  else
+                    const SizedBox.shrink(),
+                ],
+              ),
+            
+          ),
           Center(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const SizedBox(height: 50),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 30, right: 20, bottom: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.menu,
-                              color: Color.fromARGB(255, 255, 255, 255)),
-                        ),
-                        if (_isLoggedIn)
-                          TextButton(
-                            onPressed: _signOut,
-                            child: const Text(
-                              'Sign Out',
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 18),
-                            ),
-                          )
-                        else
-                          const SizedBox.shrink(),
-                      ],
-                    ),
-                  ),
+                  const SizedBox(height: 120),
                   const HeadingAnimation(
                       heading: "Welcome to your Sport Manager"),
                   const Image(
@@ -221,7 +222,7 @@ class _HomePageState extends State<HomePage> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Color.fromARGB(62, 255, 255, 255),
+                        color: const Color.fromARGB(62, 255, 255, 255),
                       ),
                       child: Column(
                         children: [
@@ -245,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             "KARATE",
                             style: GoogleFonts.roboto(
-                                color: Color.fromARGB(221, 255, 255, 255),
+                                color: const Color.fromARGB(221, 255, 255, 255),
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold),
                             maxLines: 2,
@@ -304,7 +305,12 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-                          HomeCard(
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              HomeCard(
                                 buttonText: "Draw Maker",
                                 color: const Color.fromARGB(255, 0, 0, 0),
                                 onPressed: () =>
@@ -313,6 +319,18 @@ class _HomePageState extends State<HomePage> {
                                 description:
                                     "you can monitor your player path to win, and also you can create a draw for your competition",
                               ),
+                              HomeCard(
+                                buttonText: "Score Board",
+                                color: const Color.fromARGB(255, 0, 0, 0),
+                                onPressed: () =>
+                                    _checkUserAuthenticationAndNavigate(
+                                        const ScoreBoardCreation()), // Replace with the actual target page for competition
+                                description:
+                                    "kumite score board",
+                              ),
+                            ],
+                          ),
+
                           const SizedBox(height: 10),
                         ],
                       ),

@@ -9,7 +9,7 @@ class BottomLine extends CustomPainter {
 
     canvas.drawLine(Offset(110, 0.0), Offset(110, 20.0), paint);
     canvas.drawLine(Offset(60, 20.0), Offset(110, 20.0), paint);
-    canvas.drawLine(Offset(110, 8.0), Offset(160, 8.0), paint);
+
   }
 
   @override

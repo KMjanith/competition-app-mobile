@@ -42,7 +42,7 @@ class NewsCard extends StatelessWidget {
               child: Text(
                 article.title,
                 style: GoogleFonts.roboto(
-                    color: const Color.fromARGB(221, 39, 39, 39),
+                    color: Color.fromARGB(221, 223, 223, 223),
                     fontSize: 15,
                     fontWeight: FontWeight.bold),
                 maxLines: 2,
