@@ -14,6 +14,8 @@
         "gradingservice",
         "Gradingstudentdetails",
         "IPPON",
+        "ipponaka",
+        "ipponawo",
         "kata",
         "kumite",
         "Pastgradings",
@@ -27,7 +29,10 @@
         "Viewdatservice",
         "Viewstudent",
         "Wado",
+        "wariawo",
         "WAZAARI",
-        "YUKO"
+        "wazariaka",
+        "YUKO",
+        "yukoawo"
     ]
 }

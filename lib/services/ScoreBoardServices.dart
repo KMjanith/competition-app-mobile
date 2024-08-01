@@ -10,7 +10,7 @@ class ScoreBoardServices {
     try {
       final newScoreBoard = <String, dynamic>{
         "userID": auth.getCurrentUserId(),
-        "date": DateTime.now().toString().split("at")[0].split(" ")[0],
+        "date": scoreBoardDetails.date,
         "akaPlayerName": scoreBoardDetails.akaPlayerName,
         "awoPLayerName": scoreBoardDetails.awoPLayerName,
         "timeDuration": scoreBoardDetails.timeDuration,

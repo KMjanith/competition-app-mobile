@@ -1,22 +1,15 @@
-import 'dart:developer';
-
 import 'package:competition_app/Constants/KarateEvents.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../cubit/score_board_cubit.dart';
 import '../../model/ScoreBoard.dart';
 
 class ScoreBoardComp extends StatefulWidget {
-  final Color color;
   final String playerName;
   final String side;
   const ScoreBoardComp({
     super.key,
-    required this.color,
     required this.playerName,
     required this.side,
   });
@@ -30,14 +23,23 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
   int score = 0;
   bool akaFirstScore = false;
   bool awoFirstScore = false;
+  Color? _color;
   final List<bool> penalties = [false, false, false, false, false, false];
+
+  @override
+  void initState() {
+    super.initState();
+    _color = widget.side == KarateConst.AKA
+        ? const Color.fromARGB(255, 187, 16, 3)
+        : const Color.fromARGB(255, 0, 3, 146);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       flex: 1,
       child: Container(
-        decoration: BoxDecoration(color: widget.color),
+        decoration: BoxDecoration(color: _color),
         child: Column(
           children: [
             const SizedBox(
@@ -50,7 +52,7 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                   widget.side,
                   style: GoogleFonts.sancreek(
                     height: 0,
-                    color: Color.fromARGB(255, 220, 231, 63),
+                    color: const Color.fromARGB(255, 220, 231, 63),
                     fontSize: 30,
                   ),
                 ),
@@ -129,7 +131,7 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                             Text(
                               "$score",
                               style: GoogleFonts.robotoMono(
-                                color: Color.fromARGB(255, 218, 218, 218),
+                                color: const Color.fromARGB(255, 218, 218, 218),
                                 fontWeight: FontWeight.bold,
                                 fontSize: 90,
                               ),
@@ -161,10 +163,9 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                                     setState(() {
                                       akaFirstScore = !akaFirstScore;
                                       BlocProvider.of<ScoreBoardCubit>(context)
-                                          .setFirstPoint(KarateConst.AKA, akaFirstScore);
+                                          .setFirstPoint(
+                                              KarateConst.AKA, akaFirstScore);
                                     });
-                                     log("awoFirstScore: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).firstPoint}");
-
                                   },
                                   child: const Icon(
                                     Icons.wb_incandescent_outlined,
@@ -189,10 +190,11 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                                       BlocProvider.of<ScoreBoardCubit>(context)
                                           .addPenalties(KarateConst.AKA);
                                     });
-                                    log("akaPenalties: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).akaPenalties}");
-                                    
                                   },
-                                 child: const Text("Penalty", style: TextStyle(color: Colors.black),))),
+                                  child: const Text(
+                                    "Penalty",
+                                    style: TextStyle(color: Colors.black),
+                                  ))),
                         ],
                       ),
                       const SizedBox(
@@ -221,7 +223,7 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                             Text(
                               "$score",
                               style: GoogleFonts.robotoMono(
-                                color: Color.fromARGB(255, 218, 218, 218),
+                                color: const Color.fromARGB(255, 218, 218, 218),
                                 fontWeight: FontWeight.bold,
                                 fontSize: 90,
                               ),
@@ -275,9 +277,11 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                                       BlocProvider.of<ScoreBoardCubit>(context)
                                           .addPenalties(KarateConst.AWO);
                                     });
-                                    log("awoPenalties: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).awoPenalties}");
                                   },
-                                  child: const Text("Penalty", style: TextStyle(color: Colors.black),))),
+                                  child: const Text(
+                                    "Penalty",
+                                    style: TextStyle(color: Colors.black),
+                                  ))),
                           const SizedBox(
                             width: 25,
                           ),
@@ -294,10 +298,9 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                                     setState(() {
                                       awoFirstScore = !awoFirstScore;
                                       BlocProvider.of<ScoreBoardCubit>(context)
-                                          .setFirstPoint(KarateConst.AWO, awoFirstScore);
+                                          .setFirstPoint(
+                                              KarateConst.AWO, awoFirstScore);
                                     });
-                                    log("awoFirstScore: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).firstPoint}");
-
                                   },
                                   child: const Icon(
                                     Icons.wb_incandescent_outlined,
@@ -356,8 +359,6 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                         BlocProvider.of<ScoreBoardCubit>(context)
                             .addPoints(incrementor, side);
                       });
-
-                      log("scoreBoardDetails awo: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).awoPlayerPoints}");
                     },
                     child: const Center(
                         child: Icon(
@@ -399,8 +400,6 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                         BlocProvider.of<ScoreBoardCubit>(context)
                             .addPoints(incrementor, side);
                       });
-
-                      log("scoreBoardDetails aka: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).akaPlayerPoints}");
                     },
                     child: const Center(
                         child: Icon(
@@ -429,10 +428,7 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
               score = score - 1;
             }
             BlocProvider.of<ScoreBoardCubit>(context).popScores(side);
-         
           });
-            log("scoreBoardDetails aka: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).akaPlayerPoints}");
-            log("scoreBoardDetails awo: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).awoPlayerPoints}");
         },
       );
     } else {
@@ -449,8 +445,6 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
             }
             BlocProvider.of<ScoreBoardCubit>(context).popPenalties(side);
           });
-          log("scoreBoardDetails aka: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).akaPenalties}");
-          log("scoreBoardDetails awo: ${(context.read<ScoreBoardCubit>().state.scoreboardDetails as ScoreboardDetails).awoPenalties}");
         },
       );
     }

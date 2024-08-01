@@ -8,6 +8,7 @@ class ScoreboardDetails {
   List<int> akaPenalties;
   List<int> awoPenalties;
   String firstPoint;
+  String date;
 
   ScoreboardDetails({
     required this.akaPlayerName,
@@ -19,5 +20,6 @@ class ScoreboardDetails {
     required this.winner,
     required this.akaPenalties,
     required this.awoPenalties,
+    required this.date,
   });
 }

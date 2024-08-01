@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _checkUserLoggedInStatus();
-   BlocProvider.of<NewsAlertCubit>(context).getNews();
+   // BlocProvider.of<NewsAlertCubit>(context).getNews();
   }
 
   void _checkUserLoggedInStatus() {
@@ -127,37 +127,40 @@ class _HomePageState extends State<HomePage> {
         children: [
           StyleConstants.upperBackgroundContainer,
           //StyleConstants.lowerBackgroundContainer,
+
+          Positioned(
+            top: 50,
+            left: 10,
+            right: 10,
+            child:  Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.menu,
+                        color: Color.fromARGB(255, 255, 255, 255)),
+                  ),
+                  if (_isLoggedIn)
+                    TextButton(
+                      onPressed: _signOut,
+                      child: const Text(
+                        'Sign Out',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 18),
+                      ),
+                    )
+                  else
+                    const SizedBox.shrink(),
+                ],
+              ),
+            
+          ),
           Center(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const SizedBox(height: 50),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 30, right: 20, bottom: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.menu,
-                              color: Color.fromARGB(255, 255, 255, 255)),
-                        ),
-                        if (_isLoggedIn)
-                          TextButton(
-                            onPressed: _signOut,
-                            child: const Text(
-                              'Sign Out',
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 18),
-                            ),
-                          )
-                        else
-                          const SizedBox.shrink(),
-                      ],
-                    ),
-                  ),
+                  const SizedBox(height: 120),
                   const HeadingAnimation(
                       heading: "Welcome to your Sport Manager"),
                   const Image(
@@ -327,7 +330,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-                          
+
                           const SizedBox(height: 10),
                         ],
                       ),

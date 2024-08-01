@@ -1,4 +1,3 @@
-import 'package:competition_app/Constants/KarateEvents.dart';
 import 'package:competition_app/Constants/StyleConstants.dart';
 import 'package:competition_app/cubit/score_board_cubit.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/quickalert.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/inputs/Inputs.dart';
-import '../../model/ScoreBoard.dart';
 import 'ScoreBoard.dart';
+import 'ScoreBoardDetailsPage.dart';
+import 'testBlibk.dart';
 
 class ScoreBoardCreation extends StatefulWidget {
   const ScoreBoardCreation({super.key});
@@ -27,19 +27,7 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
   @override
   void initState() {
     super.initState();
-    context.read<ScoreBoardCubit>().loadScoreBoard();
-    final scoreBoardDetails1 = ScoreboardDetails(
-        akaPlayerName: "John",
-        awoPLayerName: "Doe",
-        timeDuration: "10",
-        akaPlayerPoints: [1, 1, 1],
-        awoPlayerPoints: [1, 1, 1],
-        winner: KarateConst.AKA,
-        akaPenalties: [1,1],
-        awoPenalties: [1],
-        firstPoint: KarateConst.AKA);
-
-    BlocProvider.of<ScoreBoardCubit>(context).addScoreBoard(scoreBoardDetails1);
+    context.read<ScoreBoardCubit>().loadScoreBoard(context);
   }
 
   @override
@@ -48,24 +36,28 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
       body: Stack(
         children: [
           StyleConstants.upperBackgroundContainer,
+          Positioned(
+            top: 50,
+            left: 10,
+            right: 10,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.menu,
+                      color: Color.fromARGB(255, 255, 255, 255)),
+                ),
+              ],
+            ),
+          ),
           SingleChildScrollView(
             child: Column(
               children: [
-                const SizedBox(height: 50),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Builder(
-                      builder: (context) => IconButton(
-                        onPressed: () => Scaffold.of(context).openDrawer(),
-                        icon: const Icon(Icons.menu,
-                            color: Color.fromARGB(255, 255, 255, 255)),
-                      ),
-                    ),
-                  ],
-                ),
+                const SizedBox(height: 120),
+            
                 const HeadingAnimation(heading: "Make new Fight"),
-
+            
                 Column(
                   children: [
                     Row(
@@ -105,11 +97,11 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
                     ),
                   ],
                 ),
-
+            
                 const SizedBox(
                   height: 10,
                 ),
-
+            
                 //create new score board
                 SizedBox(
                   width: 150,
@@ -125,7 +117,6 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
                           text: 'Please enter the minutes and seconds',
                         );
                       } else {
-                        
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => ScoreBoard(
                                   akaPlayerName:
@@ -164,25 +155,34 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
                     ),
                   ),
                 ),
-
+            
                 //current score boards
                 const SizedBox(
                   height: 20,
                 ),
                 const Text("Recent Matches",
                     style: TextStyle(color: Colors.white)),
+                     TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => BlinkContainerExample()));
+                      },
+                      child: Text("Blink", style: TextStyle(color: Colors.amber),)),
                 SizedBox(
-                  height: 1000,
+                  height: 350,
                   width: double.infinity,
                   child: BlocBuilder<ScoreBoardCubit, ScoreBoardState>(
                     builder: (context, state) {
+                      if(state is ScoreBoardLoading){
+                        return const Center(child: CircularProgressIndicator(),);
+                      }else
                       if (state is ScoreBoardLoaded) {
                         return ListView.builder(
+                          padding: const EdgeInsets.only(top: 15),
                           itemCount: state.scoreBoards.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 8.0, right: 8),
+                              padding: const EdgeInsets.only(left: 8.0, right: 8),
                               child: Container(
                                 margin: const EdgeInsets.only(bottom: 10),
                                 decoration: BoxDecoration(
@@ -190,16 +190,38 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: ListTile(
+                                  onTap: () {
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (context) =>
+                                            (ScoreBoardDetailsPage(
+                                              scoreboardDetails:
+                                                  state.scoreBoards[index],
+                                            ))));
+                                  },
                                   title: Text(
-                                    "AKA: ${state.scoreBoards[index].akaPlayerName}",
+                                    "Date: ${state.scoreBoards[index].date}",
                                     style: const TextStyle(color: Colors.white),
                                   ),
                                   subtitle: Text(
-                                    "AWO: ${index + 1}",
+                                    "winner: ${state.scoreBoards[index].winner}",
                                     style: const TextStyle(color: Colors.white),
                                   ),
                                   trailing: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      QuickAlert.show(
+                                          context: context,
+                                          type: QuickAlertType.confirm,
+                                          text:
+                                              "Are you sure you want to delete this score board?",
+                                          onCancelBtnTap: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          onConfirmBtnTap: () {
+                                            context
+                                                .read<ScoreBoardCubit>()
+                                                .deleteScoreBoard(index);
+                                          });
+                                    },
                                     icon: const Icon(
                                       Icons.delete,
                                       color: Colors.red,
@@ -219,7 +241,7 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
                 )
               ],
             ),
-          )
+          ),
         ],
       ),
     );

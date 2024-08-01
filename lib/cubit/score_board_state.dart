@@ -7,6 +7,8 @@ sealed class ScoreBoardState {
 
 final class ScoreBoardInitial extends ScoreBoardState {}
 
+final class ScoreBoardLoading extends ScoreBoardState {}
+
 final class ScoreBoardLoaded extends ScoreBoardState {
   final List<ScoreboardDetails> scoreBoards;
   final ScoreboardDetails scoreboardDetails;
