@@ -7,7 +7,6 @@ import 'package:competition_app/cubit/db_cubit.dart';
 import 'package:competition_app/cubit/fed_shol_competiton_cubit.dart';
 import 'package:competition_app/model/Competition.dart';
 import 'package:competition_app/model/Player.dart';
-import 'package:competition_app/services/CompetitionService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,6 +17,7 @@ import '../../components/competition/kataKumiteTile.dart';
 import '../../components/inputs/DropDownInput.dart';
 import '../../components/inputs/Inputs.dart';
 import '../../components/inputs/radioButton.dart';
+import '../../services/CompetitionService.dart';
 import '../../services/Validator.dart';
 
 class AddPlayers extends StatefulWidget {

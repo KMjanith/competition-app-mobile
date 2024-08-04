@@ -1,11 +1,11 @@
 import 'package:competition_app/pages/HomePage.dart';
 import 'package:competition_app/pages/auth/Login.dart';
-import 'package:competition_app/services/AuthService.dart';
 import 'package:flutter/material.dart';
 import '../../components/buttons/GoogleAuth.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../Constants/StyleConstants.dart';
 import '../../components/inputs/Inputs.dart';
+import '../../services/AuthService.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});

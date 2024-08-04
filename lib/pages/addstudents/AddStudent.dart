@@ -7,8 +7,6 @@ import 'package:competition_app/Constants/AppConstants.dart';
 import 'package:competition_app/components/common/HedingAnimation.dart';
 import 'package:competition_app/components/inputs/DatePickerInput.dart';
 import 'package:competition_app/model/AddStudentModel.dart';
-import 'package:competition_app/services/AuthService.dart';
-import 'package:competition_app/services/Validator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +17,8 @@ import '../../components/buttons/AddPhotoButton.dart';
 import '../../components/inputs/DropDownInput.dart';
 import '../../components/inputs/Inputs.dart';
 import '../../Constants/StyleConstants.dart';
+import '../../services/AuthService.dart';
+import '../../services/Validator.dart';
 
 class AddStudent extends StatefulWidget {
   const AddStudent({Key? key}) : super(key: key);

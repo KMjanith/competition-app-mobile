@@ -56,6 +56,12 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                     fontSize: 30,
                   ),
                 ),
+                
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 TextButton(
                     onPressed: () {
                       setState(() {
@@ -87,12 +93,7 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                         Icons.restore_outlined,
                         color: Colors.white,
                       ),
-                    ))
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+                    )),
                 Text(
                   widget.playerName,
                   style: GoogleFonts.aDLaMDisplay(
@@ -109,23 +110,13 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
               Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const SizedBox(
-                        width: 40,
-                      ),
-                      Column(
-                        children: [
-                          textButton(KarateConst.YUKO, 1, KarateConst.AKA),
-                          textButton(KarateConst.WAZAARI, 2, KarateConst.AKA),
-                          textButton(KarateConst.IPPON, 3, KarateConst.AKA),
-                        ],
-                      ),
                       const SizedBox(
                         width: 10,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 70.0),
+                        padding: const EdgeInsets.only(left: 70.0),
                         child: Column(
                           children: [
                             Text(
@@ -139,6 +130,19 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                             undoButton("score", KarateConst.AKA)
                           ],
                         ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Column(
+                        children: [
+                          textButton(KarateConst.YUKO, 1, KarateConst.AKA),
+                          textButton(KarateConst.WAZAARI, 2, KarateConst.AKA),
+                          textButton(KarateConst.IPPON, 3, KarateConst.AKA),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 20,
                       ),
                     ],
                   ),
@@ -214,10 +218,23 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
               Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        children: [
+                          textButton(KarateConst.YUKO, 1, KarateConst.AWO),
+                          textButton(KarateConst.WAZAARI, 2, KarateConst.AWO),
+                          textButton(KarateConst.IPPON, 3, KarateConst.AWO),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 70.0),
+                        padding: const EdgeInsets.only(right: 170.0),
                         child: Column(
                           children: [
                             Text(
@@ -231,19 +248,6 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                             undoButton("score", KarateConst.AWO),
                           ],
                         ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Column(
-                        children: [
-                          textButton(KarateConst.YUKO, 1, KarateConst.AWO),
-                          textButton(KarateConst.WAZAARI, 2, KarateConst.AWO),
-                          textButton(KarateConst.IPPON, 3, KarateConst.AWO),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 40,
                       ),
                     ],
                   ),
@@ -346,6 +350,43 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Text(
+                type,
+                style: GoogleFonts.robotoSlab(color: Colors.white),
+              ),
+              Container(
+                height: 40,
+                width: 40,
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(132, 255, 255, 255),
+                    borderRadius: BorderRadius.circular(10)),
+                child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        score = score + incrementor;
+                        BlocProvider.of<ScoreBoardCubit>(context)
+                            .addPoints(incrementor, side);
+                      });
+                    },
+                    child: const Center(
+                        child: Icon(
+                      weight: 51,
+                      Icons.add,
+                      size: 18,
+                    ))),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: SizedBox(
+          width: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
               Container(
                 height: 40,
                 width: 40,
@@ -371,43 +412,6 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                 type,
                 style: GoogleFonts.robotoSlab(color: Colors.white),
               )
-            ],
-          ),
-        ),
-      );
-    } else {
-      return Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: SizedBox(
-          width: 100,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                type,
-                style: GoogleFonts.robotoSlab(color: Colors.white),
-              ),
-              Container(
-                height: 40,
-                width: 40,
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(132, 255, 255, 255),
-                    borderRadius: BorderRadius.circular(10)),
-                child: TextButton(
-                    onPressed: () {
-                      setState(() {
-                        score = score + incrementor;
-                        BlocProvider.of<ScoreBoardCubit>(context)
-                            .addPoints(incrementor, side);
-                      });
-                    },
-                    child: const Center(
-                        child: Icon(
-                      weight: 51,
-                      Icons.add,
-                      size: 18,
-                    ))),
-              ),
             ],
           ),
         ),

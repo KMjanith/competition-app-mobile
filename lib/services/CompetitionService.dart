@@ -1,20 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:competition_app/Constants/KarateEvents.dart';
 import 'package:competition_app/cubit/db_cubit.dart';
-import 'package:competition_app/services/AuthService.dart';
-import 'package:competition_app/services/Validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/quickalert.dart';
 
-import '../Constants/AppConstants.dart';
+import '../../../Constants/AppConstants.dart';
+import '../../../cubit/fed_shol_competiton_cubit.dart';
+import '../../../model/Competition.dart';
+import '../../../model/Player.dart';
 import '../components/inputs/DatePickerInput.dart';
 import '../components/inputs/DropDownInput.dart';
 import '../components/inputs/Inputs.dart';
 import '../components/inputs/YeasOrNoInput.dart';
-import '../cubit/fed_shol_competiton_cubit.dart';
-import '../model/Competition.dart';
-import '../model/Player.dart';
+import 'AuthService.dart';
+import 'Validator.dart';
 
 class CompetitionService {
   final auth = Authservice();

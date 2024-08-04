@@ -6,7 +6,6 @@ import 'package:competition_app/Constants/PaymentStatus.dart';
 import 'package:competition_app/components/inputs/Inputs.dart';
 import 'package:competition_app/cubit/db_cubit.dart';
 import 'package:competition_app/cubit/fed_shol_competiton_cubit.dart';
-import 'package:competition_app/services/CompetitionService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/quickalert.dart';
@@ -18,7 +17,9 @@ import '../../components/inputs/DatePickerInput.dart';
 import '../../components/inputs/DropDownInput.dart';
 
 import '../../model/Player.dart';
+import '../../services/CompetitionService.dart';
 import '../../services/Validator.dart';
+
 
 class PlayersDisplay extends StatefulWidget {
   final String competitionName;

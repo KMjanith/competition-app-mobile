@@ -4,7 +4,7 @@ import 'package:competition_app/model/AddStudentModel.dart';
 import 'package:competition_app/model/GradingStudentDetals.dart';
 import 'package:intl/intl.dart';
 
-import '../model/Player.dart';
+import '../../../model/Player.dart';
 
 class Validator {
   //-------------------------------------------------------------------------------------------------STUDENT--------------------------------------------------------------------------------------------

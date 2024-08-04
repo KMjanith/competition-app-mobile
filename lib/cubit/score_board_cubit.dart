@@ -27,6 +27,7 @@ class ScoreBoardCubit extends Cubit<ScoreBoardState> {
 
     for (var doc in querySnapshot.docs) {
       final scoreBoardDetails = ScoreboardDetails(
+          id: doc.id,
           akaPlayerName: doc['akaPlayerName'],
           firstPoint: doc['firstPoint'],
           awoPLayerName: doc['awoPLayerName'],
@@ -42,6 +43,7 @@ class ScoreBoardCubit extends Cubit<ScoreBoardState> {
       scoreBoards.add(scoreBoardDetails);
     }
     final scoreBoard = ScoreboardDetails(
+        id: "",
         akaPlayerName: '',
         awoPLayerName: '',
         timeDuration: "",

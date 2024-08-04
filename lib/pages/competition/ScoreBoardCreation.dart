@@ -5,9 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/quickalert.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/inputs/Inputs.dart';
+import '../../cubit/db_cubit.dart';
+import '../../services/ScoreBoardServices.dart';
 import 'ScoreBoard.dart';
 import 'ScoreBoardDetailsPage.dart';
-import 'testBlibk.dart';
 
 class ScoreBoardCreation extends StatefulWidget {
   const ScoreBoardCreation({super.key});
@@ -28,6 +29,20 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
   void initState() {
     super.initState();
     context.read<ScoreBoardCubit>().loadScoreBoard(context);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    akaPLayerNameController.dispose();
+    awoPLayerNameCOntroller.dispose();
+    minuteDurationController.dispose();
+    secondDurationController.dispose();
+    akaPLayerNameController.clear();
+    awoPLayerNameCOntroller.clear();
+    minuteDurationController.clear();
+    secondDurationController.clear();
   }
 
   @override
@@ -54,10 +69,10 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
           SingleChildScrollView(
             child: Column(
               children: [
-                const SizedBox(height: 120),
-            
+                const SizedBox(height: 90),
+
                 const HeadingAnimation(heading: "Make new Fight"),
-            
+
                 Column(
                   children: [
                     Row(
@@ -97,11 +112,10 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
                     ),
                   ],
                 ),
-            
+
                 const SizedBox(
                   height: 10,
                 ),
-            
                 //create new score board
                 SizedBox(
                   width: 150,
@@ -117,21 +131,33 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
                           text: 'Please enter the minutes and seconds',
                         );
                       } else {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        String akaPlayerName =
+                            akaPLayerNameController.text.isEmpty
+                                ? "No name"
+                                : akaPLayerNameController.text;
+                        String awoPlayerName =
+                            awoPLayerNameCOntroller.text.isEmpty
+                                ? "No name"
+                                : awoPLayerNameCOntroller.text;
+                        int minutes = int.parse(minuteDurationController.text);
+                        int seconds = int.parse(secondDurationController.text);
+
+                        // Clear the input fields before navigating
+                        akaPLayerNameController.clear();
+                        awoPLayerNameCOntroller.clear();
+                        minuteDurationController.clear();
+                        secondDurationController.clear();
+
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
                             builder: (context) => ScoreBoard(
-                                  akaPlayerName:
-                                      (akaPLayerNameController.text == "")
-                                          ? "No name"
-                                          : akaPLayerNameController.text,
-                                  awoPlayerName:
-                                      awoPLayerNameCOntroller.text == ""
-                                          ? "No name"
-                                          : awoPLayerNameCOntroller.text,
-                                  minutes:
-                                      int.parse(minuteDurationController.text),
-                                  seconds:
-                                      int.parse(secondDurationController.text),
-                                )));
+                              akaPlayerName: akaPlayerName,
+                              awoPlayerName: awoPlayerName,
+                              minutes: minutes,
+                              seconds: seconds,
+                            ),
+                          ),
+                        );
                       }
                     },
                     child: const Padding(
@@ -155,34 +181,31 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
                     ),
                   ),
                 ),
-            
+
                 //current score boards
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 const Text("Recent Matches",
                     style: TextStyle(color: Colors.white)),
-                     TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => BlinkContainerExample()));
-                      },
-                      child: Text("Blink", style: TextStyle(color: Colors.amber),)),
+
                 SizedBox(
                   height: 350,
                   width: double.infinity,
                   child: BlocBuilder<ScoreBoardCubit, ScoreBoardState>(
                     builder: (context, state) {
-                      if(state is ScoreBoardLoading){
-                        return const Center(child: CircularProgressIndicator(),);
-                      }else
-                      if (state is ScoreBoardLoaded) {
+                      if (state is ScoreBoardLoading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state is ScoreBoardLoaded) {
                         return ListView.builder(
                           padding: const EdgeInsets.only(top: 15),
                           itemCount: state.scoreBoards.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: const EdgeInsets.only(left: 8.0, right: 8),
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, right: 8),
                               child: Container(
                                 margin: const EdgeInsets.only(bottom: 10),
                                 decoration: BoxDecoration(
@@ -191,12 +214,13 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
                                 ),
                                 child: ListTile(
                                   onTap: () {
-                                    Navigator.of(context).push(MaterialPageRoute(
-                                        builder: (context) =>
-                                            (ScoreBoardDetailsPage(
-                                              scoreboardDetails:
-                                                  state.scoreBoards[index],
-                                            ))));
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                (ScoreBoardDetailsPage(
+                                                  scoreboardDetails:
+                                                      state.scoreBoards[index],
+                                                ))));
                                   },
                                   title: Text(
                                     "Date: ${state.scoreBoards[index].date}",
@@ -217,9 +241,18 @@ class _ScoreBoardCreationState extends State<ScoreBoardCreation> {
                                             Navigator.of(context).pop();
                                           },
                                           onConfirmBtnTap: () {
+                                            final db = context
+                                                .read<DbCubit>()
+                                                .firestore;
+                                            ScoreBoardServices()
+                                                .deleteScoreBoardDetails(
+                                                    db,
+                                                    state
+                                                        .scoreBoards[index].id);
                                             context
                                                 .read<ScoreBoardCubit>()
                                                 .deleteScoreBoard(index);
+                                            Navigator.of(context).pop();
                                           });
                                     },
                                     icon: const Icon(
