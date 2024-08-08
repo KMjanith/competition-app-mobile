@@ -3,11 +3,11 @@ import 'package:competition_app/model/Grading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../cubit/db_cubit.dart';
-import '../cubit/recentgradings_cubit.dart';
+import '../../../cubit/db_cubit.dart';
+import '../../../cubit/recentgradings_cubit.dart';
+import '../../../model/GradingStudentDetals.dart';
 import '../components/inputs/DatePickerInput.dart';
 import '../components/inputs/Inputs.dart';
-import '../model/GradingStudentDetals.dart';
 import 'AuthService.dart';
 import 'interfaces/GraingDatabaseService.dart';
 
@@ -98,7 +98,7 @@ class Gradingservice extends GradingDatabaseService {
                 DatePickerInput(
                   dateController: gradingTimeController,
                   selectedDate: _selectDate,
-                  lableName: "Date",
+                  labelName: "Date",
                 ),
                 InputField(
                   labelText: "Grading Place",

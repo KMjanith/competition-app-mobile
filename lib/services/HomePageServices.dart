@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
-import '../model/Article.dart';
+import '../../../model/Article.dart';
 
 class HomePageService {
   //function to get the sport news from the api

@@ -1,4 +1,5 @@
 class ScoreboardDetails {
+  String id;
   String akaPlayerName;
   String awoPLayerName;
   String timeDuration;
@@ -11,6 +12,7 @@ class ScoreboardDetails {
   String date;
 
   ScoreboardDetails({
+    required this.id,
     required this.akaPlayerName,
     required this.firstPoint,
     required this.awoPLayerName,

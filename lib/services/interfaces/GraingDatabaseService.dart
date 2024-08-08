@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/Grading.dart';
-import '../../../model/GradingStudentDetals.dart';
+import '../../../../../model/Grading.dart';
+import '../../../../../model/GradingStudentDetals.dart';
 
 abstract class GradingDatabaseService {
   void createNewGradingPopUp(BuildContext context);

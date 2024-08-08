@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../pages/HomePage.dart';
+import '../../../pages/HomePage.dart';
 
 class Authservice {
   final userInstance = FirebaseAuth.instance;

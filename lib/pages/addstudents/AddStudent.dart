@@ -3,12 +3,10 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:competition_app/components/buttons/CancelButton.dart';
 import 'package:competition_app/components/buttons/SubmitButton.dart';
-import 'package:competition_app/Constants/AppConstants.dart';
+import 'package:competition_app/components/Constants/AppConstants.dart';
 import 'package:competition_app/components/common/HedingAnimation.dart';
 import 'package:competition_app/components/inputs/DatePickerInput.dart';
 import 'package:competition_app/model/AddStudentModel.dart';
-import 'package:competition_app/services/AuthService.dart';
-import 'package:competition_app/services/Validator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +16,9 @@ import '../../cubit/db_cubit.dart';
 import '../../components/buttons/AddPhotoButton.dart';
 import '../../components/inputs/DropDownInput.dart';
 import '../../components/inputs/Inputs.dart';
-import '../../Constants/StyleConstants.dart';
+import '../../components/Constants/StyleConstants.dart';
+import '../../services/AuthService.dart';
+import '../../services/Validator.dart';
 
 class AddStudent extends StatefulWidget {
   const AddStudent({Key? key}) : super(key: key);
@@ -317,7 +317,7 @@ class _AddStudentState extends State<AddStudent> {
                 DatePickerInput(
                   selectedDate: _selectDate,
                   dateController: _dateController,
-                  lableName: "Date OF Birth",
+                  labelName: "Date OF Birth",
                 ),
                 InputField(
                     labelText: "Name of the guardian",

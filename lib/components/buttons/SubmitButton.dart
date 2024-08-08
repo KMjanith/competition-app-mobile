@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "../../Constants/StyleConstants.dart";
+import "../Constants/StyleConstants.dart";
 
 class SubmitButton extends StatelessWidget {
   final VoidCallback? addStudent;

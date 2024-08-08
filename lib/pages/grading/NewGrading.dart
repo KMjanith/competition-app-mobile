@@ -1,4 +1,4 @@
-import 'package:competition_app/Constants/StyleConstants.dart';
+import 'package:competition_app/components/Constants/StyleConstants.dart';
 import 'package:competition_app/model/Grading.dart';
 import 'package:competition_app/pages/grading/PastGradings.dart';
 import 'package:competition_app/services/GradingService.dart';

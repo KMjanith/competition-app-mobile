@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-import '../../Constants/StyleConstants.dart';
+import '../../components/Constants/StyleConstants.dart';
 import '../../cubit/recentgradings_cubit.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/common/NothingWidget.dart';

@@ -6,9 +6,9 @@ import 'package:competition_app/components/competition/linearts/StraignlineLower
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../components/Constants/StyleConstants.dart';
-import '../components/common/HedingAnimation.dart';
-import '../components/competition/linearts/UpperLine.dart';
+import '../../components/Constants/StyleConstants.dart';
+import '../../components/common/HedingAnimation.dart';
+import '../../components/competition/linearts/UpperLine.dart';
 
 class DrawMaker extends StatefulWidget {
   const DrawMaker({super.key});

@@ -4,7 +4,7 @@ import 'package:competition_app/cubit/db_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import '../Constants/KarateEvents.dart';
+import '../components/Constants/KarateEvents.dart';
 import '../model/ScoreBoard.dart';
 import '../services/AuthService.dart';
 part 'score_board_state.dart';
@@ -27,6 +27,7 @@ class ScoreBoardCubit extends Cubit<ScoreBoardState> {
 
     for (var doc in querySnapshot.docs) {
       final scoreBoardDetails = ScoreboardDetails(
+          id: doc.id,
           akaPlayerName: doc['akaPlayerName'],
           firstPoint: doc['firstPoint'],
           awoPLayerName: doc['awoPLayerName'],
@@ -42,6 +43,7 @@ class ScoreBoardCubit extends Cubit<ScoreBoardState> {
       scoreBoards.add(scoreBoardDetails);
     }
     final scoreBoard = ScoreboardDetails(
+        id: "",
         akaPlayerName: '',
         awoPLayerName: '',
         timeDuration: "",

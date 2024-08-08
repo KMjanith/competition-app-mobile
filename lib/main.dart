@@ -12,13 +12,11 @@ import 'cubit/recentgradings_cubit.dart';
 import 'cubit/update_grading_students_cubit.dart';
 import 'cubit/view_data_cubit.dart';
 import 'firebase_options.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   runApp(MyApp());
 }
 

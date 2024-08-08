@@ -10,7 +10,7 @@ import '../cubit/news_alerrt_cubit.dart';
 import '../cubit/recentgradings_cubit.dart';
 import '../components/common/HedingAnimation.dart';
 import '../components/homepage/HomeCard.dart';
-import '../Constants/StyleConstants.dart';
+import '../components/Constants/StyleConstants.dart';
 import '../components/homepage/NewsCard.dart';
 import '../services/HomePageServices.dart';
 import 'addstudents/AddStudent.dart';
@@ -330,13 +330,12 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-
                           const SizedBox(height: 10),
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 100),
                 ],
               ),
             ),

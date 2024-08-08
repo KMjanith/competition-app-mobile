@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:competition_app/model/ScoreBoard.dart';
-import 'package:competition_app/services/AuthService.dart';
+
+import 'AuthService.dart';
 
 class ScoreBoardServices {
   void storeScoreBoardDetails(
@@ -25,6 +26,14 @@ class ScoreBoardServices {
       db.collection('score_board').add(newScoreBoard);
     } catch (e) {
       throw Exception("Error in storing the score board details");
+    }
+  }
+
+  void deleteScoreBoardDetails(FirebaseFirestore db, String id) async {
+    try {
+      db.collection('score_board').doc(id).delete();
+    } catch (e) {
+      throw Exception("Error in deleting the score board details");
     }
   }
 }

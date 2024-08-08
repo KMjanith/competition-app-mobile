@@ -1,4 +1,4 @@
-import 'package:competition_app/Constants/PaymentStatus.dart';
+import 'package:competition_app/components/Constants/PaymentStatus.dart';
 import 'package:competition_app/model/GradingStudentDetals.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

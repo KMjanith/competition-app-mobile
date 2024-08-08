@@ -1,4 +1,4 @@
-import 'package:competition_app/Constants/PaymentStatus.dart';
+import 'package:competition_app/components/Constants/PaymentStatus.dart';
 import 'package:competition_app/cubit/recentgradings_cubit.dart';
 import 'package:competition_app/model/GradingStudentDetals.dart';
 import 'package:competition_app/pages/grading/UpdatePaymentDetails.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../Constants/StyleConstants.dart';
+import '../../components/Constants/StyleConstants.dart';
 import '../../cubit/db_cubit.dart';
 import '../../cubit/update_grading_students_cubit.dart';
 import '../../components/common/HedingAnimation.dart';

@@ -1,23 +1,23 @@
 import 'dart:developer';
 
-import 'package:competition_app/Constants/KarateEvents.dart';
-import 'package:competition_app/Constants/PaymentStatus.dart';
-import 'package:competition_app/Constants/StyleConstants.dart';
+import 'package:competition_app/components/Constants/KarateEvents.dart';
+import 'package:competition_app/components/Constants/PaymentStatus.dart';
+import 'package:competition_app/components/Constants/StyleConstants.dart';
 import 'package:competition_app/cubit/db_cubit.dart';
 import 'package:competition_app/cubit/fed_shol_competiton_cubit.dart';
 import 'package:competition_app/model/Competition.dart';
 import 'package:competition_app/model/Player.dart';
-import 'package:competition_app/services/CompetitionService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../Constants/AppConstants.dart';
+import '../../components/Constants/AppConstants.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/competition/kataKumiteTile.dart';
 import '../../components/inputs/DropDownInput.dart';
 import '../../components/inputs/Inputs.dart';
 import '../../components/inputs/radioButton.dart';
+import '../../services/CompetitionService.dart';
 import '../../services/Validator.dart';
 
 class AddPlayers extends StatefulWidget {

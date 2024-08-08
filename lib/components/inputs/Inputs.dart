@@ -35,7 +35,7 @@ class InputField extends StatelessWidget {
                 const BorderSide(color: Colors.transparent), // Transparent border
           ),
           filled: true,
-          fillColor: Color.fromARGB(149, 255, 255, 255),
+          fillColor: Color.fromARGB(64, 139, 139, 139),
           labelText: labelText,
           labelStyle: const TextStyle(color: Color.fromARGB(255, 252, 252, 252)),
 
@@ -44,7 +44,7 @@ class InputField extends StatelessWidget {
         ),
         controller: controller,
         style: const TextStyle(
-            color: Color.fromARGB(255, 0, 0, 0)), // Text input style
+            color: Color.fromARGB(255, 255, 255, 255)), // Text input style
       ),
     );
   }
