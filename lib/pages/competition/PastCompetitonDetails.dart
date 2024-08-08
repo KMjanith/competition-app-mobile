@@ -2,7 +2,7 @@ import 'package:competition_app/model/Competition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../Constants/StyleConstants.dart';
+import '../../components/Constants/StyleConstants.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/competition/PastCompetitonDetailsTile.dart';
 import '../../cubit/db_cubit.dart';

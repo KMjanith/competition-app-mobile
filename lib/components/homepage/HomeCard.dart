@@ -1,4 +1,4 @@
-import 'package:competition_app/Constants/StyleConstants.dart';
+import 'package:competition_app/components/Constants/StyleConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

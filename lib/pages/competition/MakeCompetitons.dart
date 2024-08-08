@@ -1,4 +1,4 @@
-import 'package:competition_app/Constants/StyleConstants.dart';
+import 'package:competition_app/components/Constants/StyleConstants.dart';
 import 'package:competition_app/pages/competition/Custom.dart';
 import 'package:competition_app/pages/competition/Ministry.dart';
 import 'package:competition_app/pages/competition/SchoolAndFederation.dart';

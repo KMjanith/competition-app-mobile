@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../Constants/StyleConstants.dart';
+import '../../components/Constants/StyleConstants.dart';
 import '../../components/buttons/CreateGradingButon.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../services/CompetitionService.dart';

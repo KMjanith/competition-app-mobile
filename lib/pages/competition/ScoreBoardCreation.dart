@@ -1,4 +1,4 @@
-import 'package:competition_app/Constants/StyleConstants.dart';
+import 'package:competition_app/components/Constants/StyleConstants.dart';
 import 'package:competition_app/cubit/score_board_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

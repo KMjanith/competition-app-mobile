@@ -2,8 +2,8 @@ import 'package:competition_app/services/GradingService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../Constants/AppConstants.dart';
-import '../../Constants/StyleConstants.dart';
+import '../../components/Constants/AppConstants.dart';
+import '../../components/Constants/StyleConstants.dart';
 import '../../cubit/update_grading_students_cubit.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/inputs/DatePickerInput.dart';
@@ -153,7 +153,7 @@ class _GradingstudentState extends State<UpdatePaymentDetails> {
                         keyboardType: TextInputType.number),
                     DatePickerInput(
                       dateController: datePaid,
-                      lableName: "Date",
+                      labelName: "Date",
                       selectedDate: _selectDate,
                     ),
                     DropDownInput(

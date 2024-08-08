@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../Constants/StyleConstants.dart';
+import '../Constants/StyleConstants.dart';
 
 class CancelButton extends StatelessWidget {
   const CancelButton({super.key});

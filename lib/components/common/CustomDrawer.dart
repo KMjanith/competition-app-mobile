@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../Constants/StyleConstants.dart';
+import '../Constants/StyleConstants.dart';
 
 class CustomDrawer extends StatelessWidget {
   final List<Widget> drawerItems;

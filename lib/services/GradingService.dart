@@ -98,7 +98,7 @@ class Gradingservice extends GradingDatabaseService {
                 DatePickerInput(
                   dateController: gradingTimeController,
                   selectedDate: _selectDate,
-                  lableName: "Date",
+                  labelName: "Date",
                 ),
                 InputField(
                   labelText: "Grading Place",
