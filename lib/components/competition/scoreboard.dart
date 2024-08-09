@@ -1,4 +1,4 @@
-import 'package:competition_app/Constants/KarateEvents.dart';
+import 'package:competition_app/components/Constants/KarateEvents.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -147,7 +147,7 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                     ],
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -252,7 +252,7 @@ class _ScoreBoardCompState extends State<ScoreBoardComp> {
                     ],
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   Row(
                     children: [

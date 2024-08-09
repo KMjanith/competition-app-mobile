@@ -6,7 +6,7 @@ import 'package:competition_app/components/competition/linearts/StraignlineLower
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../Constants/StyleConstants.dart';
+import '../../components/Constants/StyleConstants.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/competition/linearts/UpperLine.dart';
 

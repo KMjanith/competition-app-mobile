@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:competition_app/Constants/KarateEvents.dart';
-import 'package:competition_app/Constants/PaymentStatus.dart';
+import 'package:competition_app/components/Constants/KarateEvents.dart';
+import 'package:competition_app/components/Constants/PaymentStatus.dart';
 import 'package:competition_app/components/inputs/Inputs.dart';
 import 'package:competition_app/cubit/db_cubit.dart';
 import 'package:competition_app/cubit/fed_shol_competiton_cubit.dart';
@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/quickalert.dart';
 
-import '../../Constants/AppConstants.dart';
-import '../../Constants/StyleConstants.dart';
+import '../../components/Constants/AppConstants.dart';
+import '../../components/Constants/StyleConstants.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/inputs/DatePickerInput.dart';
 import '../../components/inputs/DropDownInput.dart';
@@ -118,7 +118,7 @@ class _PlayersDisplayState extends State<PlayersDisplay> {
                   DatePickerInput(
                     dateController: paymentTimeController,
                     selectedDate: _selectDate,
-                    lableName: "Paid Date",
+                    labelName: "Paid Date",
                   ),
                   DropDownInput(
                       onChanged: (value) {

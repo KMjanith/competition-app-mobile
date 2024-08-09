@@ -4,7 +4,7 @@ import 'package:competition_app/pages/competition/PastCompetitonDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import '../../Constants/StyleConstants.dart';
+import '../../components/Constants/StyleConstants.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../cubit/db_cubit.dart';
 import '../../services/CompetitionService.dart';

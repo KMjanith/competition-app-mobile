@@ -4,7 +4,7 @@ import 'package:competition_app/cubit/db_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import '../Constants/KarateEvents.dart';
+import '../components/Constants/KarateEvents.dart';
 import '../model/ScoreBoard.dart';
 import '../services/AuthService.dart';
 part 'score_board_state.dart';

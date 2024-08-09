@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:competition_app/Constants/KarateEvents.dart';
+import 'package:competition_app/components/Constants/KarateEvents.dart';
 import 'package:competition_app/cubit/db_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/quickalert.dart';
 
-import '../../../Constants/AppConstants.dart';
+import '../components/Constants/AppConstants.dart';
 import '../../../cubit/fed_shol_competiton_cubit.dart';
 import '../../../model/Competition.dart';
 import '../../../model/Player.dart';
@@ -110,7 +110,7 @@ class CompetitionService {
                       DatePickerInput(
                         dateController: meetTimeController,
                         selectedDate: _selectDate,
-                        lableName: "Date",
+                        labelName: "Date",
                       ),
                       InputField(
                         labelText: "Meet Place",

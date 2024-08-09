@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:competition_app/Constants/AppConstants.dart';
-import 'package:competition_app/Constants/KarateEvents.dart';
+import 'package:competition_app/components/Constants/AppConstants.dart';
+import 'package:competition_app/components/Constants/KarateEvents.dart';
 import 'package:competition_app/services/CompetitionService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

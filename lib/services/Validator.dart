@@ -1,5 +1,5 @@
-import 'package:competition_app/Constants/KarateEvents.dart';
-import 'package:competition_app/Constants/PaymentStatus.dart';
+import 'package:competition_app/components/Constants/KarateEvents.dart';
+import 'package:competition_app/components/Constants/PaymentStatus.dart';
 import 'package:competition_app/model/AddStudentModel.dart';
 import 'package:competition_app/model/GradingStudentDetals.dart';
 import 'package:intl/intl.dart';

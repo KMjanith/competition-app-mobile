@@ -8,7 +8,7 @@ import '../../components/common/CustomDrawer.dart';
 import '../../cubit/ErrorAlert.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/inputs/Inputs.dart';
-import '../../Constants/StyleConstants.dart';
+import '../../components/Constants/StyleConstants.dart';
 import '../../services/ViewStudent.dart';
 
 class Viewdata extends StatefulWidget {

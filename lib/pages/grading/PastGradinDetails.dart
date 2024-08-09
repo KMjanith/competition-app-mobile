@@ -2,7 +2,7 @@ import 'package:competition_app/cubit/past_grading_details_cubit.dart';
 import 'package:competition_app/services/GradingService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../Constants/StyleConstants.dart';
+import '../../components/Constants/StyleConstants.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/grading/PastGradingDetailsTile.dart';
 import '../../components/inputs/Inputs.dart';

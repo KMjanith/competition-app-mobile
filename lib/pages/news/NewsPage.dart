@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../Constants/StyleConstants.dart';
+import '../../components/Constants/StyleConstants.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../model/Article.dart';
 

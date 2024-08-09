@@ -1,7 +1,7 @@
 import 'package:competition_app/pages/auth/SignUp.dart';
 import 'package:flutter/material.dart';
 import '../../components/buttons/GoogleAuth.dart';
-import '../../Constants/StyleConstants.dart';
+import '../../components/Constants/StyleConstants.dart';
 import '../../components/common/HedingAnimation.dart';
 import '../../components/inputs/Inputs.dart';
 import '../../services/AuthService.dart';

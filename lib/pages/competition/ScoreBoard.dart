@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:competition_app/Constants/KarateEvents.dart';
+import 'package:competition_app/components/Constants/KarateEvents.dart';
+import 'package:competition_app/components/inputs/Inputs.dart';
 import 'package:competition_app/cubit/db_cubit.dart';
 import 'package:competition_app/cubit/score_board_cubit.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +93,7 @@ class _ScoreBoardState extends State<ScoreBoard> {
               ],
             ),
           ),
-          
+
           //-------------------------------middle bars-----------------------------------------------------
           Positioned(
             left: 320,
@@ -125,7 +126,7 @@ class _ScoreBoardState extends State<ScoreBoard> {
 
           //---------------------------------------------------timer widget----------------------------------------------------------
           Positioned(
-            top: 120,
+            top: 110,
             right: 250,
             left: 250,
             child: Container(
@@ -175,6 +176,21 @@ class _ScoreBoardState extends State<ScoreBoard> {
                           color: Colors.white,
                         ),
                       ),
+                      TextButton(
+                        onPressed: changeTime,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Color.fromARGB(255, 0, 151, 5)),
+                          child: const Padding(
+                            padding: EdgeInsets.only(left: 10.0, right: 10),
+                            child: Icon(
+                              Icons.fiber_new_outlined,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -211,7 +227,7 @@ class _ScoreBoardState extends State<ScoreBoard> {
             ),
           ),
 
-                    //----------------------------------------------------------------------save match button----------------------------------------------
+          //----------------------------------------------------------------------save match button----------------------------------------------
           Positioned(
             top: 20,
             left: 340,
@@ -228,8 +244,6 @@ class _ScoreBoardState extends State<ScoreBoard> {
               ),
             ),
           ),
-
-          
 
           //--------------------------------------------------lower bars-----------------------------------------
           Positioned(
@@ -271,7 +285,6 @@ class _ScoreBoardState extends State<ScoreBoard> {
               color: blinkingColorLeft,
             ),
           ),
-          
 
           // Blinking color aka bar
           Positioned(
@@ -284,8 +297,6 @@ class _ScoreBoardState extends State<ScoreBoard> {
               color: blinkingColorRight,
             ),
           ),
-          
-          
         ],
       ),
     );
@@ -381,10 +392,10 @@ class _ScoreBoardState extends State<ScoreBoard> {
       awoPoints += awoPlayerPoints[i];
     }
     if (awoPoints > akaPoints) {
-      currentState.scoreboardDetails.winner = KarateConst.AKA; // set the winner
+      currentState.scoreboardDetails.winner = KarateConst.AWO; // set the winner
       startBlinking(Color.fromARGB(255, 127, 228, 241), true);
     } else if (akaPoints > awoPoints) {
-      currentState.scoreboardDetails.winner = KarateConst.AWO; // set the winner
+      currentState.scoreboardDetails.winner = KarateConst.AKA; // set the winner
       startBlinking(
           const Color.fromARGB(255, 255, 128, 128), false); // Blink left bar
       // Blink right bar
@@ -469,7 +480,85 @@ class _ScoreBoardState extends State<ScoreBoard> {
     });
   }
 
-
-
-
+  void changeTime() {
+    final minutesController = TextEditingController();
+    final secondsController = TextEditingController();
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Color.fromARGB(255, 36, 36, 36),
+            title: const Text(
+              "Change Time",
+              style: TextStyle(color: Colors.white),
+            ),
+            content: Column(
+              children: [
+                InputField(
+                  labelText: "minutes",
+                  controller: minutesController,
+                  keyboardType: TextInputType.number,
+                ),
+                InputField(
+                  labelText: "seconds",
+                  controller: secondsController,
+                  keyboardType: TextInputType.number,
+                ),
+              ],
+            ),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Colors.red,
+                    ),
+                    width: 100,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        "Cancel",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Color.fromARGB(255, 21, 243, 95),
+                    ),
+                    width: 100,
+                    child: TextButton(
+                      onPressed: () {
+                        final newMinutes = int.tryParse(minutesController.text);
+                        final newSeconds = int.tryParse(secondsController.text);
+                        if (newMinutes == null) {
+                          setState(() {
+                            _minutes = 0;
+                            _seconds = newSeconds;
+                          });
+                        } else {
+                          setState(() {
+                            _minutes = newMinutes;
+                            _seconds = newSeconds;
+                          });
+                        }
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        "Start",
+                        style: TextStyle(color: Color.fromARGB(255, 7, 0, 39)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
+  }
 }
