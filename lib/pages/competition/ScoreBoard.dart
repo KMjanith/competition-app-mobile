@@ -323,7 +323,6 @@ class _ScoreBoardState extends State<ScoreBoard> {
           timer.cancel();
           timerColor = const Color.fromARGB(0, 0, 0, 0);
           audioPlayer?.play(AssetSource('audios/ending.mp3'));
-          resetTimer();
           saveTheWinner();
         } else if (_seconds == 0) {
           _minutes = (_minutes! - 1);
@@ -393,10 +392,10 @@ class _ScoreBoardState extends State<ScoreBoard> {
       awoPoints += awoPlayerPoints[i];
     }
     if (awoPoints > akaPoints) {
-      currentState.scoreboardDetails.winner = KarateConst.AKA; // set the winner
+      currentState.scoreboardDetails.winner = KarateConst.AWO; // set the winner
       startBlinking(Color.fromARGB(255, 127, 228, 241), true);
     } else if (akaPoints > awoPoints) {
-      currentState.scoreboardDetails.winner = KarateConst.AWO; // set the winner
+      currentState.scoreboardDetails.winner = KarateConst.AKA; // set the winner
       startBlinking(
           const Color.fromARGB(255, 255, 128, 128), false); // Blink left bar
       // Blink right bar
@@ -508,31 +507,56 @@ class _ScoreBoardState extends State<ScoreBoard> {
               ],
             ),
             actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text(
-                  "Cancel",
-                  style: TextStyle(color: Colors.white),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Colors.red,
+                    ),
+                    width: 100,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        "Cancel",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Color.fromARGB(255, 21, 243, 95),
+                    ),
+                    width: 100,
+                    child: TextButton(
+                      onPressed: () {
+                        final newMinutes = int.tryParse(minutesController.text);
+                        final newSeconds = int.tryParse(secondsController.text);
+                        if (newMinutes == null) {
+                          setState(() {
+                            _minutes = 0;
+                            _seconds = newSeconds;
+                          });
+                        } else {
+                          setState(() {
+                            _minutes = newMinutes;
+                            _seconds = newSeconds;
+                          });
+                        }
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        "Start",
+                        style: TextStyle(color: Color.fromARGB(255, 7, 0, 39)),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              TextButton(
-                  onPressed: () {
-                    final newMinutes = int.tryParse(minutesController.text);
-                    final newSeconds = int.tryParse(secondsController.text);
-                    if (newMinutes != null && newSeconds != null) {
-                      setState(() {
-                        _minutes = newMinutes;
-                        _seconds = newSeconds;
-                      });
-                    }
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text(
-                    "Change",
-                    style: TextStyle(color: Colors.white),
-                  )),
             ],
           );
         });
