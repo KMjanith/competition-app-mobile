@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -25,11 +26,13 @@ class HomePageService {
   }
 
   List<Article> parseArticles(String responseBody) {
-  print(responseBody);
-  final parsed = json.decode(responseBody);
-  return (parsed['articles'] as List)
-      .map<Article>((json) => Article.fromJson(json))
-      .where((article) => article.urlToImage != null && article.urlToImage!.isNotEmpty)
-      .toList();
-}
+    print(responseBody);
+    final parsed = json.decode(responseBody);
+    log(parsed.toString());
+    return (parsed['articles'] as List)
+        .map<Article>((json) => Article.fromJson(json))
+        .toList();
+  }
+
+  // .where((article) => article.urlToImage != null && article.urlToImage!.isNotEmpty)
 }

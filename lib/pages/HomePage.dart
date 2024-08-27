@@ -1,3 +1,5 @@
+import 'dart:developer';
+import 'package:competition_app/components/common/coachingPplayerTitle.dart';
 import 'package:competition_app/pages/competition/ScoreBoardCreation.dart';
 import 'package:competition_app/pages/viewData/ViewData.dart';
 import 'package:competition_app/pages/auth/SignUp.dart';
@@ -35,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _checkUserLoggedInStatus();
-   // BlocProvider.of<NewsAlertCubit>(context).getNews();
+    BlocProvider.of<NewsAlertCubit>(context).getNews();
   }
 
   void _checkUserLoggedInStatus() {
@@ -63,35 +65,29 @@ class _HomePageState extends State<HomePage> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: AlertDialog(
-            title: const Text('Authentication Required'),
-            content:
-                const Text('You need to sign up or log in to use this app.'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Sign Up'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SignUp()),
-                  );
-                },
-              ),
-              TextButton(
-                child: const Text('Log In'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Login()),
-                  );
-                },
-              ),
-            ],
-          ),
+        return AlertDialog(
+          title: const Text('Authentication Required'),
+          content: const Text('You need to sign up or log in to use this app.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Sign Up'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SignUp()),
+                );
+              },
+            ),
+            TextButton(
+              child: const Text('Log In'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Login()),
+                );
+              },
+            ),
+          ],
         );
       },
     );
@@ -99,23 +95,45 @@ class _HomePageState extends State<HomePage> {
 
   //--------------------------------------------------------------------------------------------SIGN OUT-------------------------------------------------------
   void _signOut() {
+    log("Attempting to sign out");
     QuickAlert.show(
       context: context,
       type: QuickAlertType.confirm,
-      text: 'Do you want to logout',
+      text: 'Do you want to logout?',
       confirmBtnText: 'Yes',
       cancelBtnText: 'No',
       confirmBtnColor: Colors.green,
       onConfirmBtnTap: () async {
-        Navigator.pop(context);
+        log("Confirmed sign out");
+        Navigator.pop(context); // Close the dialog
         await _auth.logOut();
         setState(() {
           _isLoggedIn = false;
         });
+        log("Signed out successfully");
       },
       onCancelBtnTap: () {
-        Navigator.pop(context);
+        log("Cancelled sign out");
+        Navigator.pop(context); // Close the dialog
       },
+    );
+  }
+
+  int _selectedIndex = 0;
+  Widget _buildAnimatedIcon(int index) {
+    bool isSelected = _selectedIndex == index;
+
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 800),
+      height: isSelected ? 40 : 30,
+      width: isSelected ? 40 : 30,
+      child: Icon(
+        Icons.home,
+        color: isSelected
+            ? const Color.fromARGB(255, 142, 198, 243)
+            : const Color.fromARGB(255, 255, 255, 255),
+        size: isSelected ? 30 : 24,
+      ),
     );
   }
 
@@ -123,39 +141,29 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //Bottom navigation bar
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color.fromARGB(255, 0, 59, 70),
+        fixedColor: Colors.white,
+        currentIndex: _selectedIndex,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        unselectedItemColor: Colors.white,
+        onTap: (value) => {
+          setState(() {
+            _selectedIndex = value;
+          })
+        },
+        items: List.generate(3, (index) {
+          return BottomNavigationBarItem(
+            icon: _buildAnimatedIcon(index),
+            label: 'Item ${index + 1}',
+          );
+        }),
+      ),
       body: Stack(
         children: [
           StyleConstants.upperBackgroundContainer,
-          //StyleConstants.lowerBackgroundContainer,
-
-          Positioned(
-            top: 50,
-            left: 10,
-            right: 10,
-            child:  Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.menu,
-                        color: Color.fromARGB(255, 255, 255, 255)),
-                  ),
-                  if (_isLoggedIn)
-                    TextButton(
-                      onPressed: _signOut,
-                      child: const Text(
-                        'Sign Out',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontSize: 18),
-                      ),
-                    )
-                  else
-                    const SizedBox.shrink(),
-                ],
-              ),
-            
-          ),
           Center(
             child: SingleChildScrollView(
               child: Column(
@@ -227,22 +235,6 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         children: [
                           const SizedBox(height: 10),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 25, right: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Lets Play",
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                           Text(
                             "KARATE",
                             style: GoogleFonts.roboto(
@@ -253,12 +245,18 @@ class _HomePageState extends State<HomePage> {
                             overflow: TextOverflow.ellipsis,
                           ),
 
+                          //------------------------------------------------------------------------------COACHING AND MANAGEMENT TITLE-------------------------------------------------------
+                          const CoachingPlayerTitle(
+                            title: "Coaching & management",
+                          ),
+
                           //-----------------------------------------------------------------------------FIRST ROW-------------------------------------------------------
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               HomeCard(
+                                imagePath: "assets/images/add-friend-1.png",
                                 buttonText: "Add new Student",
                                 color: const Color.fromARGB(255, 33, 0, 65),
                                 onPressed: () =>
@@ -268,6 +266,8 @@ class _HomePageState extends State<HomePage> {
                                     "Add a new student to the database",
                               ),
                               HomeCard(
+                                imagePath:
+                                    "assets/images/personal-information.png",
                                 buttonText: "View Students",
                                 color: const Color.fromARGB(255, 33, 0, 65),
                                 onPressed: () =>
@@ -286,6 +286,7 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               HomeCard(
+                                imagePath: "assets/images/belt.png",
                                 buttonText: "New Grading",
                                 color: const Color.fromARGB(255, 33, 0, 65),
                                 onPressed: () =>
@@ -295,6 +296,7 @@ class _HomePageState extends State<HomePage> {
                                     "Create a new grading and add new students to it",
                               ),
                               HomeCard(
+                                imagePath: "assets/images/playoff.png",
                                 buttonText: "New Competition",
                                 color: const Color.fromARGB(255, 0, 0, 0),
                                 onPressed: () =>
@@ -305,39 +307,76 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
+                          //-----------------------------------------------------------------------------THIRD ROW-------------------------------------------------------
                           const SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               HomeCard(
+                                imagePath: "assets/images/hierachy.png",
                                 buttonText: "Draw Maker",
                                 color: const Color.fromARGB(255, 0, 0, 0),
                                 onPressed: () =>
                                     _checkUserAuthenticationAndNavigate(
                                         const DrawMaker()), // Replace with the actual target page for competition
                                 description:
-                                    "you can monitor your player path to win, and also you can create a draw for your competition",
+                                    "You can monitor your player path to win, and also you can create a draw for your competition",
                               ),
                               HomeCard(
+                                imagePath: "assets/images/scoreboard.png",
                                 buttonText: "Score Board",
                                 color: const Color.fromARGB(255, 0, 0, 0),
                                 onPressed: () =>
                                     _checkUserAuthenticationAndNavigate(
                                         const ScoreBoardCreation()), // Replace with the actual target page for competition
-                                description:
-                                    "kumite score board",
+                                description: "Kumite score board",
                               ),
                             ],
                           ),
                           const SizedBox(height: 10),
+                          const CoachingPlayerTitle(
+                            title: "Coaching & management",
+                          )
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(height: 100),
                 ],
               ),
+            ),
+          ),
+
+          //sign out and menu bar
+          Positioned(
+            top: 50,
+            left: 10,
+            right: 10,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    log("Menu button clicked");
+                  },
+                  icon: const Icon(
+                    Icons.menu,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
+                ),
+                if (_isLoggedIn)
+                  TextButton(
+                    onPressed: _signOut,
+                    child: const Text(
+                      'Sign Out',
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontSize: 18),
+                    ),
+                  )
+                else
+                  const SizedBox.shrink(),
+              ],
             ),
           ),
         ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../components/Constants/StyleConstants.dart';
 import '../../components/common/HedingAnimation.dart';
@@ -15,7 +16,6 @@ class NewsPage extends StatelessWidget {
       body: Stack(
         children: [
           StyleConstants.upperBackgroundContainer,
-          StyleConstants.lowerBackgroundContainer,
           Column(
             children: [
               const SizedBox(height: 50),
@@ -46,7 +46,10 @@ class NewsPage extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 color: Color.fromARGB(255, 208, 238, 238))),
                         const SizedBox(height: 10),
-                        Image.network(article.urlToImage ?? ''),
+                        Image.network(article.urlToImage != null &&
+                                article.urlToImage!.isNotEmpty
+                            ? article.urlToImage!
+                            : 'https://www.dictionary.com/e/wp-content/uploads/2020/01/Zip_Zero_Zilch_1000x700_jpg_2ZuoCxRf.jpg'),
                         const SizedBox(height: 20),
                         Padding(
                           padding: const EdgeInsets.only(left: 5.0, right: 5),
@@ -55,17 +58,22 @@ class NewsPage extends StatelessWidget {
                             crossAxisAlignment: WrapCrossAlignment.center,
                             spacing: 5, // space between the widgets
                             children: [
-                              const Icon(Icons.manage_accounts_rounded),
+                              const Icon(
+                                Icons.manage_accounts_rounded,
+                                color: Colors.white38,
+                              ),
                               Text(
                                 "Author: ${article.author ?? ''}",
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
                               ),
                               const Text("-"),
                               Text(
                                 publishedAtStringConverter(),
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
                               ),
                             ],
                           ),
@@ -79,17 +87,25 @@ class NewsPage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(article.description ?? ''),
+                                Text(
+                                    article.description ??
+                                        'no description available',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromARGB(
+                                            255, 243, 208, 208))),
                                 const SizedBox(height: 20),
                                 const Text(
                                   "Link to site",
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    _launchUrl(Uri.parse(article.url));
+                                  },
                                   child: Text(
                                     article.url,
                                     style: const TextStyle(
@@ -131,5 +147,11 @@ class NewsPage extends StatelessWidget {
 
   String publishedAtStringConverter() {
     return "${article.publishedAt.split("-")[0]}-${article.publishedAt.split("-")[1]}-${article.publishedAt.split("-")[2].split('')[0]}${article.publishedAt.split("-")[2].split('')[1]}";
+  }
+
+  Future<void> _launchUrl(url) async {
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }

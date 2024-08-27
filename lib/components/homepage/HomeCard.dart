@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:competition_app/components/Constants/StyleConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +8,7 @@ class HomeCard extends StatefulWidget {
   final Color color;
   final VoidCallback onPressed;
   final String description;
+  final String imagePath;
 
   const HomeCard({
     Key? key,
@@ -14,6 +16,7 @@ class HomeCard extends StatefulWidget {
     required this.color,
     required this.onPressed,
     required this.description,
+    required this.imagePath,
   }) : super(key: key);
 
   @override
@@ -29,7 +32,6 @@ class _HomeCardState extends State<HomeCard> {
         width: 150,
         height: 150,
         decoration: BoxDecoration(
-            color: widget.color,
             borderRadius: BorderRadius.circular(10),
             boxShadow: const [
               // Top left shadow
@@ -49,7 +51,6 @@ class _HomeCardState extends State<HomeCard> {
                 IconButton(
                   onPressed: () {
                     showDialog(
-                
                         context: context,
                         builder: (context) {
                           return AlertDialog(
@@ -73,39 +74,36 @@ class _HomeCardState extends State<HomeCard> {
                 )
               ],
             ),
-            TextButton(
-              onPressed: widget.onPressed,
-              child: Text(
-                widget.buttonText,
-                style: GoogleFonts.roboto(color: widget.color, fontSize: 20),
-                textAlign: TextAlign.center,
+            GestureDetector(
+              onTap: widget.onPressed,
+              child: Column(
+                children: [
+                  Image(
+                    image: AssetImage(widget.imagePath),
+                    width: 50,
+                    height: 50,
+                  ),
+                  const SizedBox(height: 10),
+                  AnimatedTextKit(
+                    animatedTexts: [
+                      TyperAnimatedText(
+                        textAlign: TextAlign.center,
+                        widget.buttonText,
+                        textStyle: GoogleFonts.cairo(
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 0, 69, 87),
+                        ),
+                        speed: const Duration(milliseconds: 100),
+                      ),
+                    ],
+                    totalRepeatCount: Duration.minutesPerDay,
+                    pause: const Duration(milliseconds: 5000),
+                    displayFullTextOnTap: true,
+                    stopPauseOnTap: true,
+                  ),
+                ],
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //         color: Color.fromARGB(103, 255, 255, 255),
-            //         borderRadius: BorderRadius.circular(10)),
-            //     child: AnimatedTextKit(
-            //       animatedTexts: [
-            //         TyperAnimatedText(
-            //           textAlign: TextAlign.center,
-            //           widget.description,
-            //           textStyle: GoogleFonts.cairo(
-            //             fontWeight: FontWeight.bold,
-            //             color: Color.fromARGB(255, 0, 69, 87),
-            //           ),
-            //           speed: const Duration(milliseconds: 100),
-            //         ),
-            //       ],
-            //       totalRepeatCount: Duration.minutesPerDay,
-            //       pause: const Duration(milliseconds: 5000),
-            //       displayFullTextOnTap: true,
-            //       stopPauseOnTap: true,
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

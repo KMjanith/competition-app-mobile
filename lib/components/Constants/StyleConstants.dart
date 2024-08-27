@@ -35,11 +35,9 @@ class StyleConstants {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color.fromARGB(255, 255, 255, 255),
-      Color.fromARGB(255, 19, 220, 235),
-      Color.fromARGB(255, 117, 247, 236),
-      Color.fromARGB(255, 146, 248, 240),
-      Color.fromARGB(255, 198, 240, 245), // Darker color
+      Color.fromARGB(75, 19, 221, 235),
+      Color.fromARGB(214, 117, 247, 236),
+      Color.fromARGB(120, 146, 248, 240),
     ],
   );
 
