@@ -51,6 +51,8 @@ dependencies:
   audioplayers: ^6.0.0
   sqflite: ^2.3.3+1
   path: ^1.9.0
+  bottom_navy_bar: ^6.1.0
+  url_launcher: ^6.3.0
 
 dev_dependencies:
   flutter_test:

@@ -21,7 +21,7 @@ class Article {
       title: json['title'],
       description: json['description'],
       url: json['url'],
-      urlToImage: json['urlToImage'],
+      urlToImage: json['urlToImage'] ?? '',
       publishedAt: json['publishedAt'],
     );
   }

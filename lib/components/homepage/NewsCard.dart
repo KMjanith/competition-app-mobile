@@ -17,16 +17,26 @@ class NewsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final Image image;
 
-    image = Image.network(
-      article.urlToImage!,
-      height: 100,
-      width: 200,
-      fit: BoxFit.cover,
-    );
+    if (article.urlToImage == null  || article.urlToImage!.isEmpty) {
+      image = Image.network(
+        'https://www.dictionary.com/e/wp-content/uploads/2020/01/Zip_Zero_Zilch_1000x700_jpg_2ZuoCxRf.jpg',
+        height: 100,
+        width: 200,
+        fit: BoxFit.cover,
+      );
+    } else {
+      image = Image.network(
+        article.urlToImage!,
+        height: 100,
+        width: 200,
+        fit: BoxFit.cover,
+      );
+    }
 
     return Container(
       decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
         color: Color.fromARGB(62, 255, 255, 255),
       ),
       width: 200,

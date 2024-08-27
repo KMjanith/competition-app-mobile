@@ -25,6 +25,7 @@ class _ViewdataState extends State<Viewdata> {
 
   CustomDrawer _returnDrawer(BuildContext context) {
     final indexInputController = TextEditingController();
+    final nameInputController = TextEditingController();
     return CustomDrawer(
       drawerItems: [
         ListTile(
@@ -69,6 +70,55 @@ class _ViewdataState extends State<Viewdata> {
                         }
                       },
                       child: const Text("Filter by index"),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        ),
+        ListTile(
+          title: const Text('Name'),
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  backgroundColor: Color.fromARGB(179, 216, 216, 216),
+                  title: const Text("Enter Name"),
+                  actions: [
+                    InputField(
+                      controller: nameInputController,
+                      keyboardType: TextInputType.number,
+                      labelText: "Name",
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        final viewStudent =
+                            BlocProvider.of<ViewStudentDataCubit>(context)
+                                .getStudents();
+                        final viewStudentService = Viewstudent();
+
+                        final name = nameInputController.text;
+                        final student = viewStudent.firstWhere(
+                          (student) => student['Name'] == name,
+                          orElse: () => {},
+                        );
+
+                        if (student.isNotEmpty) {
+                          viewStudentService.showStudentDialog(
+                              student, context);
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const ErrorAlert(
+                                  description: "Student not found");
+                            },
+                          );
+                        }
+                      },
+                      child: const Text("Filter by Name"),
                     ),
                   ],
                 );
