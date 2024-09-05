@@ -244,7 +244,7 @@ class _AddStudentState extends State<AddStudent> {
       body: Stack(
         children: [
           StyleConstants.upperBackgroundContainer,
-          StyleConstants.lowerBackgroundContainer,
+          //StyleConstants.lowerBackgroundContainer,
           SingleChildScrollView(
             child: Column(
               children: [

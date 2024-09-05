@@ -56,7 +56,7 @@ class _AddnewgradingetailsState extends State<AddNewStudent> {
       body: Stack(
         children: [
           StyleConstants.upperBackgroundContainer,
-          StyleConstants.lowerBackgroundContainer,
+          //StyleConstants.lowerBackgroundContainer,
           SingleChildScrollView(
             child: Column(
               children: [
@@ -175,11 +175,11 @@ class _AddnewgradingetailsState extends State<AddNewStudent> {
                   ],
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 10,
                 ),
                 const Text("Current Registered Students",
                     style: TextStyle(
-                        fontSize: 20, color: Color.fromARGB(255, 20, 20, 20))),
+                        fontSize: 20, color: Color.fromARGB(255, 255, 255, 255))),
                 // UI part to display the students
                 SizedBox(
                   child: Padding(

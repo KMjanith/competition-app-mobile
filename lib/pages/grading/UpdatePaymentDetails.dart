@@ -81,7 +81,7 @@ class _GradingstudentState extends State<UpdatePaymentDetails> {
       body: Stack(
         children: [
           StyleConstants.upperBackgroundContainer,
-          StyleConstants.lowerBackgroundContainer,
+          //StyleConstants.lowerBackgroundContainer,
           SingleChildScrollView(
             child: Column(
               children: [

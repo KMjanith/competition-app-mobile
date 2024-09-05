@@ -19,7 +19,7 @@ class HomePageService {
     }
     final res = await http.get(
       Uri.parse(
-          "https://newsapi.org/v2/top-headlines?country=us&category=sports&from=2024-$pastMonth-30&sortBy=publishedAt&apiKey=5d36ffa0041c4ad484ccfa4a8f70b2c1"),
+          "https://newsapi.org/v2/top-headlines?country=in&category=sports&from=2024-$pastMonth-30&sortBy=publishedAt&apiKey=5d36ffa0041c4ad484ccfa4a8f70b2c1"),
     );
 
     return res;
