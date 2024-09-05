@@ -93,7 +93,7 @@ class CompetitionService {
                   ],
                 ),
               ],
-              backgroundColor: Color.fromARGB(255, 12, 0, 0),
+              backgroundColor: Color.fromARGB(255, 31, 31, 31),
               title: const Text(
                 "Create New Meet",
                 style: TextStyle(color: Colors.white),

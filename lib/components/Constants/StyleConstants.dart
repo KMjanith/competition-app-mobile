@@ -17,7 +17,7 @@ class StyleConstants {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        Color.fromARGB(255, 4, 66, 83),
+        Color.fromARGB(255, 0, 20, 26),
         Color.fromARGB(255, 0, 0, 0),
         Color.fromARGB(255, 0, 16, 17),
       ]);
@@ -28,15 +28,15 @@ class StyleConstants {
       colors: [
         Color.fromARGB(255, 0, 30, 37),
         Color.fromARGB(255, 0, 32, 30),
-        Color.fromARGB(255, 4, 66, 83)
+        Color.fromARGB(255, 0, 36, 46)
       ]);
 
   static LinearGradient homeCardGradient = const LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color.fromARGB(75, 19, 221, 235),
-      Color.fromARGB(214, 117, 247, 236),
+      Color.fromARGB(162, 83, 236, 247),
+      Color.fromARGB(255, 117, 247, 236),
       Color.fromARGB(120, 146, 248, 240),
     ],
   );
@@ -53,7 +53,7 @@ class StyleConstants {
   static LinearGradient cardBackGround = const LinearGradient(
     colors: [
       Color.fromARGB(255, 159, 212, 247),
-      Color.fromARGB(255, 13, 98, 196)
+      Color.fromARGB(255, 121, 175, 236)
     ],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
@@ -78,7 +78,7 @@ class StyleConstants {
     colors: [
       Color.fromARGB(255, 80, 255, 109),
       Color.fromARGB(255, 21, 196, 50),
-      Color.fromARGB(255, 0, 134, 4)
+   
     ],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
@@ -86,9 +86,8 @@ class StyleConstants {
 
   static LinearGradient falseTileBackground = const LinearGradient(
     colors: [
-      Color.fromARGB(255, 255, 167, 167),
       Color.fromARGB(255, 247, 130, 130),
-      Color.fromARGB(255, 247, 111, 111)
+      Color.fromARGB(255, 255, 162, 162)
     ],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,

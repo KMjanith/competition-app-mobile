@@ -125,14 +125,14 @@ class _HomePageState extends State<HomePage> {
 
     return AnimatedContainer(
       duration: Duration(milliseconds: 800),
-      height: isSelected ? 40 : 30,
-      width: isSelected ? 40 : 30,
+      height: isSelected ? 25 : 15,
+      width: isSelected ? 25 : 15,
       child: Icon(
         Icons.home,
         color: isSelected
             ? const Color.fromARGB(255, 142, 198, 243)
             : const Color.fromARGB(255, 255, 255, 255),
-        size: isSelected ? 30 : 24,
+        size: isSelected ? 20 : 15,
       ),
     );
   }
@@ -158,6 +158,7 @@ class _HomePageState extends State<HomePage> {
           return BottomNavigationBarItem(
             icon: _buildAnimatedIcon(index),
             label: 'Item ${index + 1}',
+            
           );
         }),
       ),
@@ -336,7 +337,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           const SizedBox(height: 10),
                           const CoachingPlayerTitle(
-                            title: "Coaching & management",
+                            title: "Player Social",
                           )
                         ],
                       ),
